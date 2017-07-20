@@ -37,22 +37,16 @@
 
 			// Show how many times button clicked
 				// previous button.on must be commented out to work
-				// need to replace the text; not add it
-				// I think I need to use observe on the button
+
+				that.countText = Gem.Text('Not clicked yet')
+				this.box.add(that.countText)
+				that.countText.visible = false
+
 				this.button.on('click', function(){
 					count ++
-					that.countText = Gem.Text('You have clicked the button ' + count + ' times.')
+					that.countText.text = 'You have clicked the button ' + count + ' times.'
+					that.countText.visible = true
 					console.log('clicked ' + count + ' times')
-					if(count < 2){
-						that.box.add(that.countText)
-					} else{
-						console.log('in else')
-						// that.box.remove(that.countText)
-						that.box.add(that.countText)
-						// that.countText.text = 'You have clicked the button ' + count + ' times.'
-					}
-					// var c = optionsObservee.subject
-					// console.log(c)
 				})
 			}
 			this.getStyle = function(){
