@@ -1,0 +1,70 @@
+<html>
+	<head>
+    	<meta charset="utf-8" />
+	</head>
+	<body>
+		<h1>rest of page</h1>
+	</body>
+	<script src="node_modules/proto/dist/proto.umd.js"></script>
+	<script src="node_modules/gem/dist/Gem.umd.js"></script>
+	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
+	<script>
+		var HelloWorld = proto(Gem, function(superclass){
+			this.name = 'HelloWorld'
+			this.build = function(ticket, optionsObservee, api){
+				var that = this
+				var count = 0
+
+				this.box = Gem.Block('box')
+				this.add(this.box)
+
+				// Greeting
+				this.greeting = Gem.Text('greeting', 'Hello World')
+				this.box.add(this.greeting)
+
+				// Button clicked to show greeeting
+				this.button = Gem.Button('button', 'click me')
+				this.greeting2 = Gem.Text('greeting', 'Hello Again')
+				this.box.add(this.button)
+				// this.button.on('click', function(){
+				// 	count ++
+				// 	console.log('clicked button ' + count + ' times')
+				// 	that.box.remove(that.greeting)
+				// 	that.box.add(that.greeting2)
+				// })
+
+				// Show how many times button clicked
+				// previous button.on must be commented out to work
+				// need to replace the text. not add it
+				this.button.on('click', function(){
+					count ++
+					console.log('clicked ' + count + ' times')
+					that.box.add(Gem.Text('You have clicked the button ' + count + ' times.'))
+				})
+			}
+			this.getStyle = function(){
+				return Gem.Style({
+					$box: {
+						width: 200,
+						height: 100,
+						border: '1px solid black',
+						padding: 5
+					},
+					$greeting: {
+						color: 'blue',
+						fontSize: 24
+					},
+					$button: {
+						backgroundColor: 'green',
+						color: 'white',
+					}
+				})
+			}
+		})
+
+		ExtensionTester.Api.Ticket.create().then(function(newOne){
+			newOne.subject.status = 'Open'
+			ExtensionTester(HelloWorld, {statusField: 'status'}, {ticketId: newOne.subject._id})
+		}).done()
+	</script>
+</html>
