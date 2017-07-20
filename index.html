@@ -7,6 +7,8 @@
 	</body>
 	<script src="node_modules/proto/dist/proto.umd.js"></script>
 	<script src="node_modules/gem/dist/Gem.umd.js"></script>
+	<!-- is observe script tag needed? -->
+	<script src="node_modules/observe/generatedBuilds/observe.umd.js"></script>
 	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
 	<script>
 		var HelloWorld = proto(Gem, function(superclass){
@@ -18,11 +20,11 @@
 				this.box = Gem.Block('box')
 				this.add(this.box)
 
-				// Greeting
+			// Greeting
 				this.greeting = Gem.Text('greeting', 'Hello World')
 				this.box.add(this.greeting)
 
-				// Button clicked to show greeeting
+			// Button clicked to show greeeting
 				this.button = Gem.Button('button', 'click me')
 				this.greeting2 = Gem.Text('greeting', 'Hello Again')
 				this.box.add(this.button)
@@ -33,13 +35,24 @@
 				// 	that.box.add(that.greeting2)
 				// })
 
-				// Show how many times button clicked
+			// Show how many times button clicked
 				// previous button.on must be commented out to work
-				// need to replace the text. not add it
+				// need to replace the text; not add it
+				// I think I need to use observe on the button
 				this.button.on('click', function(){
 					count ++
+					that.countText = Gem.Text('You have clicked the button ' + count + ' times.')
 					console.log('clicked ' + count + ' times')
-					that.box.add(Gem.Text('You have clicked the button ' + count + ' times.'))
+					if(count < 2){
+						that.box.add(that.countText)
+					} else{
+						console.log('in else')
+						// that.box.remove(that.countText)
+						that.box.add(that.countText)
+						// that.countText.text = 'You have clicked the button ' + count + ' times.'
+					}
+					// var c = optionsObservee.subject
+					// console.log(c)
 				})
 			}
 			this.getStyle = function(){
@@ -64,7 +77,7 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
 			newOne.subject.status = 'Open'
-			ExtensionTester(HelloWorld, {statusField: 'status'}, {ticketId: newOne.subject._id})
+			ExtensionTester(HelloWorld, {statusField: 'status', subject: 'button'}, {ticketId: newOne.subject._id})
 		}).done()
 	</script>
 </html>
