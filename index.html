@@ -11,11 +11,12 @@
 	<script src="node_modules/observe/generatedBuilds/observe.umd.js"></script>
 	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
 	<script>
+		var count = 0
 		var HelloWorld = proto(Gem, function(superclass){
 			this.name = 'HelloWorld'
 			this.build = function(ticket, optionsObservee, api){
 				var that = this
-				var count = 0
+				// var count = 0
 
 				this.box = Gem.Block('box')
 				this.add(this.box)
@@ -52,18 +53,22 @@
 			this.getStyle = function(){
 				return Gem.Style({
 					$box: {
-						width: 200,
-						height: 100,
+						width: 250,
+						minHeight: 100,
 						border: '1px solid black',
 						padding: 5
 					},
 					$greeting: {
 						color: 'blue',
-						fontSize: 24
+						fontSize: 24,
+						display: 'block',
+						margin: 10
 					},
 					$button: {
 						backgroundColor: 'green',
 						color: 'white',
+						display:'block',
+						margin: 10
 					}
 				})
 			}
@@ -71,7 +76,8 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
 			newOne.subject.status = 'Open'
-			ExtensionTester(HelloWorld, {statusField: 'status', subject: 'button'}, {ticketId: newOne.subject._id})
+			newOne.subject.count = count
+			ExtensionTester(HelloWorld, {statusField: 'status', countField: 'count'}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()
 	</script>
 </html>
