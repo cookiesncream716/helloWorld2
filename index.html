@@ -11,12 +11,11 @@
 	<script src="node_modules/observe/generatedBuilds/observe.umd.js"></script>
 	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
 	<script>
-		var count = 0
 		var HelloWorld = proto(Gem, function(superclass){
 			this.name = 'HelloWorld'
 			this.build = function(ticket, optionsObservee, api){
 				var that = this
-				// var count = 0
+				var count = 0
 				this.ticket = ticket
 
 				this.box = Gem.Block('box')
@@ -40,7 +39,6 @@
 
 			// Show how many times button clicked
 				// previous button.on must be commented out to work
-
 				that.countText = Gem.Text('Not clicked yet')
 				this.box.add(that.countText)
 				that.countText.visible = false
@@ -52,6 +50,13 @@
 					console.log('clicked ' + count + ' times')
 					// updates count in test Editor box
 					ticket.set('count', count)
+				})
+
+			// Updates count when count changed in Editor box
+				ticket.get('count').on('change', function(){
+					count = ticket.subject.count
+					console.log('observe working ' + count)
+					that.countText.text = 'You have clicked the button ' + count + ' times.'
 				})
 			}
 			this.getStyle = function(){
@@ -79,8 +84,7 @@
 		})
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
-			newOne.subject.status = 'Open'
-			newOne.subject.count = count
+			newOne.subject.count = '0'
 			ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()
 	</script>
