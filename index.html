@@ -8,7 +8,7 @@
 	<script src="node_modules/proto/dist/proto.umd.js"></script>
 	<script src="node_modules/gem/dist/Gem.umd.js"></script>
 	<!-- is observe script tag needed? -->
-	<script src="node_modules/observe/generatedBuilds/observe.umd.js"></script>
+	<!-- <script src="node_modules/observe/generatedBuilds/observe.umd.js"></script> -->
 	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
 	<script>
 		var HelloWorld = proto(Gem, function(superclass){
@@ -26,26 +26,29 @@
 				this.box.add(this.greeting)
 
 			// Button clicked to show greeeting
-				this.button = Gem.Button('button', 'click me')
+				this.button = Gem.Button('button', 'greeting')
 				this.greeting2 = Gem.Text('greeting', 'Hello Again')
 				this.box.add(this.button)
 
-				// this.button.on('click', function(){
-				// 	count ++
-				// 	console.log('changed greeting')
-				// 	that.box.remove(that.greeting)
-				// 	that.box.add(that.greeting2)
-				// })
+				// breaks if used twice
+				this.button.on('click', function(){
+					// count ++
+					console.log('changed greeting')
+					that.box.remove(that.greeting)
+					that.box.add(that.greeting2)
+				})
 
 			// Show how many times button clicked
-				// previous button.on must be commented out to work
 				that.countText = Gem.Text('Not clicked yet')
 				this.box.add(that.countText)
 				that.countText.visible = false
 
-				this.button.on('click', function(){
+				this.button2 = Gem.Button('button', 'count')
+				this.box.add(this.button2)
+
+				this.button2.on('click', function(){
 					count ++
-					that.countText.text = 'You have clicked the button ' + count + ' times.'
+					// that.countText.text = 'You have clicked the button ' + count + ' times.'
 					that.countText.visible = true
 					console.log('clicked ' + count + ' times')
 					// updates count in test Editor box
@@ -55,8 +58,8 @@
 			// Updates count when count changed in Editor box
 				ticket.get('count').on('change', function(){
 					count = ticket.subject.count
-					console.log('observe working ' + count)
-					that.countText.text = 'You have clicked the button ' + count + ' times.'
+					console.log('changed count in Editor box ' + count)
+					that.countText.text = 'You have clicked this button ' + count + ' times.'
 				})
 			}
 			this.getStyle = function(){
