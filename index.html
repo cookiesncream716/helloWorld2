@@ -27,17 +27,12 @@
 
 			// Button clicked to show greeeting
 				this.button = Gem.Button('button', 'greeting')
-				// this.greeting2 = Gem.Text('greeting', 'Hello Again')
 				this.box.add(this.button)
 
-				// breaks if used twice
 				var index = 0
 				this.button.on('click', function(){
-					// count ++
 					var newGreeting = ['Hi There', 'Howdy', 'Hello', 'Hey']
 					console.log('changed greeting')
-					// that.box.remove(that.greeting)
-					// that.box.add(that.greeting2)
 					that.greeting.text = newGreeting[index]
 					index++
 					if(index == newGreeting.length){
@@ -56,7 +51,6 @@
 
 				this.button2.on('click', function(){
 					count ++
-					// that.countText.text = 'You have clicked the button ' + count + ' times.'
 					that.countText.visible = true
 					console.log('clicked ' + count + ' times')
 				// Updates count in test Editor box
