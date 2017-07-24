@@ -17,6 +17,7 @@
 			this.build = function(ticket, optionsObservee, api){
 				var that = this
 				// var count = 0
+				this.ticket = ticket
 
 				this.box = Gem.Block('box')
 				this.add(this.box)
@@ -29,9 +30,10 @@
 				this.button = Gem.Button('button', 'click me')
 				this.greeting2 = Gem.Text('greeting', 'Hello Again')
 				this.box.add(this.button)
+
 				// this.button.on('click', function(){
 				// 	count ++
-				// 	console.log('clicked button ' + count + ' times')
+				// 	console.log('changed greeting')
 				// 	that.box.remove(that.greeting)
 				// 	that.box.add(that.greeting2)
 				// })
@@ -48,6 +50,8 @@
 					that.countText.text = 'You have clicked the button ' + count + ' times.'
 					that.countText.visible = true
 					console.log('clicked ' + count + ' times')
+					// updates count in test Editor box
+					ticket.set('count', count)
 				})
 			}
 			this.getStyle = function(){
@@ -77,7 +81,7 @@
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
 			newOne.subject.status = 'Open'
 			newOne.subject.count = count
-			ExtensionTester(HelloWorld, {statusField: 'status', countField: 'count'}, {ticketId: newOne.subject._id, showEditor: true})
+			ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()
 	</script>
 </html>
