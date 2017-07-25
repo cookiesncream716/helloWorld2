@@ -1,0 +1,96 @@
+<html>
+	<head>
+    	<meta charset="utf-8" />
+	</head>
+	<body>
+		<h1>rest of page</h1>
+	</body>
+	<script src="node_modules/proto/dist/proto.umd.js"></script>
+	<script src="node_modules/gem/dist/Gem.umd.js"></script>
+	<!-- is observe script tag needed? -->
+	<!-- <script src="node_modules/observe/generatedBuilds/observe.umd.js"></script> -->
+	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
+	<script>
+		var HelloWorld = proto(Gem, function(superclass){
+			this.name = 'HelloWorld'
+			this.build = function(ticket, optionsObservee, api){
+				var that = this
+				var count = 0
+				this.ticket = ticket
+
+				this.box = Gem.Block('box')
+				this.add(this.box)
+
+			// Greeting
+				this.greeting = Gem.Text('greeting', 'Hello World')
+				this.box.add(this.greeting)
+
+			// Button clicked to show greeeting
+				this.button = Gem.Button('button', 'greeting')
+				this.box.add(this.button)
+
+				var index = 0
+				this.button.on('click', function(){
+					var newGreeting = ['Hi There', 'Howdy', 'Hello', 'Hey']
+					console.log('changed greeting')
+					that.greeting.text = newGreeting[index]
+					index++
+					if(index == newGreeting.length){
+						index = 0
+					}
+
+				})
+
+			// Show how many times button clicked
+				that.countText = Gem.Text('Not clicked yet')
+				this.box.add(that.countText)
+				that.countText.visible = false
+
+				this.button2 = Gem.Button('button', 'count')
+				this.box.add(this.button2)
+
+				this.button2.on('click', function(){
+					count ++
+					that.countText.visible = true
+					console.log('clicked ' + count + ' times')
+				// Updates count in test Editor box
+					ticket.set('count', count)
+				})
+
+			// Updates count when count changed in Editor box
+				ticket.get('count').on('change', function(){
+					count = ticket.subject.count
+					console.log('changed count in Editor box ' + count)
+					that.countText.text = 'You have clicked this button ' + count + ' times.'
+				})
+			}
+			this.getStyle = function(){
+				return Gem.Style({
+					$box: {
+						width: 250,
+						minHeight: 100,
+						border: '1px solid black',
+						padding: 5
+					},
+					$greeting: {
+						color: 'blue',
+						fontSize: 24,
+						display: 'block',
+						margin: 10
+					},
+					$button: {
+						backgroundColor: 'green',
+						color: 'white',
+						display:'block',
+						margin: 10
+					}
+				})
+			}
+		})
+
+		ExtensionTester.Api.Ticket.create().then(function(newOne){
+			newOne.subject.count = '0'
+			ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
+		}).done()
+	</script>
+</html>

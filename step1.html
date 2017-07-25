@@ -1,0 +1,47 @@
+<html>
+	<head>
+    	<meta charset="utf-8" />
+	</head>
+	<body>
+		<h1>rest of page</h1>
+	</body>
+	<script src="node_modules/proto/dist/proto.umd.js"></script>
+	<script src="node_modules/gem/dist/Gem.umd.js"></script>
+	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
+	<script>
+		var HelloWorld = proto(Gem, function(superclass){
+			this.name = 'HelloWorld'
+			this.build = function(ticket, optionsObservee, api){
+				var that = this
+				var count = 0
+				this.ticket = ticket
+
+				this.box = Gem.Block('box')
+				this.add(this.box)
+
+				this.greeting = Gem.Text('greeting', 'Hello World')
+				this.box.add(this.greeting)
+			}
+			this.getStyle = function(){
+				return Gem.Style({
+					$box: {
+						width: 250,
+						minHeight: 100,
+						border: '1px solid black',
+						padding: 5
+					},
+					$greeting: {
+						color: 'blue',
+						fontSize: 24,
+						display: 'block',
+						margin: 10
+					}
+				})
+			}
+		})
+
+		ExtensionTester.Api.Ticket.create().then(function(newOne){
+			ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
+		}).done()
+	</script>
+</html>
