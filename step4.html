@@ -7,8 +7,6 @@
 	</body>
 	<script src="node_modules/proto/dist/proto.umd.js"></script>
 	<script src="node_modules/gem/dist/Gem.umd.js"></script>
-	<!-- is observe script tag needed? -->
-	<!-- <script src="node_modules/observe/generatedBuilds/observe.umd.js"></script> -->
 	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
 	<script>
 		var HelloWorld = proto(Gem, function(superclass){
@@ -21,19 +19,20 @@
 				this.box = Gem.Block('box')
 				this.add(this.box)
 
-			// Greeting
-				this.greeting = Gem.Text('greeting', 'Hello World')
-				this.box.add(this.greeting)
-
-			// Button clicked to show greeeting
-				this.button = Gem.Button('button', 'greeting')
+				this.button = Gem.Button('button', 'click me')
 				this.box.add(this.button)
 
+				this.greeting = Gem.Text('greeting', 'hide for now')
+				this.box.add(this.greeting)
+				this.greeting.visible = false
+
+			// Step 2 - show greeting on click
 				var index = 0
 				this.button.on('click', function(){
-					var newGreeting = ['Hi There', 'Howdy', 'Hello', 'Hey']
-					console.log('changed greeting')
+					var newGreeting = ['Hello Wold', 'Hi There', 'Howdy', 'Hello', 'Hey']
+					console.log('click for greeting')
 					that.greeting.text = newGreeting[index]
+					that.greeting.visible = true
 					index++
 					if(index == newGreeting.length){
 						index = 0
@@ -41,23 +40,20 @@
 
 				})
 
-			// Show how many times button clicked
+			// Step 3 - Show how many times button clicked
 				that.countText = Gem.Text('Not clicked yet')
 				this.box.add(that.countText)
 				that.countText.visible = false
 
-				this.button2 = Gem.Button('button', 'count')
-				this.box.add(this.button2)
-
-				this.button2.on('click', function(){
+				this.button.on('click', function(){
 					count ++
 					that.countText.visible = true
 					console.log('clicked ' + count + ' times')
-				// Updates count in test Editor box
+				// Step 4 - Updates count in test Editor box
 					ticket.set('count', count)
 				})
 
-			// Updates count when count changed in Editor box
+			// Step 4 - Updates count when count changed in Editor box
 				ticket.get('count').on('change', function(){
 					count = ticket.subject.count
 					console.log('changed count in Editor box ' + count)
