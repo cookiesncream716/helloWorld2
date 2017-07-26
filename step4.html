@@ -26,10 +26,15 @@
 				this.box.add(this.greeting)
 				this.greeting.visible = false
 
+			// Step 3 - Show how many times button clicked
+				that.countText = Gem.Text('Not clicked yet')
+				this.box.add(that.countText)
+				that.countText.visible = false
+
 			// Step 2 - show greeting on click
 				var index = 0
 				this.button.on('click', function(){
-					var newGreeting = ['Hello Wold', 'Hi There', 'Howdy', 'Hello', 'Hey']
+					var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 					console.log('click for greeting')
 					that.greeting.text = newGreeting[index]
 					that.greeting.visible = true
@@ -37,18 +42,11 @@
 					if(index == newGreeting.length){
 						index = 0
 					}
-
-				})
-
-			// Step 3 - Show how many times button clicked
-				that.countText = Gem.Text('Not clicked yet')
-				this.box.add(that.countText)
-				that.countText.visible = false
-
-				this.button.on('click', function(){
+				// Step 3 - show number of times button clicked
 					count ++
 					that.countText.visible = true
 					console.log('clicked ' + count + ' times')
+					that.countText.text = 'You have clicked this button ' + count + ' times.'
 				// Step 4 - Updates count in test Editor box
 					ticket.set('count', count)
 				})
