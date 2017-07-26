@@ -26,7 +26,7 @@
 				this.box.add(this.greeting)
 				this.greeting.visible = false
 
-			// Step 3 - Show how many times button clicked
+			// Step 3 - create text to show number of times button clicked and make it invisible
 				that.countText = Gem.Text('Not clicked yet')
 				this.box.add(that.countText)
 				that.countText.visible = false
@@ -42,7 +42,7 @@
 					if(index == newGreeting.length){
 						index = 0
 					}
-				// Step 3 - show number of times button clicked
+				// Step 3 - increase count and show number of times button clicked
 					count ++
 					that.countText.visible = true
 					console.log('clicked ' + count + ' times')
