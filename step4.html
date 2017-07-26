@@ -19,7 +19,7 @@
 				this.box = Gem.Block('box')
 				this.add(this.box)
 
-				this.button = Gem.Button('button', 'click me')
+				this.button = Gem.Button('click me')
 				this.box.add(this.button)
 
 				this.greeting = Gem.Text('greeting', 'hide for now')
@@ -72,7 +72,7 @@
 						display: 'block',
 						margin: 10
 					},
-					$button: {
+					Button: {
 						backgroundColor: 'green',
 						color: 'white',
 						display:'block',
@@ -83,6 +83,7 @@
 		})
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
+		// Step 4 - 
 			newOne.subject.count = '0'
 			ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()

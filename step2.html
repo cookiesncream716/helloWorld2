@@ -19,7 +19,7 @@
 				this.box = Gem.Block('box')
 				this.add(this.box)
 
-				this.button = Gem.Button('button', 'click me')
+				this.button = Gem.Button('click me')
 				this.box.add(this.button)
 
 				this.greeting = Gem.Text('greeting', 'hide for now')
@@ -28,7 +28,7 @@
 
 				var index = 0
 				this.button.on('click', function(){
-					var newGreeting = ['Hello Wold', 'Hi There', 'Howdy', 'Hello', 'Hey']
+					var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 					console.log('click for greeting')
 					that.greeting.text = newGreeting[index]
 					that.greeting.visible = true
@@ -53,7 +53,7 @@
 						display: 'block',
 						margin: 10
 					},
-					$button: {
+					Button: {
 						backgroundColor: 'green',
 						color: 'white',
 						display:'block',
