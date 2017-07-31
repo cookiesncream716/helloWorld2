@@ -12,42 +12,28 @@
 		var HelloWorld = proto(Gem, function(superclass){
 			this.name = 'HelloWorld'
 			this.build = function(ticket, optionsObservee, api){
-				var that = this
-			// Step 3 - make variable for count
-				var count = 0
-				this.ticket = ticket
 
-				this.box = Gem.Block('box')
-				this.add(this.box)
-
-				this.button = Gem.Button('click me')
-				this.box.add(this.button)
-
-				this.greeting = Gem.Text('greeting', 'hide for now')
-				this.box.add(this.greeting)
-				this.greeting.visible = false
-
-			// Step 3 - create text to show number of times button clicked and make it invisible
-				that.countText = Gem.Text('Not clicked yet')
-				this.box.add(that.countText)
-				that.countText.visible = false
+				var greeting = Gem.Text('greeting', 'Hello World')
+			// Step 2 - make greeting invisible and add button
+				greeting.visible = false
+				var button = Gem.Button('click me')
+			// Step 3 - create text to show number of times button clicked, make it invisible, and add it
+				var countText = Gem.Text('Not clicked yet')
+				countText.visible = false				
+				var box = Gem.Block('box', greeting, button, countText)
+				this.add(box)								
 
 			// Step 2 - show greeting on click
-				var index = 0
-				this.button.on('click', function(){
+			// Step 3 - index will keep track of how many times button clicked so change name to count
+				var count = 0
+				button.on('click', function(){
 					var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-					console.log('click for greeting')
-					that.greeting.text = newGreeting[index]
-					that.greeting.visible = true
-					index++
-					if(index == newGreeting.length){
-						index = 0
-					}
-				// Step 3 - increase count and show number of times button clicked
-					count ++
-					that.countText.visible = true
-					console.log('clicked ' + count + ' times')
-					that.countText.text = 'You have clicked this button ' + count + ' times.'
+					greeting.text = newGreeting[count%newGreeting.length]
+					greeting.visible = true
+					count++
+				// Step 3 - show number of times button clicked
+					countText.visible = true
+					countText.text = 'You have clicked this button ' + count + ' times.'
 				})
 			}
 			this.getStyle = function(){
