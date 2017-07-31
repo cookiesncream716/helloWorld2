@@ -14,7 +14,7 @@
 			var that = this
 			this.build = function(ticket, optionsObservee, api){
 				this.ticket = ticket
-			// Step 4
+			// Step 4 - get the count if there is one already
 				optionsObservee = {subject:optionsObservee} // todo: remove this when Tixit is deployed next
 				var prop = optionsObservee.subject.countField
 				var count = ticket.subject[prop]
@@ -80,7 +80,7 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
 		// Step 4 - 
-			// newOne.subject.count = '10'
+			newOne.subject.count = '10'
 			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()
 	</script>
