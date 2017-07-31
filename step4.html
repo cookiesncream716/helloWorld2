@@ -11,42 +11,37 @@
 	<script>
 		var HelloWorld = proto(Gem, function(superclass){
 			this.name = 'HelloWorld'
+			var that = this
 			this.build = function(ticket, optionsObservee, api){
-				var that = this
-				var count = 0
 				this.ticket = ticket
+			// Step 4
+				optionsObservee = {subject:optionsObservee} // todo: remove this when Tixit is deployed next
+				var prop = optionsObservee.subject.countField
+				var initCount = ticket.subject[prop]
+				console.log('ticket ' + ticket.subject)
+				console.log(prop)
 
-				this.box = Gem.Block('box')
-				this.add(this.box)
-
-				this.button = Gem.Button('click me')
-				this.box.add(this.button)
-
-				this.greeting = Gem.Text('greeting', 'hide for now')
-				this.box.add(this.greeting)
-				this.greeting.visible = false
-
-			// Step 3 - create text to show number of times button clicked and make it invisible
-				that.countText = Gem.Text('Not clicked yet')
-				this.box.add(that.countText)
-				that.countText.visible = false
+			// Step 2 - create greeting, make it invisible and add button
+				var greeting = Gem.Text('greeting', 'Hello World')
+				greeting.visible = false
+				var button = Gem.Button('click me')
+			// Step 3 - create text to show number of times button clicked, make it invisible, and add it
+				var countText = Gem.Text('Not clicked yet')
+				countText.visible = false				
+				var box = Gem.Block('box', greeting, button, countText)
+				this.add(box)								
 
 			// Step 2 - show greeting on click
-				var index = 0
-				this.button.on('click', function(){
+				var count = 0
+				button.on('click', function(){
 					var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-					console.log('click for greeting')
-					that.greeting.text = newGreeting[index]
-					that.greeting.visible = true
-					index++
-					if(index == newGreeting.length){
-						index = 0
-					}
+					greeting.text = newGreeting[count%newGreeting.length]
+					greeting.visible = true
+					count++
+					// that.changeCount(count)
 				// Step 3 - increase count and show number of times button clicked
-					count ++
-					that.countText.visible = true
-					console.log('clicked ' + count + ' times')
-					that.countText.text = 'You have clicked this button ' + count + ' times.'
+					countText.visible = true
+					countText.text = 'You have clicked this button ' + count + ' times.'
 				// Step 4 - Updates count in test Editor box
 					ticket.set('count', count)
 				})
@@ -54,10 +49,15 @@
 			// Step 4 - Updates count when count changed in Editor box
 				ticket.get('count').on('change', function(){
 					count = ticket.subject.count
-					console.log('changed count in Editor box ' + count)
-					that.countText.text = 'You have clicked this button ' + count + ' times.'
+					// console.log('changed count in Editor box ' + count)
+					countText.text = 'You have clicked this button ' + count + ' times.'
 				})
 			}
+		// Step 4
+			// this.changeCount = function(clicked){
+			// 	clicked ++
+			// 	console.log('changeCount function ' + clicked)
+			// }
 			this.getStyle = function(){
 				return Gem.Style({
 					$box: {
@@ -84,8 +84,8 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
 		// Step 4 - 
-			newOne.subject.count = '0'
-			ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
+			newOne.subject.count = '3'
+			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()
 	</script>
 </html>

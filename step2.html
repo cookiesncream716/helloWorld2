@@ -24,7 +24,6 @@
 				var index = 0
 				button.on('click', function(){
 					var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-					console.log('click for greeting')
 					greeting.text = newGreeting[index%newGreeting.length]
 					greeting.visible = true
 					index++
