@@ -12,31 +12,22 @@
 		var HelloWorld = proto(Gem, function(superclass){
 			this.name = 'HelloWorld'
 			this.build = function(ticket, optionsObservee, api){
-				var that = this
-				var count = 0
-				this.ticket = ticket
 
-				this.box = Gem.Block('box')
-				this.add(this.box)
+				var greeting = Gem.Text('greeting', 'Hello World')
+			// Step 2 - make greeting invisible and add button
+				greeting.visible = false
+				var button = Gem.Button('click me')
+				var box = Gem.Block('box', greeting, button)
+				this.add(box)
 
-				this.button = Gem.Button('click me')
-				this.box.add(this.button)
-
-				this.greeting = Gem.Text('greeting', 'hide for now')
-				this.box.add(this.greeting)
-				this.greeting.visible = false
-
+			// Step 2 show greeting on click
 				var index = 0
-				this.button.on('click', function(){
+				button.on('click', function(){
 					var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 					console.log('click for greeting')
-					that.greeting.text = newGreeting[index]
-					that.greeting.visible = true
+					greeting.text = newGreeting[index%newGreeting.length]
+					greeting.visible = true
 					index++
-					if(index == newGreeting.length){
-						index = 0
-					}
-
 				})
 			}
 			this.getStyle = function(){
