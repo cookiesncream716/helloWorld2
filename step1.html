@@ -12,15 +12,11 @@
 		var HelloWorld = proto(Gem, function(superclass){
 			this.name = 'HelloWorld'
 			this.build = function(ticket, optionsObservee, api){
-				var that = this
-				var count = 0
-				this.ticket = ticket
 
-				this.box = Gem.Block('box')
-				this.add(this.box)
+				var greeting = Gem.Text('greeting', 'Hello World')
+				var box = Gem.Block('box', greeting)
+				this.add(box)
 
-				this.greeting = Gem.Text('greeting', 'Hello World')
-				this.box.add(this.greeting)
 			}
 			this.getStyle = function(){
 				return Gem.Style({
