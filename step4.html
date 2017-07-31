@@ -17,28 +17,32 @@
 			// Step 4
 				optionsObservee = {subject:optionsObservee} // todo: remove this when Tixit is deployed next
 				var prop = optionsObservee.subject.countField
+				// console.log(prop)
 				var initCount = ticket.subject[prop]
-				console.log('ticket ' + ticket.subject)
-				console.log(prop)
+				console.log('initCount ' + initCount)
+				var count = initCount
 
 			// Step 2 - create greeting, make it invisible and add button
 				var greeting = Gem.Text('greeting', 'Hello World')
 				greeting.visible = false
 				var button = Gem.Button('click me')
 			// Step 3 - create text to show number of times button clicked, make it invisible, and add it
-				var countText = Gem.Text('Not clicked yet')
+				var countText = Gem.Text('You have clicked this button ' + count + ' times.')
 				countText.visible = false				
 				var box = Gem.Block('box', greeting, button, countText)
-				this.add(box)								
+				this.add(box)
+
+				if(initCount > 0){
+					greeting.visible = true
+					countText.visible = true
+				}								
 
 			// Step 2 - show greeting on click
-				var count = 0
 				button.on('click', function(){
 					var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 					greeting.text = newGreeting[count%newGreeting.length]
 					greeting.visible = true
 					count++
-					// that.changeCount(count)
 				// Step 3 - increase count and show number of times button clicked
 					countText.visible = true
 					countText.text = 'You have clicked this button ' + count + ' times.'
@@ -49,15 +53,9 @@
 			// Step 4 - Updates count when count changed in Editor box
 				ticket.get('count').on('change', function(){
 					count = ticket.subject.count
-					// console.log('changed count in Editor box ' + count)
 					countText.text = 'You have clicked this button ' + count + ' times.'
 				})
 			}
-		// Step 4
-			// this.changeCount = function(clicked){
-			// 	clicked ++
-			// 	console.log('changeCount function ' + clicked)
-			// }
 			this.getStyle = function(){
 				return Gem.Style({
 					$box: {
@@ -84,7 +82,7 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
 		// Step 4 - 
-			newOne.subject.count = '3'
+			newOne.subject.count = '10'
 			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()
 	</script>
