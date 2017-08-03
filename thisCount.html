@@ -20,10 +20,10 @@
 				var prop = optionsObservee.subject.countField
 				this.count = ticket.subject[prop]
 			// Step 2 - create greeting, make it invisible and add button
-				this.greeting = Gem.Text('greeting', 'Hello World')
+				this.greeting = Gem.Text('greeting', 'x')
 				var button = Gem.Button('click me')
 			// Step 3 - create text to show number of times button clicked, make it invisible, and add it
-				this.countText = Gem.Text('You have this clicked this button ' + this.count + ' times.')	
+				this.countText = Gem.Text()	
 				var box = Gem.Block('box', this.greeting, button, this.countText)
 				this.add(box)
 			// Step 4 - no text if count undefined/set count to 0
@@ -43,16 +43,15 @@
 				})
 			// Step 4 - Updates count when count changed in Editor box
 				ticket.get('count').on('change', function(){
-					this.count = ticket.subject.count
-					console.log('get ' + this.count)
-					that.countText.text = 'You have clicked this button ' + this.count + ' times.'
+					that.count = ticket.subject.count
+					that.updateText()
 				})
 			}
 			this.updateText = function(){
-				// this.count++
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 				this.greeting.text = newGreeting[this.count%newGreeting.length]
 				this.greeting.visible = true
+				this.countText.text = 'You have this clicked this button ' + this.count + ' times.'
 				this.countText.visible = true
 			}
 			this.getStyle = function(){
