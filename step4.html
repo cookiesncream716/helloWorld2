@@ -22,27 +22,22 @@
 				var greeting = Gem.Text('greeting', 'Hello World')
 				var button = Gem.Button('click me')
 			// Step 3 - create text to show number of times button clicked, make it invisible, and add it
-				var countText = Gem.Text('You have clicked this button ' + count + ' times.')			
+				var countText = Gem.Text('You have clicked this button ' + count + ' times.')
 				var box = Gem.Block('box', greeting, button, countText)
 				this.add(box)
-			// Step 4 - have text if count is already > 0 
-				if(count > 0){
-					greeting.visible = true
-					countText.visible = true
-				}else{
-					count = 0
-					countText.visible = false
+			// Step 4 - no text if count undefined
+				if(count == undefined){
 					greeting.visible = false
-				}							
-
+					countText.visible = false
+					count = 0
+				}
 			// Step 2 - show greeting on click
 				button.on('click', function(){
 					var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 					greeting.text = newGreeting[count%newGreeting.length]
 					greeting.visible = true
-					count++
 				// Step 3 - increase count and show number of times button clicked
-					countText.text = 'You have clicked this button ' + count + ' times.'
+					count++
 					countText.visible = true
 				// Step 4 - Updates count in test Editor box
 					ticket.set('count', count)
@@ -80,7 +75,7 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
 		// Step 4 - 
-			newOne.subject.count = '10'
+			// newOne.subject.count = '10'
 			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()
 	</script>
