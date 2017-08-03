@@ -20,34 +20,27 @@
 				var prop = optionsObservee.subject.countField
 				this.count = ticket.subject[prop]
 			// Step 2 - create greeting, make it invisible and add button
-				var greeting = Gem.Text('greeting', 'Hello World')
+				this.greeting = Gem.Text('greeting', 'Hello World')
 				var button = Gem.Button('click me')
 			// Step 3 - create text to show number of times button clicked, make it invisible, and add it
-				this.countText = Gem.Text('x')	
-				var box = Gem.Block('box', greeting, button, this.countText)
+				this.countText = Gem.Text('You have this clicked this button ' + this.count + ' times.')	
+				var box = Gem.Block('box', this.greeting, button, this.countText)
 				this.add(box)
-			// Step 4 - no text if count undefined
+			// Step 4 - no text if count undefined/set count to 0
 				if(this.count == undefined){
-					greeting.visible = false
+					this.greeting.visible = false
 					this.countText.visible = false
 					this.count = 0
+				}else{
+					this.updateText()	
 				}
-				this.changeCount()
-			// Step 2 - show greeting on click
+			// Step 2 - show text on click
 				button.on('click', function(){
-					var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-					greeting.text = newGreeting[that.count%newGreeting.length]
-					greeting.visible = true
-				// Step 3 - increase count and show number of times button clicked
-					// countText.text = 'You have clicked this button ' + that.count + ' times.'
-					// that.count++
-					that.changeCount()
-					// that.countText.visible = true
-					console.log('after ' + that.count)
+					that.count++
+					that.updateText()
 				// Step 4 - Updates count in test Editor box
 					ticket.set('count', that.count)
 				})
-
 			// Step 4 - Updates count when count changed in Editor box
 				ticket.get('count').on('change', function(){
 					this.count = ticket.subject.count
@@ -55,11 +48,12 @@
 					that.countText.text = 'You have clicked this button ' + this.count + ' times.'
 				})
 			}
-			this.changeCount = function(){
-				console.log('changeCount function ' + this.count)
-				this.count++
-				this.countText.text = 'You have this clicked this button ' + this.count + ' times.'
-				this.countText.visible =true
+			this.updateText = function(){
+				// this.count++
+				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
+				this.greeting.text = newGreeting[this.count%newGreeting.length]
+				this.greeting.visible = true
+				this.countText.visible = true
 			}
 			this.getStyle = function(){
 				return Gem.Style({
@@ -87,7 +81,7 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
 		// Step 4 - 
-			// newOne.subject.count = '10'
+			newOne.subject.count = '12'
 			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()
 	</script>
