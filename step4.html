@@ -14,14 +14,12 @@
 			this.build = function(ticket, optionsObservee, api){
 				var that = this
 				this.ticket = ticket
-			// Step 4
+			// Step 4 - add/use observe
 				optionsObservee = {subject:optionsObservee} // todo: remove this when Tixit is deployed next
 				var prop = optionsObservee.subject.countField
 				this.count = ticket.subject[prop]
-			// Step 2 - create greeting, make it invisible and add button
 				this.greeting = Gem.Text('greeting', 'Hello World')
 				var button = Gem.Button('click me')
-			// Step 3 - create text to show number of times button clicked, make it invisible, and add it
 				this.countText = Gem.Text()	
 				var box = Gem.Block('box', this.greeting, button, this.countText)
 				this.add(box)
@@ -33,7 +31,6 @@
 				}else{
 					this.updateText()	
 				}
-			// Step 2 - show text on click
 				button.on('click', function(){
 					that.count++
 					that.updateText()
