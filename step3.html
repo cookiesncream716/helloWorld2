@@ -14,7 +14,6 @@
 			this.build = function(ticket, optionsObservee, api){
 
 				var greeting = Gem.Text('greeting', 'Hello World')
-			// Step 2 - make greeting invisible and add button
 				greeting.visible = false
 				var button = Gem.Button('click me')
 			// Step 3 - create text to show number of times button clicked, make it invisible, and add it
@@ -22,8 +21,6 @@
 				countText.visible = false				
 				var box = Gem.Block('box', greeting, button, countText)
 				this.add(box)								
-
-			// Step 2 - show greeting on click
 			// Step 3 - index will keep track of how many times button clicked so change name to count
 				var count = 0
 				button.on('click', function(){

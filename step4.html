@@ -19,7 +19,7 @@
 				var prop = optionsObservee.subject.countField
 				this.count = ticket.subject[prop]
 			// Step 2 - create greeting, make it invisible and add button
-				this.greeting = Gem.Text('greeting', 'x')
+				this.greeting = Gem.Text('greeting', 'Hello World')
 				var button = Gem.Button('click me')
 			// Step 3 - create text to show number of times button clicked, make it invisible, and add it
 				this.countText = Gem.Text()	
@@ -79,7 +79,7 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
 		// Step 4 - 
-			newOne.subject.count = '12'
+			// newOne.subject.count = '12'
 			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()
 	</script>
