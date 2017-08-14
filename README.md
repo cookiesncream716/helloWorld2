@@ -50,7 +50,7 @@ ExtensionTester.Api.Ticket.create().then(function(newOne){
 Now it is time to start on the 4 stages.
 
 
-### **STAGE 1** - Display the text "Hello World" in the plugin space
+### STAGE 1 - Display the text "Hello World" in the plugin space
 
 * Inside of the build method, create the greeting Hello World by using the Text property of Gem. Here, it will have a label of greeting so it can be styled differently from the text that will be coming up in a later step.
 
@@ -89,4 +89,80 @@ this.getStyle = function(){
   })
 }
 ```
+It is now ready to test. Open the page in the browser.
+
+
+### STAGE 2 - Display "Hello World" after the button is clicked
+
+* Since the greeting is not supposed to appear until after the button is clicked, it needs to be made invisible. This is done by giving the visible property a value of false.
+
+```
+greeting.visible = false
+```
+
+* A button needs to be created using the Button property. Since there is only one button, it does not need a label to distinguish it from other buttons.
+
+```
+var button = Gem.Button('click me')
+```
+
+* Then add it to box.
+
+```
+var box = Gem.Block(‘box’, greeting, button)
+```
+
+* Give the button some style if desired. It can just be added after the $greeting. Just be sure to separate it with a comma.
+
+```
+Button: {
+  backgroundColor: ‘green’,
+  color: ‘white’,
+  display: 'block',
+  margin: 10
+}
+```
+
+* Put an EventEmitter on the button so when it is clicked the greeting will appear. The code for what happens when the button is clicked will go inside the callback function.
+
+```
+button.on('click', function(){
+	code
+})
+```
+
+* To make things a little more interesting, have the greeting “Hello World” change to a different greeting each time the button is clicked. To do this, make a function that will update the text. It will go outside of the build method.
+
+```
+this.updateText = function(){}
+```
+
+* Before writing the code inside the function, create a variable to iterate through the greetings. Create it inside the build method but make it an instance variable so it is accessible outside of the build method.
+
+```
+this.index = 0
+```
+
+* Create an array of greetings and have greeting’s text change when the button is clicked. To do this, the var greeting will need to become an instance variable. This is done by changing var greeting to this.greeting. Don’t forget to change greeting to this.greeting everywhere in the code. The visible property of this.greeting will also need to be changed to true.
+
+```
+this.updateText = function(){
+  var newGreeting = [‘Hello World’, ‘Hi There’, ‘Howdy’, ‘Hello', ‘Hey’]
+  this.greeting.text = newGreeting[this.index%newGreeting.length]
+  this.greeting.visible = true
+```
+
+* Lastly, the code for the EventEmitter needs to be added. The value of index will need to increase when the button is clicked and the updateText function needs to be called. In order to have access to this.index and this.updateText inside of the function, make a variable that. Put it inside of the build method and it is usually the first line.
+
+```
+var that = this
+```
+
+```
+button.on(‘click’, function(){
+  that.index++
+  that.updateText()
+})
+```
+
 It is now ready to test. Open the page in the browser.
