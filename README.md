@@ -21,3 +21,23 @@ It will be easiest to work on the plugin from here on in a text editor, such as 
 	  <script>
 	  </script>
 	</html>
+
+The rest of the code to build the plugin will go inside the last set of script tags. Inside that set of script tags, create a variable for the plugin. Usually the variable will a one or two word description of the plugin.
+
+	var HelloWorld = proto(Gem, function(superclass){}
+
+The plugin, or Gem, takes a name property, which should be the name of the plugin. It also has a constructor method called build which has three parameters, ticket, optionsObservee, and api.
+
+	var HelloWorld = proto(Gem, function(superclass){
+	  this.name = ‘HelloWorld’
+	  this.build = function(ticket, optionsObservee, api){}
+	})
+
+The code for the plugin tester will come after the plugin but still inside of the script tags.
+
+	ExtensionTester.Api.Ticket.create().then(function(newOne){
+	  ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor:
+	    true})
+	}).done()
+
+Now it is time to start on the 4 stages.
