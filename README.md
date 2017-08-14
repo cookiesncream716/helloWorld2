@@ -7,8 +7,10 @@ Creating a plugin isn't difficult. Here you will build a basic Hello World plugi
 
 First, create a project folder and inside of it create a file called package.json. This plugin will need just two node modules, gem and proto. In the terminal go into the project folder and install the two gems. This will add the gems to the package.json file and create a node modules folder with the gems inside of it.
 
-	npm install gem —save
-	npm install proto —save
+```
+npm install gem —save
+npm install proto —save
+```
 
 It will be easiest to work on the plugin from here on in a text editor, such as Sublime or Atom. Create an html file and open it. The code for the plugin will go after the body tags. Use script tags to link to the location of the gem and proto node modules. In order to run and test the plugin, a script tag with a link to the plugin tester is also necessary. It should look something like this:
 
@@ -24,14 +26,18 @@ It will be easiest to work on the plugin from here on in a text editor, such as 
 
 The rest of the code to build the plugin will go inside the last set of script tags. Inside that set of script tags, create a variable for the plugin. Usually the variable will a one or two word description of the plugin.
 
-	var HelloWorld = proto(Gem, function(superclass){}
+```
+var HelloWorld = proto(Gem, function(superclass){}
+```
 
 The plugin, or Gem, takes a name property, which should be the name of the plugin. It also has a constructor method called build which has three parameters, ticket, optionsObservee, and api.
 
-	var HelloWorld = proto(Gem, function(superclass){
-	  this.name = ‘HelloWorld’
-	  this.build = function(ticket, optionsObservee, api){}
-	})
+```
+var HelloWorld = proto(Gem, function(superclass){
+  this.name = ‘HelloWorld’
+  this.build = function(ticket, optionsObservee, api){}
+})
+```
 
 The code for the plugin tester will come after the plugin but still inside of the script tags.
 
@@ -56,3 +62,31 @@ var greeting = Gem.Text(‘greeting’, ‘Hello World’)
 ```
 var box = Gem.Block(‘box’, greeting)
 ```
+
+* Then the box can be added.
+
+```
+this.add(box)
+```
+
+* Style can be added after the build method by using the getStyle method. It is a function that will return a Style object. The symbol $ will be used along with the labels. Here a border is given so an outline of the space can be seen. The text for the greeting will be blue and larger than the default size.
+
+```
+this.getStyle = function(){
+  return Gem.Style({
+    $box: {
+      width: 250,
+      minHeight: 100,
+      border: '1pix solid black',
+      padding: 5
+    },
+    $greeting: {
+      color: 'blue',
+      fontSize: 24,
+      display: 'block',
+      margin: 10
+    }
+  })
+}
+```
+It is now ready to test. Open the page in the browser.
