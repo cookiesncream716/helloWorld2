@@ -35,15 +35,16 @@ The plugin, or Gem, takes a name property, which should be the name of the plugi
 
 The code for the plugin tester will come after the plugin but still inside of the script tags.
 
-	ExtensionTester.Api.Ticket.create().then(function(newOne){
-	  ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor:
-	    true})
-	}).done()
+```
+ExtensionTester.Api.Ticket.create().then(function(newOne){
+  ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
+}).done()
+```
 
 Now it is time to start on the 4 stages.
 
 
-###### **STAGE 1** - Display the text "Hello World" in the plugin space
+### **STAGE 1** - Display the text "Hello World" in the plugin space
 
 * Inside of the build method, create the greeting Hello World by using the Text property of Gem. Here, it will have a label of greeting so it can be styled differently from the text that will be coming up in a later step.
 
