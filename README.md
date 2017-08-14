@@ -191,3 +191,60 @@ this.updateText = function(){
 ```
 
 It is now ready to test. Open the page in the browser.
+
+
+### STAGE 4 - Add the ability to recognize a change in the count from an external source and update the text appropriately
+
+* Use observe to get the count in case it already has a value and to set the count when it is updated. In the plugin tester, a count will need to be added. It will also be where the count can be given a value.
+
+```
+ExtensionTester.Api.Ticket.create().then(function(newOne){
+  newOne.subject.count = ’12’
+  ExtensionTester(HelloWorld, {countField: ‘count’}, {ticketId:newOne.subject._id, showEditor: true})
+}).done()
+```
+
+* In the build method and using observe, create a variable set to the information in the editor box. If it’s not set in the editor box, then the variable created will be undefined.
+
+```
+var countProperty = optionsObservee.subject.countField
+```
+
+* The this.count variable needs to be set to the count that is in the editor box, which is in the information in countProperty.
+
+```
+this.count = ticket.subject[countProperty]
+```
+
+* The greeting text and the countText need to be visible when the page is loaded if this.count is already defined. This is done using an if else statement. If this.count is undefined, then both texts are not visible and set this.count to 0; otherwise, call the updateText function. This needs to come before the EventEmitter for the button.
+
+```
+if(this.count == undefined){
+  this.greeting.visible = false
+  this.countText.visible = false
+  this.count = 0
+} else{
+  this.updateText()
+}
+```
+
+* The count in the ticket/editor box needs to be updated every time the button is clicked. So inside of the EventEmitter, set the count after this.count has been incremented.
+
+```
+button.on(‘click’, function(){
+  that.count++
+  that.updateText()
+  ticket.set('count', that.count)
+})
+```
+
+* If the count is changed elsewhere, in this case in the editor box, that needs to trigger an update in this.count and in countText. This goes inside the build method but is not part of the EventEmitter used for the button.
+
+```
+ticket.get(‘count’).on(‘change’, function(){
+  that.count = ticket.subject.count
+  that.updateText()
+})
+```
+
+It is ready to test. Open the page in the browser.
