@@ -248,3 +248,5 @@ ticket.get(‘count’).on(‘change’, function(){
 ```
 
 It is ready to test. Open the page in the browser.
+
+Congratulations. You have just built a plugin.
