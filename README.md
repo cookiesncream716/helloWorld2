@@ -166,3 +166,28 @@ button.on(‘click’, function(){
 ```
 
 It is now ready to test. Open the page in the browser.
+
+
+### STAGE 3 - Add text that tells how many times the button has been clicked
+
+* A way to keep track of the number of times the button is clicked is needed. The index variable is doing this already, so the name can be changed to this.count or left this.index. If it is changed to this.count, make sure it is changed everywhere.
+* Create the text that will tell how many times the button has been clicked. It will need to be hidden when the page loads. It will also need to be an instance variable so that the updateText function has access to it.
+
+```
+this.countText = Gem.Text()
+this.countText.visible = false
+var box = Gem.Block(‘box’, this.greeting, button, this.countText)
+```
+
+Notice that it doesn’t have the label ‘greeting’ so it won’t have any of the greeting style. It also does not need to have any actual text yet since it is hidden.
+
+* Inside of the updateText function, the countText needs to be updated with the actual count and it needs to be made visible.
+
+```
+this.updateText = function(){
+  this.countText.text = ‘You have clicked this button ‘ + this.count + ‘ times.’
+  this.countText.visible = true
+}
+```
+
+It is now ready to test. Open the page in the browser.
