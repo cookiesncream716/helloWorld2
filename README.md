@@ -55,12 +55,12 @@ ExtensionTester.Api.Ticket.create().then(function(newOne){
 
 ### STAGE 2 - Display the text "Hello World" in the plugin space
 
-1. Inside the build method, create a variable and assign the [Text](https://github.com/Tixit/Gem.js#text) property of Gem. Here, enter greeting as the label so it can be styled differently in a later step.
+1. Inside the build method, create a variable for the greeting Hello World by using the [Text](https://github.com/Tixit/Gem.js#text) property of Gem. Give it a label so it can be styled differently from text that will be coming in a later step. Here, greetng is used as the label.
 
 ```
 var greeting = Gem.Text(‘greeting’, ‘Hello World’)
 ```
-2. Use the [Block](https://github.com/Tixit/Gem.js#block) property of Gem to make an area for the plugin. Enter box as the label, then the greeting variable needs to be added to the Block.
+2. Use the [Block](https://github.com/Tixit/Gem.js#block) property of Gem to make an area for the plugin. Enter box as the label. Then the greeting variable needs to be added to the Block.
 
 ```
 var box = Gem.Block(‘box’, greeting)
@@ -72,7 +72,7 @@ var box = Gem.Block(‘box’, greeting)
 this.add(box)
 ```
 
-4. Styles can be added after the build method by using the getStyle method. It is a function that will return a [Style](https://github.com/Tixit/Gem.js#style-objects) object. The symbol [$](https://github.com/Tixit/Gem.js#label) will be used along with the labels. Here a border is given so an outline of the space can be seen. The text for the greeting will be blue and larger than the default size.
+4. Styles can be added after the build method by using the getStyle method. It is a function that will return a [Style](https://github.com/Tixit/Gem.js#style-objects) object. The symbol [$](https://github.com/Tixit/Gem.js#label) will be used along with the labels. Here a border is given so an outline of the space can be seen. The text for the greeting will be blue and given a size of 24.
 
 ```
 this.getStyle = function(){
