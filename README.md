@@ -256,3 +256,5 @@ ticket.get(‘count’).on(‘change’, function(){
 It is ready to test. Open the page in the browser.
 
 Congratulations. You have just built a plugin.
+
+To learn more about Tixit plugins look [here](http://docs.tixit.me/d/Plugin_API).
