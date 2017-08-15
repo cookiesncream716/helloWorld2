@@ -1,18 +1,22 @@
-Creating a plugin isn't difficult. Here you will build a basic Hello World plugin in 4 stages, each building on the previous stage.
+# helloWorld2
+Creating a plugin isn't difficult. Here you will build a basic Hello World plugin in 5 stages, each building on the previous stage.
 
-* Stage 1 - Display the text “Hello World” in the plugin space
-* Stage 2 - Display “Hello World” after the button is clicked
-* Stage 3 - Add text that tells how many times the button has been clicked
-* Stage 4 - Add the ability to recognize a change in the count from an external source 
+## Build Stages
+* Stage 1 - Setup environment to test your plugin
+* Stage 2 - Display the text “Hello World” in the plugin space
+* Stage 3 - Display “Hello World” after the button is clicked
+* Stage 4 - Add text that tells how many times the button has been clicked
+* Stage 5 - Add the ability to recognize a change in the count from an external source 
 
-First, create a project folder and inside of it create a file called package.json. This plugin will need just two node modules, gem and proto. In the terminal go into the project folder and install the two gems. This will add the gems to the package.json file and create a node modules folder with the gems inside of it.
-
+### Stage 1 - Setup environment to test your plugin
+First, create a project folder and create package.json inside it. In the terminal, go into the project folder and run the following
+:
 ```
 npm install gem —save
 npm install proto —save
 ```
 
-It will be easiest to work on the plugin from here on in a text editor, such as Sublime or Atom. Create an html file and open it. The code for the plugin will go after the body tags. Use script tags to link to the location of the gem and proto node modules. In order to run and test the plugin, a script tag with a link to the plugin tester is also necessary. It should look something like this:
+Then, create an html file and open it. [gem.js](https://github.com/Tixit/Gem.js) and [proto](https://github.com/fresheneesz/proto) is required to build plugins for Tixit, and in order to run and test plugins, a script tag for the plugin tester(ExtensionTester.umd.js) is also necessary. Your html file should look something like this:
 
 	<html>
 	  <head></head>
@@ -24,13 +28,13 @@ It will be easiest to work on the plugin from here on in a text editor, such as 
 	  </script>
 	</html>
 
-The rest of the code to build the plugin will go inside the last set of script tags. Inside that set of script tags, create a variable for the plugin. Usually the variable will a one or two word description of the plugin.
+The rest of the code to build the plugin will go inside the last set of script tags. Inside that set of script tags, create a variable for the plugin. Usually the variable will be a one or two word description of the plugin:
 
 ```
-var HelloWorld = proto(Gem, function(superclass){}
+var HelloWorld = proto(Gem, function(superclass){})
 ```
 
-The plugin, or Gem, takes a name property, which should be the name of the plugin. It also has a constructor method called build which has three parameters, ticket, optionsObservee, and api.
+The plugin requires a name property and a constructor method called build, which has three parameters; ticket, optionsObservee, and api.
 
 ```
 var HelloWorld = proto(Gem, function(superclass){
@@ -47,10 +51,10 @@ ExtensionTester.Api.Ticket.create().then(function(newOne){
 }).done()
 ```
 
-Now it is time to start on the 4 stages.
+Now it is time to start on the next 4 stages.
 
 
-### STAGE 1 - Display the text "Hello World" in the plugin space
+### STAGE 2 - Display the text "Hello World" in the plugin space
 
 * Inside of the build method, create the greeting Hello World by using the Text property of Gem. Here, it will have a label of greeting so it can be styled differently from the text that will be coming up in a later step.
 
@@ -92,7 +96,7 @@ this.getStyle = function(){
 It is now ready to test. Open the page in the browser.
 
 
-### STAGE 2 - Display "Hello World" after the button is clicked
+### STAGE 3 - Display "Hello World" after the button is clicked
 
 * Since the greeting is not supposed to appear until after the button is clicked, it needs to be made invisible. This is done by giving the visible property a value of false.
 
@@ -168,7 +172,7 @@ button.on(‘click’, function(){
 It is now ready to test. Open the page in the browser.
 
 
-### STAGE 3 - Add text that tells how many times the button has been clicked
+### STAGE 4 - Add text that tells how many times the button has been clicked
 
 * A way to keep track of the number of times the button is clicked is needed. The index variable is doing this already, so the name can be changed to this.count or left this.index. If it is changed to this.count, make sure it is changed everywhere.
 * Create the text that will tell how many times the button has been clicked. It will need to be hidden when the page loads. It will also need to be an instance variable so that the updateText function has access to it.
@@ -193,7 +197,7 @@ this.updateText = function(){
 It is now ready to test. Open the page in the browser.
 
 
-### STAGE 4 - Add the ability to recognize a change in the count from an external source and update the text appropriately
+### STAGE 5 - Add the ability to recognize a change in the count from an external source and update the text appropriately
 
 * Use observe to get the count in case it already has a value and to set the count when it is updated. In the plugin tester, a count will need to be added. It will also be where the count can be given a value.
 
