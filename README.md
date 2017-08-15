@@ -97,7 +97,7 @@ It is now ready to test. Open the page in the browser.
 
 ### STAGE 3 - Display "Hello World" after the button is clicked
 
-1. Because the greeting is not supposed to appear until after the button is clicked, it needs to be made invisible. Give the visible property of greeting a value of false.
+1. Since the greeting is supposed to appear until after the button is clicked, it needs to be made invisible. Give the visible property of greeting a value of false.
 
 ```
 greeting.visible = false
@@ -115,7 +115,7 @@ var button = Gem.Button('click me')
 var box = Gem.Block(‘box’, greeting, button)
 ```
 
-4. (optional) Give the button some style if desired. It can just be added after the $greeting. Just be sure to separate it with a comma.
+4. (optional) Give the button some style. Just add it after $greeting; but be sure to separate it with a comma.
 
 ```
 Button: {
@@ -126,7 +126,7 @@ Button: {
 }
 ```
 
-5. Attach a click [event listener](https://github.com/Tixit/Gem.js#event-instance-properties-and-methods) on the button.
+5. In order to cause the greeting to appear when the button is clicked, attach a click [event listener](https://github.com/Tixit/Gem.js#event-instance-properties-and-methods) on the button.
 
 ```
 button.on('click', function(){ })
@@ -138,13 +138,13 @@ button.on('click', function(){ })
 this.updateText = function(){}
 ```
 
-7. Before writing the code inside the updateText function, create a variable to iterate through the greetings. Create it inside the build method but make it an instance variable so it is accessible outside of the build method.
+7. Before writing the code inside the updateText function, create a variable to iterate through the greetings that will be created in the next step. Create it inside the build method but make it an instance variable so it is accessible outside of the build method.
 
 ```
 this.index = 0
 ```
 
-8. Create an array of greetings and have greeting’s text change when the button is clicked. To do this, the greeting variable will need to become an instance variable. This is done by changing var greeting to this.greeting. Don’t forget to change greeting to this.greeting everywhere in the code. The visible property of this.greeting will also need to be changed to true.
+8. In the updateText function, create an array of greetings and have greeting’s text change when the button is clicked. To do this, the greeting variable will need to become an instance variable. This is done in the build method when creating the variable; instead of using var greeeting = " " use this.greeting = " ". Don’t forget to change greeting to this.greeting everywhere in the code. The visible property of this.greeting will also need to be changed to true.
 
 ```
 this.updateText = function(){
@@ -153,7 +153,7 @@ this.updateText = function(){
   this.greeting.visible = true
 ```
 
-9. Lastly, the code for the callback function for the button in 5 needs to be added. The value of index will need to increase when the button is clicked and the updateText function needs to be called. In order to have access to this.index and this.updateText inside of the function, make a variable that. Put it inside of the build method on the first line.
+9. Lastly, the code for the callback function for the click in step 5 needs to be added. The value of index will need to increase when the button is clicked and the updateText function needs to be called. In order to have access to this.index and this.updateText inside of the function, make a variable that. Put it inside of the build method on the first line.
 
 ```
 var that = this
