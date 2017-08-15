@@ -153,7 +153,7 @@ this.updateText = function(){
   this.greeting.visible = true
 ```
 
-9. Lastly, the code for the callback function for the click in step 5 needs to be added. The value of index will need to increase when the button is clicked and the updateText function needs to be called. In order to have access to this.index and this.updateText inside of the function, make a variable that. Put it inside of the build method on the first line.
+9. Lastly, the code for the callback function for the click event listener in step 5 needs to be added. The value of index will need to increase when the button is clicked and the updateText function needs to be called. In order to have access to this.index and this.updateText inside of the function, make a variable that. Put it inside of the build method on the first line.
 
 ```
 var that = this
@@ -206,21 +206,21 @@ ExtensionTester.Api.Ticket.create().then(function(newOne){
 }).done()
 ```
 
-The line newOne.subject.count = '12' can be commented out. The plugin should work both ways.
+The line newOne.subject.count = '12' can be commented out so that count is undefined. The plugin should work both ways.
 
-2. In the build method, create a variable set to the information in the editor box. If it’s not set in the editor box, then the variable created will be undefined.
+2. In the build method, create a variable set to the information in the editor box. If it is not set in the editor box, then the variable created will be undefined.
 
 ```
 var countProperty = optionsObservee.subject.countField
 ```
 
-3. The this.count variable needs to be set to the count that is in the editor box, which is in the information in countProperty and accessible using the folling line:
+3. The this.count variable needs to be set to the count that is in the editor box, which is in the information in countProperty and accessible using the following line:
 
 ```
 this.count = ticket.subject[countProperty]
 ```
 
-4. The greeting text and the countText need to be visible when the page is loaded if this.count is already defined. This is done using an if else statement. If this.count is undefined, then both texts are not visible and set this.count to 0; otherwise, call the updateText function. This needs to come before the button event listener.
+4. The greeting text and the countText need to be visible when the page is loaded if this.count is already defined. Do this by using an if else statement. If this.count is undefined, then both texts are not visible and set this.count to 0; otherwise, call the updateText function. It needs to come before the click event listener.
 
 ```
 if(this.count == undefined){
@@ -232,7 +232,7 @@ if(this.count == undefined){
 }
 ```
 
-5. The count in the ticket/editor box needs to be updated every time the button is clicked. So inside of the callback function for the button event listener, set the count, after this.count has been incremented.
+5. The count in the editor box should be updated every time the button is clicked. So inside of the callback function for the button click event listener and after this.count has been incremented, set the count.
 
 ```
 button.on(‘click’, function(){
