@@ -2,21 +2,22 @@
 Creating a plugin isn't difficult. Here you will build a basic Hello World plugin in 5 stages, each building on the previous stage.
 
 ## Build Stages
-* [Stage 1](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-1---setup-environment-to-test-your-plugin) - Setup environment to test your plugin
+* [Stage 1](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-1---setup-environment-to-test-your-plugin) - Setup the environment to test your plugin
 * [Stage 2](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-2---display-the-text-hello-world-in-the-plugin-space) - Display the text “Hello World” in the plugin space
 * [Stage 3](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-3---display-hello-world-after-the-button-is-clicked) - Display “Hello World” after the button is clicked
 * [Stage 4](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-4---add-text-that-tells-how-many-times-the-button-has-been-clicked) - Add text that tells how many times the button has been clicked
 * [Stage 5](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-5---add-the-ability-to-recognize-a-change-in-the-count-from-an-external-source-and-update-the-text-appropriately) - Add the ability to recognize a change in the count from an external source 
 
 ### Stage 1 - Setup environment to test your plugin
-First, create a project folder and create package.json inside it. In the terminal, go into the project folder and run the following
-:
+
+1. First, create a project folder and create package.json inside it. The two node modules [gem.js](https://github.com/Tixit/Gem.js) and [proto](https://github.com/fresheneesz/proto) are required to build plugins for Tixit. In the terminal, go into the project folder and run the following:
+
 ```
 npm install gem —save
 npm install proto —save
 ```
 
-Then, create an html file and open it. [gem.js](https://github.com/Tixit/Gem.js) and [proto](https://github.com/fresheneesz/proto) is required to build plugins for Tixit, and in order to run and test plugins, a script tag for the plugin tester(ExtensionTester.umd.js) is also necessary. Your html file should look something like this:
+2. Create an html file and open it. Use script tags to link to the location of the gem and proto node modules. Also, in order to run and test the plugin, a link to the plugin tester (ExtensionTester.umd.js) is necessary. The code to build the plugin will inside another set of script tags. Your html file should look something like this:
 
 	<html>
 	  <head></head>
@@ -28,13 +29,13 @@ Then, create an html file and open it. [gem.js](https://github.com/Tixit/Gem.js)
 	  </script>
 	</html>
 
-The rest of the code to build the plugin will go inside the last set of script tags. Inside that set of script tags, create a variable for the plugin. Usually the variable will be a one or two word description of the plugin.
+3. Inside the last set of script tags, create a variable for the plugin. Usually the variable will be a one or two word description of the plugin.
 
 ```
 var HelloWorld = proto(Gem, function(superclass){})
 ```
 
-The plugin requires a name property and a constructor method called build, which has three parameters; ticket, optionsObservee, and api.
+4. Plugins require a name property and a constructor method called build, which has three parameters; ticket, optionsObservee, and api.
 
 ```
 var HelloWorld = proto(Gem, function(superclass){
@@ -43,15 +44,13 @@ var HelloWorld = proto(Gem, function(superclass){
 })
 ```
 
-The code for the plugin tester will come after the plugin but still inside of the script tags.
+5. The code for the plugin tester will come after the plugin but still inside of the script tags.
 
 ```
 ExtensionTester.Api.Ticket.create().then(function(newOne){
-  ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true}) // Change HelloWorld to your plugin name // Copy & paste everything else
+  ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
 }).done()
 ```
-
-Now it is time to start on the next 4 stages.
 
 
 ### STAGE 2 - Display the text "Hello World" in the plugin space
