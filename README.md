@@ -19,15 +19,17 @@ npm install proto —save
 
 2. Create an html file and open it. Use script tags to link to the location of the gem and proto node modules. Also, in order to run and test the plugin, a link to the plugin tester (ExtensionTester.umd.js) is necessary. The code to build the plugin will inside another set of script tags. Your html file should look something like this:
 
+```
 	<html>
 	  <head></head>
 	  <body></body>
-	  <script src=“node_modules/proto/dist/proto.umd.js"></script>
-	  <script src=“node_modules/gem/dist/Gem.umd.js”></script>
-	  <script src=“https://tixit.me/ExtensionTester.umd.js”></script>
+	  <script src='node_modules/proto/dist/proto.umd.js'></script>
+	  <script src='node_modules/gem/dist/Gem.umd.js'></script>
+	  <script src='https://tixit.me/ExtensionTester.umd.js'></script>
 	  <script>
 	  </script>
 	</html>
+```
 
 3. Inside the last set of script tags, create a variable for the plugin. Usually the variable will be a one or two word description of the plugin.
 
