@@ -171,7 +171,9 @@ It is now ready to test. Open the page in the browser.
 
 ### STAGE 4 - Add text that tells how many times the button has been clicked
 
-1. Create the text that will tell users how many times the button has been clicked. A way to keep track of the number of times the button is clicked is needed. The index variable is doing this already, so the name can be changed to this.count or left this.index. If it is changed to this.count, make sure it is changed everywhere. It will need to be hidden when the page loads, and it will also need to be an instance variable so that the updateText function has access to it.
+A way to keep track of the number of times the button is clicked is needed. The index variable is doing this already, so the name can be changed to this.count or left this.index. If it is changed to this.count, make sure it is changed everywhere.
+
+1. Create the text that will tell users how many times the button has been clicked. It will need to be hidden when the page loads, and it will also need to be an instance variable so that the updateText function has access to it. Don't foret to add it to box.
 
 ```
 this.countText = Gem.Text()
@@ -195,14 +197,16 @@ It is now ready to test. Open the page in the browser.
 
 ### STAGE 5 - Add the ability to recognize a change in the count from an external source and update the text appropriately
 
-1. In the plugin tester, add `{countField: 'count'}`.
+1. Use observe to get the count in case it already has a value and to set the count when it is updated. In the plugin tester, a count will need to be added. It will also be where the count can be given a value in the editor box.
 
 ```
 ExtensionTester.Api.Ticket.create().then(function(newOne){
-  newOne.subject.count = ’12’ // Sets 12 as the initial value of count in the editor box
+  newOne.subject.count = ’12’
   ExtensionTester(HelloWorld, {countField: ‘count’}, {ticketId:newOne.subject._id, showEditor: true})
 }).done()
 ```
+
+The line newOne.subject.count = '12' can be commented out. The plugin should work both ways.
 
 2. In the build method, create a variable set to the information in the editor box. If it’s not set in the editor box, then the variable created will be undefined.
 
