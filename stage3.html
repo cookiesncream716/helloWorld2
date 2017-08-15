@@ -12,29 +12,27 @@
 		var HelloWorld = proto(Gem, function(superclass){
 			this.name = 'HelloWorld'
 			this.build = function(ticket, optionsObservee, api){
+			// Stage 3
 				var that = this				
+			// Stage 3 - make greeting an instance variable rather than local variable
 				this.greeting = Gem.Text('greeting', 'Hello World')
+			// Stage 3 - make greeting invisible and add button
 				this.greeting.visible = false
 				var button = Gem.Button('click me')
-			// Step 3 - create text to tell number of times button clicked, make it invisible, and add it
-				this.countText = Gem.Text()
-				this.countText.visible = false
-				var box = Gem.Block('box', this.greeting, button, this.countText)
+				var box = Gem.Block('box', this.greeting, button)
 				this.add(box)
-			// Step 3 - index will keep track of how many times button clicked so change name to count
-				this.count = 0
+			// Stage 3 - show greeting on click
+				this.index = 0
 				button.on('click', function(){
-					that.count++
+					that.index++
 					that.updateText()
 				})
 			}
+		// Stage 3 - add function for updating text
 			this.updateText = function(){
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-				this.greeting.text = newGreeting[this.count%newGreeting.length]
+				this.greeting.text = newGreeting[this.index%newGreeting.length]
 				this.greeting.visible = true
-			// Step 3 - show number of times button clicked
-				this.countText.text = 'You have clicked this button ' + this.count + ' times.'
-				this.countText.visible = true
 			}
 			this.getStyle = function(){
 				return Gem.Style({
@@ -50,6 +48,7 @@
 						display: 'block',
 						margin: 10
 					},
+				// Stage 3 - give button some style
 					Button: {
 						backgroundColor: 'green',
 						color: 'white',

@@ -12,19 +12,34 @@
 		var HelloWorld = proto(Gem, function(superclass){
 			this.name = 'HelloWorld'
 			this.build = function(ticket, optionsObservee, api){
-				var that = this				
+				var that = this
+				this.ticket = ticket
+			// Stage 5 - add/use observe
+				optionsObservee = {subject:optionsObservee} // todo: remove this when Tixit is deployed next
+				var countProperty = optionsObservee.subject.countField
+				this.count = ticket.subject[countProperty]
 				this.greeting = Gem.Text('greeting', 'Hello World')
-				this.greeting.visible = false
 				var button = Gem.Button('click me')
-			// Stage 4 - create text to tell number of times button clicked, make it invisible, and add it
-				this.countText = Gem.Text()
-				this.countText.visible = false
+				this.countText = Gem.Text()	
 				var box = Gem.Block('box', this.greeting, button, this.countText)
 				this.add(box)
-			// Stage 4 - index will keep track of how many times button clicked so change name to count
-				this.count = 0
+			// Stage 5 - no text if count undefined/set count to 0
+				if(this.count == undefined){
+					this.greeting.visible = false
+					this.countText.visible = false
+					this.count = 0
+				}else{
+					this.updateText()	
+				}
 				button.on('click', function(){
 					that.count++
+					that.updateText()
+				// Stage 5 - Updates count in test Editor box
+					ticket.set('count', that.count)
+				})
+			// Stage 5 - Updates count when count changed in Editor box
+				ticket.get('count').on('change', function(){
+					that.count = ticket.subject.count
 					that.updateText()
 				})
 			}
@@ -32,8 +47,7 @@
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 				this.greeting.text = newGreeting[this.count%newGreeting.length]
 				this.greeting.visible = true
-			// Stage 4 - show number of times button clicked
-				this.countText.text = 'You have clicked this button ' + this.count + ' times.'
+				this.countText.text = 'You have this clicked this button ' + this.count + ' times.'
 				this.countText.visible = true
 			}
 			this.getStyle = function(){
@@ -61,7 +75,9 @@
 		})
 
 		ExtensionTester.Api.Ticket.create().then(function(newOne){
-			ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
+		// Stage 5 - testing if count > 0 and adding count Field to editor box
+			newOne.subject.count = '12'
+			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: newOne.subject._id, showEditor: true})
 		}).done()
 	</script>
 </html>
