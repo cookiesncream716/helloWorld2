@@ -74,10 +74,10 @@
 			}
 		})
 
-		ExtensionTester.Api.Ticket.create().then(function(newOne){
+		ExtensionTester.Api.Ticket.create().then(function(testTicket){
 		// Stage 5 - testing if count > 0 and adding count Field to editor box
-			newOne.subject.count = '12'
-			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: newOne.subject._id, showEditor: true})
+			testTicket.subject.count = '12'
+			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()
 	</script>
 </html>

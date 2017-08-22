@@ -43,7 +43,7 @@ var HelloWorld = proto(Gem, function(superclass){
 })
 ```
 
-4. Then write the code to create a test ticket, and use it to test the plugin with the `ExtensionTester`. The `showEditor` option tells the `ExtensionTester` to show a box of editable ticket data
+4. Then write the code to create a test ticket, and use it to test the plugin with the `ExtensionTester`. The `showEditor` option tells the `ExtensionTester` to show a box of editable ticket data.
 
 ```
 ExtensionTester.Api.Ticket.create().then(function(newOne){

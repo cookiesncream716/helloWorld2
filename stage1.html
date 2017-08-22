@@ -12,11 +12,12 @@
 		var HelloWorld = proto(Gem, function(superclass){
 			this.name = 'HelloWorld'
 			this.build = function(ticket, optionsObservee, api){
+				
 			}
 		})
 
-		ExtensionTester.Api.Ticket.create().then(function(newOne){
-			ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
+		ExtensionTester.Api.Ticket.create().then(function(testTicket){
+			ExtensionTester(HelloWorld, {}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()
 	</script>
 </html>
