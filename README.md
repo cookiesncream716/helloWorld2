@@ -138,19 +138,19 @@ Button: {
 button.on('click', function(){ })
 ```
 
-6. To make things a little more interesting, have the greeting `“Hello World”` change to a different greeting each time the button is clicked. To do this, make a function that will update the text. It will go outside of the build method.
+5. To make things a little more interesting, have the greeting `“Hello World”` change to a different greeting each time the button is clicked. To do this, make a function that will update the text. It will go outside of the build method.
 
 ```
 this.updateText = function(){}
 ```
 
-7. Before writing the code inside the `updateText` method, create a property to iterate through the greetings that will be created in the next step. Create it inside the `build` constructor method but make it an instance property so it's accessible outside of the `build` method.
+6. Before writing the code inside the `updateText` method, create a property to iterate through the greetings that will be created in the next step. Create it inside the `build` constructor method but make it an instance property so it's accessible outside of the `build` method.
 
 ```
 this.count = 0
 ```
 
-8. In the `updateText` method, create an array of greetings and have `greeting`'s text change when the button is clicked. To do this, the greeting variable will need to become an instance variable. This is done in the `build` method when creating the variable; instead of using `var greeeting = " "` use `this.greeting = " "`. Don’t forget to change `greeting` to `this.greeting` everywhere in the code. The visible property of `this.greeting` also needs to be changed to `true`.
+7. In the `updateText` method, create an array of greetings and have `greeting`'s text change when the button is clicked. To do this, the greeting variable will need to become an instance variable. This is done in the `build` method when creating the variable; instead of using `var greeeting = " "` use `this.greeting = " "`. Don’t forget to change `greeting` to `this.greeting` everywhere in the code. The visible property of `this.greeting` also needs to be changed to `true`.
 
 ```
 this.updateText = function(){
@@ -159,7 +159,13 @@ this.updateText = function(){
   this.greeting.visible = true
 ```
 
-9. Lastly, the code for the callback function for the click event listener in step 5 needs to be added. Call the `updateText` method and then increment the `count` property when the button is clicked. In order to have access to `this.count` and `this.updateText` inside of the function, make a variable called `that` and assign it the value `this`. Put it inside of the `build` method on the first line.
+8. In order to cause the greeting to appear when the button is clicked, attach a click [event listener](https://github.com/Tixit/Gem.js#event-instance-properties-and-methods) to the button.
+
+```
+button.on('click', function(){ })
+```
+
+9. Lastly, the code for the callback function of the `click` needs to be added. Call the `updateText` method and then increment the `count` property when the button is clicked. In order to have access to `this.count` and `this.updateText` inside of the function, make a variable called `that` and assign it the value `this`. Put it inside of the `build` method on the first line.
 
 ```
 var that = this
@@ -187,7 +193,7 @@ this.countText.visible = false
 var box = Gem.Block(‘box’, this.greeting, button, this.countText)
 ```
 
-Notice that it doesn’t have the label `‘greeting’` so it won’t have any of the greeting style. It also doesn't need to have any actual text yet since it is hidden.
+Notice that `countText` doesn’t have the label `‘greeting’` so it won’t have any of the greeting style. It also doesn't need to have any actual text yet since it is hidden.
 
 2. Inside of the `updateText` method, `countText` needs to be updated with the actual count and it needs to be made visible.
 
