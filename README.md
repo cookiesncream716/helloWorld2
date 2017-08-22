@@ -10,7 +10,7 @@ Creating a plugin is easy! This tutorial will show you how to build a basic Hell
 
 ### Stage 1 - Setup environment to test your plugin
 
-1. First, create a project folder and create package.json inside it. The two node modules [gem.js](https://github.com/Tixit/Gem.js) and [proto](https://github.com/fresheneesz/proto) are required to build plugins for Tixit. In the terminal, go into the project folder and run the following:
+1. First, create a project folder and create package.json inside it. The two node modules [gem.js](https://github.com/Tixit/Gem.js) and [proto](https://github.com/fresheneesz/proto) are required to build plugins for Tixit. In the terminal, go into the project folder and run the following commands:
 
 ```
 npm install gem —save
@@ -32,7 +32,7 @@ npm install proto —save
 	</html>
 ```
 
-3. Inside the empty script block, create a Gem and assign it to a variable. Plugins require a `name` property and a constructor method called `build`, which has three parameters; `ticket, `optionsObservee`, and `api`.
+3. Inside the empty script block, create a Gem and assign it to a variable. Plugins require a `name` property and a constructor method called `build`, which has three parameters: `ticket', `optionsObservee`, and `api`.
 
 ```
 var HelloWorld = proto(Gem, function(superclass){
@@ -43,7 +43,7 @@ var HelloWorld = proto(Gem, function(superclass){
 })
 ```
 
-4. Then write the code to create a test ticket, and use it to test the plugin with the `ExtensionTester`. The `showEditor` option tells the `ExtensionTester` to show a box of editable ticket data.
+4. Then write the code to create a test ticket and use it to test the plugin with the `ExtensionTester`. The `showEditor` option tells the `ExtensionTester` to show a box of editable ticket data.
 
 ```
 ExtensionTester.Api.Ticket.create().then(function(newOne){
@@ -54,7 +54,7 @@ ExtensionTester.Api.Ticket.create().then(function(newOne){
 
 ### STAGE 2 - Display the text "Hello World" in the plugin space
 
-Now that we have all the boiler-plate set up, let's add some visual content to the plugin!
+Now that we have the boiler-plate set up, let's add some visual content to the plugin!
 
 1. Inside the build method, create a [`Text`](https://github.com/Tixit/Gem.js#text) gem containing the greeting `'Hello World'`. Give it a label so it can be styled differently from text that will be coming in a later step. Here, `'greetng'` is used as the label.
 
@@ -119,7 +119,7 @@ var button = Gem.Button('click me')
 var box = Gem.Block(‘box’, greeting, button)
 ```
 
-4. *(optional)* Give the button some style. Just add it after `$greeting`. Here, we're using the `Button`'s name to select for it and give it a style, rather than a label.
+4. *(optional)* Give the button some style. Just add it after `$greeting`. Here, we're using the `Button`'s name to select it and give it a style, rather than using a label.
 
 ```
 Button: {
@@ -130,7 +130,7 @@ Button: {
 }
 ```
 
-5. In order to cause the greeting to appear when the button is clicked, attach a click [event listener](https://github.com/Tixit/Gem.js#event-instance-properties-and-methods) on the button.
+5. In order to cause the greeting to appear when the button is clicked, attach a click [event listener](https://github.com/Tixit/Gem.js#event-instance-properties-and-methods) to the button.
 
 ```
 button.on('click', function(){ })
@@ -148,7 +148,7 @@ this.updateText = function(){}
 this.index = 0
 ```
 
-8. In the `updateText` method, create an array of greetings and have greeting’s text change when the button is clicked. To do this, the greeting variable will need to become an instance variable. This is done in the `build` method when creating the variable; instead of using `var greeeting = " "` use `this.greeting = " "`. Don’t forget to change `greeting` to `this.greeting` everywhere in the code. The visible property of `this.greeting` also needs to be changed to `true`.
+8. In the `updateText` method, create an array of greetings and have `greeting`'s text change when the button is clicked. To do this, the greeting variable will need to become an instance variable. This is done in the `build` method when creating the variable; instead of using `var greeeting = " "` use `this.greeting = " "`. Don’t forget to change `greeting` to `this.greeting` everywhere in the code. The visible property of `this.greeting` also needs to be changed to `true`.
 
 ```
 this.updateText = function(){
@@ -157,7 +157,7 @@ this.updateText = function(){
   this.greeting.visible = true
 ```
 
-9. Lastly, the code for the callback function for the click event listener in step 5 needs to be added. Increment the `index` property when the button is clicked, then call the `updateText` method needs to be called. In order to have access to `this.index` and `this.updateText` inside of the function, make a variable called `that` and assign it the value `this`. Put it inside of the `build` method on the first line.
+9. Lastly, the code for the callback function for the click event listener in step 5 needs to be added. Increment the `index` property when the button is clicked, then call the `updateText` method. In order to have access to `this.index` and `this.updateText` inside of the function, make a variable called `that` and assign it the value `this`. Put it inside of the `build` method on the first line.
 
 ```
 var that = this
@@ -177,7 +177,7 @@ Now open the page in the browser and test out the "click me" button!
 
 Ok, now let's add a click counter. The index variable is already counting the number of clicks, so the name can be changed to `this.count` or left `this.index`. If it is changed to `this.count`, make sure it is changed everywhere.
 
-1. Create the text that will tell users how many times the button has been clicked. It will need to be hidden when the page loads, and it will also need to be an instance variable so that the `updateText` function has access to it. Don't foret to add it to `box`.
+1. Create the text that will tell users how many times the button has been clicked. It will need to be hidden when the page loads, and it will also need to be an instance variable so that the `updateText` function has access to it. Don't forget to add it to `box`.
 
 ```
 this.countText = Gem.Text()
@@ -232,7 +232,7 @@ if(this.count === undefined){
 }
 ```
 
-5. When the `button` is clicked, let's now update the ticket with the updated count. 
+5. When the `button` is clicked, update the ticket with the updated count. 
 
 ```
 button.on(‘click’, function(){
