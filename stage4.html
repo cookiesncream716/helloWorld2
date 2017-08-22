@@ -23,11 +23,11 @@
 				var box = Gem.Block('box', this.greeting, button, this.countText)
 				this.add(box)
 				
-				// Stage 4 - index will keep track of how many times button clicked so change name to count
+				// Stage 4 - count will keep track of how many times button clicked
 				this.count = 0
 				button.on('click', function(){
-					that.count++
 					that.updateText()
+					that.count++
 				})
 			}
 			
@@ -66,7 +66,7 @@
 		})
 
 		ExtensionTester.Api.Ticket.create().then(function(testTicket){
-			ExtensionTester(HelloWorld, {}, {ticketId: testTicket.subject._id, showEditor: true})
+			ExtensionTester(HelloWorld, {}, {ticketId: testTicket.subject._id})
 		}).done()
 	</script>
 </html>

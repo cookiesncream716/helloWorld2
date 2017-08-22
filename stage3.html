@@ -26,17 +26,17 @@
 				this.add(box)
 				
 				// Stage 3 - show greeting on click
-				this.index = 0
+				this.count = 0
 				button.on('click', function(){
-					that.index++
 					that.updateText()
+					that.count++
 				})
 			}
 			
 			// Stage 3 - add function for updating text
 			this.updateText = function(){
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-				this.greeting.text = newGreeting[this.index%newGreeting.length]
+				this.greeting.text = newGreeting[this.count%newGreeting.length]
 				this.greeting.visible = true
 			}
 			
@@ -67,7 +67,7 @@
 		})
 
 		ExtensionTester.Api.Ticket.create().then(function(testTicket){
-			ExtensionTester(HelloWorld, {}, {ticketId: testTicket.subject._id, showEditor: true})
+			ExtensionTester(HelloWorld, {}, {ticketId: testTicket.subject._id})
 		}).done()
 	</script>
 </html>

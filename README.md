@@ -38,18 +38,20 @@ npm install proto —save
 var HelloWorld = proto(Gem, function(superclass){
   this.name = ‘HelloWorld’
   this.build = function(ticket, optionsObservee, api){
-  
+    this.add(Gem.Text('It works!'))
   }
 })
 ```
 
-4. Then write the code to create a test ticket and use it to test the plugin with the `ExtensionTester`. The `showEditor` option tells the `ExtensionTester` to show a box of editable ticket data.
+4. Then write the code to create a test ticket and use it to test the plugin with the `ExtensionTester`.
 
 ```
 ExtensionTester.Api.Ticket.create().then(function(newOne){
-  ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id, showEditor: true})
+  ExtensionTester(HelloWorld, {}, {ticketId: newOne.subject._id})
 }).done()
 ```
+
+To test that everything is working, add the line `this.add(Gem.Text('It works!')` inside the build method. Now open it in the browser and you should see "It works!" This line won't be needed for the next stages, so delete it when you're done testing.
 
 
 ### STAGE 2 - Display the text "Hello World" in the plugin space
@@ -145,7 +147,7 @@ this.updateText = function(){}
 7. Before writing the code inside the `updateText` method, create a property to iterate through the greetings that will be created in the next step. Create it inside the `build` constructor method but make it an instance property so it's accessible outside of the `build` method.
 
 ```
-this.index = 0
+this.count = 0
 ```
 
 8. In the `updateText` method, create an array of greetings and have `greeting`'s text change when the button is clicked. To do this, the greeting variable will need to become an instance variable. This is done in the `build` method when creating the variable; instead of using `var greeeting = " "` use `this.greeting = " "`. Don’t forget to change `greeting` to `this.greeting` everywhere in the code. The visible property of `this.greeting` also needs to be changed to `true`.
@@ -153,11 +155,11 @@ this.index = 0
 ```
 this.updateText = function(){
   var newGreeting = [‘Hello World’, ‘Hi There’, ‘Howdy’, ‘Hello', ‘Hey’]
-  this.greeting.text = newGreeting[this.index%newGreeting.length]
+  this.greeting.text = newGreeting[this.count%newGreeting.length]
   this.greeting.visible = true
 ```
 
-9. Lastly, the code for the callback function for the click event listener in step 5 needs to be added. Increment the `index` property when the button is clicked, then call the `updateText` method. In order to have access to `this.index` and `this.updateText` inside of the function, make a variable called `that` and assign it the value `this`. Put it inside of the `build` method on the first line.
+9. Lastly, the code for the callback function for the click event listener in step 5 needs to be added. Call the `updateText` method and then increment the `count` property when the button is clicked. In order to have access to `this.count` and `this.updateText` inside of the function, make a variable called `that` and assign it the value `this`. Put it inside of the `build` method on the first line.
 
 ```
 var that = this
@@ -165,8 +167,8 @@ var that = this
 
 ```
 button.on(‘click’, function(){
-  that.index++
   that.updateText()
+  that.count++
 })
 ```
 
@@ -175,7 +177,7 @@ Now open the page in the browser and test out the "click me" button!
 
 ### STAGE 4 - Add text that tells how many times the button has been clicked
 
-Ok, now let's add a click counter. The index variable is already counting the number of clicks, so the name can be changed to `this.count` or left `this.index`. If it is changed to `this.count`, make sure it is changed everywhere.
+Ok, now let's add a click counter. The count variable is already counting the number of clicks, so we will just use it.
 
 1. Create the text that will tell users how many times the button has been clicked. It will need to be hidden when the page loads, and it will also need to be an instance variable so that the `updateText` function has access to it. Don't forget to add it to `box`.
 
@@ -202,7 +204,7 @@ Now open your browser and try it out!
 
 For our last trick, let's actually save this data to the ticket and react to changes to ticket data that happen outside our plugin!
 
-1. To simulate a ticket that has saved data, set the property `count` of the `testTicket`'s `subject` with some initial value. This value will also appear in the `ExtensionTester`'s editor box. Also, add a configuration option for the plugin: `countField`. This option configures what ticket field the plugin will interact with.
+1. To simulate a ticket that has saved data, set the property `count` of the `testTicket`'s `subject` with some initial value. This value will also appear in the `ExtensionTester`'s editor box. The `showEditor` option tells the `ExtenstionTester` to show a box of editable ticket data. Also, add a configuration option for the plugin: `countField`. This option configures what ticket field the plugin will interact with.
 
 ```
 ExtensionTester.Api.Ticket.create().then(function(testTicket){
@@ -236,8 +238,8 @@ if(this.count === undefined){
 
 ```
 button.on(‘click’, function(){
-  that.count++
   that.updateText()
+  that.count++
   ticket.set('count', that.count)
 })
 ```

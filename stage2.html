@@ -37,7 +37,7 @@
 		})
 
 		ExtensionTester.Api.Ticket.create().then(function(testTicket){
-			ExtensionTester(HelloWorld, {}, {ticketId: testTicket.subject._id, showEditor: true})
+			ExtensionTester(HelloWorld, {}, {ticketId: testTicket.subject._id})
 		}).done()
 	</script>
 </html>

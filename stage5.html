@@ -28,17 +28,19 @@
 				this.add(box)
 				
 				// Stage 5 - no text if count undefined/set count to 0
-				if(this.count == undefined) {
+				if(this.count === undefined) {
 					this.greeting.visible = false
 					this.countText.visible = false
 					this.count = 0
+					console.log('count ' + this.count)
 				} else {
 					this.updateText()	
 				}
 				
 				button.on('click', function() {
-					that.count++
+					console.log(that.count)
 					that.updateText()
+					that.count++
 					
 					// Stage 5 - Updates count in test Editor box
 					ticket.set('count', that.count)
@@ -52,6 +54,7 @@
 			}
 			
 			this.updateText = function(){
+				console.log('update ' + this.count)
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 				this.greeting.text = newGreeting[this.count%newGreeting.length]
 				this.greeting.visible = true
@@ -85,7 +88,7 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(testTicket){
 			// Stage 5 - testing if count > 0 and adding count Field to editor box
-			testTicket.subject.count = '12'
+			// testTicket.subject.count = '12'
 			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()
 	</script>
