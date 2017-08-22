@@ -16,26 +16,31 @@
 				this.greeting = Gem.Text('greeting', 'Hello World')
 				this.greeting.visible = false
 				var button = Gem.Button('click me')
-			// Stage 4 - create text to tell number of times button clicked, make it invisible, and add it
+				
+				// Stage 4 - create text to tell number of times button clicked, make it invisible, and add it
 				this.countText = Gem.Text()
 				this.countText.visible = false
 				var box = Gem.Block('box', this.greeting, button, this.countText)
 				this.add(box)
-			// Stage 4 - index will keep track of how many times button clicked so change name to count
+				
+				// Stage 4 - index will keep track of how many times button clicked so change name to count
 				this.count = 0
 				button.on('click', function(){
 					that.count++
 					that.updateText()
 				})
 			}
+			
 			this.updateText = function(){
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 				this.greeting.text = newGreeting[this.count%newGreeting.length]
 				this.greeting.visible = true
-			// Stage 4 - show number of times button clicked
+				
+				// Stage 4 - show number of times button clicked
 				this.countText.text = 'You have clicked this button ' + this.count + ' times.'
 				this.countText.visible = true
 			}
+			
 			this.getStyle = function(){
 				return Gem.Style({
 					$box: {
