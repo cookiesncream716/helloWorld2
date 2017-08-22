@@ -1,12 +1,12 @@
 # helloWorld2
-Creating a plugin isn't difficult. Here you will build a basic Hello World plugin in 5 stages, each building on the previous stage.
+Creating a plugin is easy! This tutorial will show you how to build a basic Hello World plugin in 5 stages, each building on the previous stage.
 
 ## Build Stages
-* [Stage 1](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-1---setup-environment-to-test-your-plugin) - Setup the environment to test your plugin
-* [Stage 2](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-2---display-the-text-hello-world-in-the-plugin-space) - Display the text “Hello World” in the plugin space
-* [Stage 3](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-3---display-hello-world-after-the-button-is-clicked) - Display “Hello World” after the button is clicked
-* [Stage 4](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-4---add-text-that-tells-how-many-times-the-button-has-been-clicked) - Add text that tells how many times the button has been clicked
-* [Stage 5](https://github.com/GeorgeEYokoyama/helloWorld2/blob/patch-1/README.md#stage-5---add-the-ability-to-recognize-a-change-in-the-count-from-an-external-source-and-update-the-text-appropriately) - Add the ability to recognize a change in the count from an external source 
+* [Stage 1](#stage-1---setup-environment-to-test-your-plugin) - Setup the environment to test your plugin
+* [Stage 2](#stage-2---display-the-text-hello-world-in-the-plugin-space) - Display the text “Hello World” in the plugin space
+* [Stage 3](#stage-3---display-hello-world-after-the-button-is-clicked) - Display “Hello World” after the button is clicked
+* [Stage 4](#stage-4---add-text-that-tells-how-many-times-the-button-has-been-clicked) - Add text that tells how many times the button has been clicked
+* [Stage 5](#stage-5---add-the-ability-to-recognize-a-change-in-the-count-from-an-external-source-and-update-the-text-appropriately) - Add the ability to recognize a change in the count from an external source 
 
 ### Stage 1 - Setup environment to test your plugin
 
@@ -17,7 +17,7 @@ npm install gem —save
 npm install proto —save
 ```
 
-2. Create an html file and open it. Use script tags to link to the location of the gem and proto node modules. Also, in order to run and test the plugin, a link to the plugin tester (ExtensionTester.umd.js) is necessary. The code to build the plugin will inside another set of script tags. Your html file should look something like this:
+2. Create a new html file and open it. Use script tags to link to the location of the gem and proto node modules. Also, adding a link to the plugin tester (ExtensionTester.umd.js) allows you to run and test the plugin. You'll write your plugin code inside another script block. Your html file should look something like this:
 
 ```
 	<html>
@@ -27,26 +27,23 @@ npm install proto —save
 	  <script src='node_modules/gem/dist/Gem.umd.js'></script>
 	  <script src='https://tixit.me/ExtensionTester.umd.js'></script>
 	  <script>
+	  
 	  </script>
 	</html>
 ```
 
-3. Inside the last set of script tags, create a variable for the plugin. Usually the variable will be a one or two word description of the plugin.
-
-```
-var HelloWorld = proto(Gem, function(superclass){})
-```
-
-4. Plugins require a name property and a constructor method called build, which has three parameters; ticket, optionsObservee, and api.
+3. Inside the empty script block, create a Gem and assign it to a variable. Plugins require a `name` property and a constructor method called `build`, which has three parameters; `ticket, `optionsObservee`, and `api`.
 
 ```
 var HelloWorld = proto(Gem, function(superclass){
   this.name = ‘HelloWorld’
-  this.build = function(ticket, optionsObservee, api){}
+  this.build = function(ticket, optionsObservee, api){
+  
+  }
 })
 ```
 
-5. The code for the plugin tester will come after the plugin but still inside of the script tags.
+4. Then write the code to create a test ticket, and use it to test the plugin with the `ExtensionTester`. The `showEditor` option tells the `ExtensionTester` to show a box of editable ticket data
 
 ```
 ExtensionTester.Api.Ticket.create().then(function(newOne){
@@ -57,24 +54,27 @@ ExtensionTester.Api.Ticket.create().then(function(newOne){
 
 ### STAGE 2 - Display the text "Hello World" in the plugin space
 
-1. Inside the build method, create a variable for the greeting Hello World by using the [Text](https://github.com/Tixit/Gem.js#text) property of Gem. Give it a label so it can be styled differently from text that will be coming in a later step. Here, greetng is used as the label.
+Now that we have all the boiler-plate set up, let's add some visual content to the plugin!
+
+1. Inside the build method, create a [`Text`](https://github.com/Tixit/Gem.js#text) gem containing the greeting `'Hello World'`. Give it a label so it can be styled differently from text that will be coming in a later step. Here, `'greetng'` is used as the label.
 
 ```
 var greeting = Gem.Text(‘greeting’, ‘Hello World’)
 ```
-2. Use the [Block](https://github.com/Tixit/Gem.js#block) property of Gem to make an area for the plugin. Enter box as the label. Then the greeting variable needs to be added to the Block.
+
+2. Use the [`Block`](https://github.com/Tixit/Gem.js#block) gem to make an area for the plugin. Enter `'box'` as the label and pass `greeting` in to add it to the `Block`.
 
 ```
 var box = Gem.Block(‘box’, greeting)
 ```
 
-3. Append box to the plugin.
+3. Append `box` to the plugin.
 
 ```
 this.add(box)
 ```
 
-4. Styles can be added after the build method by using the getStyle method. It is a function that will return a [Style](https://github.com/Tixit/Gem.js#style-objects) object. The symbol [$](https://github.com/Tixit/Gem.js#label) will be used along with the labels. Here a border is given so an outline of the space can be seen. The text for the greeting will be blue and given a size of 24.
+4. Styles can be added after the `build` method by using the `getStyle` method. The `getStyle` method should return a gem [`Style`](https://github.com/Tixit/Gem.js#style-objects) object. Items in the style that start with the symbol [$](https://github.com/Tixit/Gem.js#label) allows you to style objects with the label given after the `$` symbol. Here, a border is given so an outline of the space can be seen. The text for `greeting` will be blue and given a size of 24px.
 
 ```
 this.getStyle = function(){
@@ -94,30 +94,32 @@ this.getStyle = function(){
   })
 }
 ```
-It is now ready to test. Open the page in the browser.
+It's now ready to test! Open the page in the browser and you'll see it greet the world!
 
 
 ### STAGE 3 - Display "Hello World" after the button is clicked
 
-1. Since the greeting is supposed to appear until after the button is clicked, it needs to be made invisible. Give the visible property of greeting a value of false.
+Let's make things interactive. We'll modify our plugin so that greetings come up when you click a button.
+
+1. Since the greeting is supposed to appear only after the button is clicked, it needs to start out invisible. Give the `visible` property of `greeting` a value of `false`.
 
 ```
 greeting.visible = false
 ```
 
-2. A button needs to be created using the [Button](https://github.com/Tixit/Gem.js#button) property. Since there is only one button, it does not need a label to distinguish it from other buttons.
+2. Create a button with the [`Button`](https://github.com/Tixit/Gem.js#button) gem. 
 
 ```
 var button = Gem.Button('click me')
 ```
 
-3. Add button to box.
+3. Add `button` to `box`.
 
 ```
 var box = Gem.Block(‘box’, greeting, button)
 ```
 
-4. (optional) Give the button some style. Just add it after $greeting; but be sure to separate it with a comma.
+4. *(optional)* Give the button some style. Just add it after `$greeting`. Here, we're using the `Button`'s name to select for it and give it a style, rather than a label.
 
 ```
 Button: {
@@ -134,19 +136,19 @@ Button: {
 button.on('click', function(){ })
 ```
 
-6. To make things a little more interesting, have the greeting “Hello World” change to a different greeting each time the button is clicked. To do this, make a function that will update the text. It will go outside of the build method.
+6. To make things a little more interesting, have the greeting `“Hello World”` change to a different greeting each time the button is clicked. To do this, make a function that will update the text. It will go outside of the build method.
 
 ```
 this.updateText = function(){}
 ```
 
-7. Before writing the code inside the updateText function, create a variable to iterate through the greetings that will be created in the next step. Create it inside the build method but make it an instance variable so it is accessible outside of the build method.
+7. Before writing the code inside the `updateText` method, create a property to iterate through the greetings that will be created in the next step. Create it inside the `build` constructor method but make it an instance property so it's accessible outside of the `build` method.
 
 ```
 this.index = 0
 ```
 
-8. In the updateText function, create an array of greetings and have greeting’s text change when the button is clicked. To do this, the greeting variable will need to become an instance variable. This is done in the build method when creating the variable; instead of using var greeeting = " " use this.greeting = " ". Don’t forget to change greeting to this.greeting everywhere in the code. The visible property of this.greeting will also need to be changed to true.
+8. In the `updateText` method, create an array of greetings and have greeting’s text change when the button is clicked. To do this, the greeting variable will need to become an instance variable. This is done in the `build` method when creating the variable; instead of using `var greeeting = " "` use `this.greeting = " "`. Don’t forget to change `greeting` to `this.greeting` everywhere in the code. The visible property of `this.greeting` also needs to be changed to `true`.
 
 ```
 this.updateText = function(){
@@ -155,7 +157,7 @@ this.updateText = function(){
   this.greeting.visible = true
 ```
 
-9. Lastly, the code for the callback function for the click event listener in step 5 needs to be added. The value of index will need to increase when the button is clicked and the updateText function needs to be called. In order to have access to this.index and this.updateText inside of the function, make a variable that. Put it inside of the build method on the first line.
+9. Lastly, the code for the callback function for the click event listener in step 5 needs to be added. Increment the `index` property when the button is clicked, then call the `updateText` method needs to be called. In order to have access to `this.index` and `this.updateText` inside of the function, make a variable called `that` and assign it the value `this`. Put it inside of the `build` method on the first line.
 
 ```
 var that = this
@@ -168,14 +170,14 @@ button.on(‘click’, function(){
 })
 ```
 
-It is now ready to test. Open the page in the browser.
+Now open the page in the browser and test out the "click me" button!
 
 
 ### STAGE 4 - Add text that tells how many times the button has been clicked
 
-A way to keep track of the number of times the button is clicked is needed. The index variable is doing this already, so the name can be changed to this.count or left this.index. If it is changed to this.count, make sure it is changed everywhere.
+Ok, now let's add a click counter. The index variable is already counting the number of clicks, so the name can be changed to `this.count` or left `this.index`. If it is changed to `this.count`, make sure it is changed everywhere.
 
-1. Create the text that will tell users how many times the button has been clicked. It will need to be hidden when the page loads, and it will also need to be an instance variable so that the updateText function has access to it. Don't foret to add it to box.
+1. Create the text that will tell users how many times the button has been clicked. It will need to be hidden when the page loads, and it will also need to be an instance variable so that the `updateText` function has access to it. Don't foret to add it to `box`.
 
 ```
 this.countText = Gem.Text()
@@ -183,9 +185,9 @@ this.countText.visible = false
 var box = Gem.Block(‘box’, this.greeting, button, this.countText)
 ```
 
-Notice that it doesn’t have the label ‘greeting’ so it won’t have any of the greeting style. It also does not need to have any actual text yet since it is hidden.
+Notice that it doesn’t have the label `‘greeting’` so it won’t have any of the greeting style. It also doesn't need to have any actual text yet since it is hidden.
 
-2. Inside of the updateText function, the countText needs to be updated with the actual count and it needs to be made visible.
+2. Inside of the `updateText` method, `countText` needs to be updated with the actual count and it needs to be made visible.
 
 ```
 this.updateText = function(){
@@ -194,38 +196,34 @@ this.updateText = function(){
 }
 ```
 
-It is now ready to test. Open the page in the browser.
-
+Now open your browser and try it out!
 
 ### STAGE 5 - Add the ability to recognize a change in the count from an external source and update the text appropriately
 
-1. Use observe to get the count in case it already has a value and to set the count when it is updated. In the plugin tester, a count will need to be added. It will also be where the count can be given a value in the editor box.
+For our last trick, let's actually save this data to the ticket and react to changes to ticket data that happen outside our plugin!
+
+1. To simulate a ticket that has saved data, set the property `count` of the `testTicket`'s `subject` with some initial value. This value will also appear in the `ExtensionTester`'s editor box. Also, add a configuration option for the plugin: `countField`. This option configures what ticket field the plugin will interact with.
 
 ```
-ExtensionTester.Api.Ticket.create().then(function(newOne){
-  newOne.subject.count = ’12’
-  ExtensionTester(HelloWorld, {countField: ‘count’}, {ticketId:newOne.subject._id, showEditor: true})
+ExtensionTester.Api.Ticket.create().then(function(testTicket){
+  testTicket.subject.count = 12
+  ExtensionTester(HelloWorld, {countField: ‘count’}, {ticketId:testTicket.subject._id, showEditor: true})
 }).done()
 ```
 
-The line newOne.subject.count = '12' can be commented out so that count is undefined. The plugin should work both ways.
+If you comment out the line `testTicket.subject.count = 12`, the `count` property won't be defined, but the plugin should still work whether that property is initialized or not.
 
-2. In the build method, create a variable set to the information in the editor box. If it is not set in the editor box, then the variable created will be undefined.
+2. In the `build` method, set `this.count` to the value stored in the ticket. Use the `countField` option to access the correct ticket field:
 
 ```
 var countProperty = optionsObservee.subject.countField
-```
-
-3. The this.count variable needs to be set to the count that is in the editor box, which is in the information in countProperty and accessible using the following line:
-
-```
 this.count = ticket.subject[countProperty]
 ```
 
-4. The greeting text and the countText need to be visible when the page is loaded if this.count is already defined. Do this by using an if else statement. If this.count is undefined, then both texts are not visible and set this.count to 0; otherwise, call the updateText function. It needs to come before the click event listener.
+4. If `this.count` is already defined, the `greeting` text and `countText` should be visible when the page is loaded, so call the `updateText` method to initialize the text. It needs to come before the click event listener. If `this.count` is not defined, then both texts shouldn't be visible and set `this.count` to 0. 
 
 ```
-if(this.count == undefined){
+if(this.count === undefined){
   this.greeting.visible = false
   this.countText.visible = false
   this.count = 0
@@ -234,7 +232,7 @@ if(this.count == undefined){
 }
 ```
 
-5. The count in the editor box should be updated every time the button is clicked. So inside of the callback function for the button click event listener and after this.count has been incremented, set the count.
+5. When the `button` is clicked, let's now update the ticket with the updated count. 
 
 ```
 button.on(‘click’, function(){
@@ -244,7 +242,9 @@ button.on(‘click’, function(){
 })
 ```
 
-6. If the count is changed elsewhere, in this case in the editor box, that needs to trigger an update in this.count and in countText. Add the following inside the build method.
+The `count` property in the editor box should now be updated every time the button is clicked.
+
+6. The plugin running on your machine isn't the only thing that can update the ticket. If someone else is using your plugin on the same ticket, or if another plugin modifies the ticket, the ticket data will change. We need some way to listen for those changes so the plugin can be updated appropriately. To do this, listen for the `change` event on the ticket's `"count"` property:
 
 ```
 ticket.get(‘count’).on(‘change’, function(){
@@ -253,8 +253,8 @@ ticket.get(‘count’).on(‘change’, function(){
 })
 ```
 
-It is ready to test. Open the page in the browser.
+Now, if `count` is changed elsewhere (for example if you edit the `count` property in the editor box), the plugin will be updated for the new count! Open the file up in your browser and try it out!
 
-Congratulations. You have just built a plugin.
+Congratulations, you have just built a plugin! 
 
 To learn more about building Tixit plugins look [here](http://docs.tixit.me/d/Plugin_API).
