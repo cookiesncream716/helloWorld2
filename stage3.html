@@ -9,31 +9,37 @@
 	<script src="node_modules/gem/dist/Gem.umd.js"></script>
 	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
 	<script>
-		var HelloWorld = proto(Gem, function(superclass){
+		var HelloWorld = proto(Gem, function(superclass) {
 			this.name = 'HelloWorld'
-			this.build = function(ticket, optionsObservee, api){
-			// Stage 3
-				var that = this				
-			// Stage 3 - make greeting an instance variable rather than local variable
+			
+			this.build = function(ticket, optionsObservee, api) {
+				// Stage 3
+				var that = this	
+				
+				// Stage 3 - make greeting an instance variable rather than local variable
 				this.greeting = Gem.Text('greeting', 'Hello World')
-			// Stage 3 - make greeting invisible and add button
+				
+				// Stage 3 - make greeting invisible and add button
 				this.greeting.visible = false
 				var button = Gem.Button('click me')
 				var box = Gem.Block('box', this.greeting, button)
 				this.add(box)
-			// Stage 3 - show greeting on click
+				
+				// Stage 3 - show greeting on click
 				this.index = 0
 				button.on('click', function(){
 					that.index++
 					that.updateText()
 				})
 			}
-		// Stage 3 - add function for updating text
+			
+			// Stage 3 - add function for updating text
 			this.updateText = function(){
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 				this.greeting.text = newGreeting[this.index%newGreeting.length]
 				this.greeting.visible = true
 			}
+			
 			this.getStyle = function(){
 				return Gem.Style({
 					$box: {
@@ -48,7 +54,8 @@
 						display: 'block',
 						margin: 10
 					},
-				// Stage 3 - give button some style
+					
+					// Stage 3 - give button some style
 					Button: {
 						backgroundColor: 'green',
 						color: 'white',
