@@ -203,7 +203,8 @@ this.updateText = function(){
   this.countText.visible = true
 }
 ```
-3. To save `count` to the ticket, a configuration option for the plugin must be added: `countField`. This option configures what ticket field the plugin will interact with. The `showEditor` option tells the `ExtensionTester` to show a box of editable ticket data. The value for `count` will be in that box.
+
+3. In order to save `count` to the ticket, a configuration option for the plugin must be added: `countField`. This option configures what ticket field the plugin will interact with. The `showEditor` option tells the `ExtensionTester` to show a box of editable ticket data. The value for `count` will be in that box.
 
 ```
 ExtensionTester.Api.Ticket.create().then(function(testTicket){
@@ -211,7 +212,17 @@ ExtensionTester.Api.Ticket.create().then(function(testTicket){
 }).done()
 ```
 
+4. Now to actually save the data to the ticket, we need to set `countField` with `this.count`. After incrementing the 'count' property, add the following line. Notice that we are using `that.count` rather than `this.count`.
+
+```
+ticket.set('count', that.count)
+```
+
+The `count` property in the editor box should now be updated every time the button is clicked.
+
+
 Now open your browser and try it out!
+
 
 ### STAGE 5 - Add the ability to recognize a change in the count from an external source and update the text appropriately
 
@@ -247,19 +258,8 @@ if(this.count === undefined){
 }
 ```
 
-5. When the `button` is clicked, update the ticket with the updated count. 
 
-```
-button.on(‘click’, function(){
-  that.updateText()
-  that.count++
-  ticket.set('count', that.count)
-})
-```
-
-The `count` property in the editor box should now be updated every time the button is clicked.
-
-6. The plugin running on your machine isn't the only thing that can update the ticket. If someone else is using your plugin on the same ticket, or if another plugin modifies the ticket, the ticket data will change. We need some way to listen for those changes so the plugin can be updated appropriately. To do this, listen for the `change` event on the ticket's `"count"` property:
+5. The plugin running on your machine isn't the only thing that can update the ticket. If someone else is using your plugin on the same ticket, or if another plugin modifies the ticket, the ticket data will change. We need some way to listen for those changes so the plugin can be updated appropriately. To do this, listen for the `change` event on the ticket's `"count"` property:
 
 ```
 ticket.get(‘count’).on(‘change’, function(){
