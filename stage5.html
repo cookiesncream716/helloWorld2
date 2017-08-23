@@ -19,7 +19,6 @@
 				// Stage 5 - add/use observe
 				optionsObservee = {subject:optionsObservee} // todo: remove this when Tixit is deployed next
 				var countProperty = optionsObservee.subject.countField
-				this.count = ticket.subject[countProperty]
 				
 				this.greeting = Gem.Text('greeting', 'Hello World')
 				var button = Gem.Button('click me')
@@ -27,34 +26,33 @@
 				var box = Gem.Block('box', this.greeting, button, this.countText)
 				this.add(box)
 				
+				button.on('click', function() {
+					ticket.set('count', ticket.get(countProperty).subject+1)
+				})
 				// Stage 5 - no text if count undefined/set count to 0
-				if(this.count === undefined) {
+				if(ticket.get(countProperty).subject === undefined){
 					this.greeting.visible = false
 					this.countText.visible = false
-					this.count = 0
-					console.log('count ' + this.count)
+					ticket.set('count', 0)
 				} else {
-					this.updateText()	
+					this.updateText(ticket.get(countProperty).subject)	
 				}
 				
-				button.on('click', function() {
-					that.count++
-					that.updateText()
-					ticket.set('count', that.count)
-				})
+				// button.on('click', function() {
+				// 	ticket.set('count', ticket.get(countProperty).subject+1)
+				// })
 				
-				// Stage 5 - Updates count when count changed in Editor box
+				// Stage 5 - Updates count and text when count changed in Editor box
 				ticket.get('count').on('change', function() {
-					that.count = ticket.subject.count
-					that.updateText()
+					that.updateText(ticket.get(countProperty).subject)
 				})
 			}
 			
-			this.updateText = function(){
+			this.updateText = function(num){
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-				this.greeting.text = newGreeting[(this.count-1)%newGreeting.length]
+				this.greeting.text = newGreeting[(num-1)%newGreeting.length]
 				this.greeting.visible = true
-				this.countText.text = 'You have this clicked this button ' + this.count + ' times.'
+				this.countText.text = 'You have this clicked this button ' + num + ' times.'
 				this.countText.visible = true
 			}
 			
@@ -84,7 +82,7 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(testTicket){
 			// Stage 5 - testing if count > 0 and adding count Field to editor box
-			testTicket.subject.count = '12'
+			testTicket.subject.count = 12
 			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()
 	</script>

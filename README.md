@@ -1,5 +1,5 @@
 # helloWorld2
-Creating a plugin is easy! This tutorial will show you how to build a basic Hello World plugin in 5 stages, each building on the previous stage.
+Creating a plugin is easy! This tutorial will show you how to build a basic Hello World [Tixit](https://tixit.me/) plugin in 5 stages, each building on the previous stage.
 
 ## Build Stages
 * [Stage 1](#stage-1---setup-environment-to-test-your-plugin) - Setup the environment to test your plugin
@@ -132,12 +132,6 @@ Button: {
 }
 ```
 
-5. In order to cause the greeting to appear when the button is clicked, attach a click [event listener](https://github.com/Tixit/Gem.js#event-instance-properties-and-methods) to the button.
-
-```
-button.on('click', function(){ })
-```
-
 5. To make things a little more interesting, have the greeting `“Hello World”` change to a different greeting each time the button is clicked. To do this, make a function that will update the text. It will go outside of the build method.
 
 ```
@@ -159,13 +153,7 @@ this.updateText = function(){
   this.greeting.visible = true
 ```
 
-8. In order to cause the greeting to appear when the button is clicked, attach a click [event listener](https://github.com/Tixit/Gem.js#event-instance-properties-and-methods) to the button.
-
-```
-button.on('click', function(){ })
-```
-
-9. Lastly, the code for the callback function of the `click` needs to be added. Call the `updateText` method and then increment the `count` property when the button is clicked. In order to have access to `this.count` and `this.updateText` inside of the function, make a variable called `that` and assign it the value `this`. Put it inside of the `build` method on the first line.
+8. In order to cause the greeting to appear when the button is clicked, attach a click [event listener](https://github.com/Tixit/Gem.js#event-instance-properties-and-methods) to the button. Call the `updateText` method and then increment the `count` property when the button is clicked. In order to have access to `this.count` and `this.updateText` inside of the function, make a variable called `that` and assign it the value `this`. Put it inside of the `build` method on the first line.
 
 ```
 var that = this
@@ -226,7 +214,7 @@ Now open your browser and try it out!
 
 ### STAGE 5 - Add the ability to recognize a change in the count from an external source and update the text appropriately
 
-For our last trick, let's actually save this data to the ticket and react to changes to ticket data that happen outside our plugin!
+For our last trick, let's give the ticket data to start and react to changes to ticket data that happen outside our plugin!
 
 1. To simulate a ticket that has saved data, set the property `count` of the `testTicket`'s `subject` with some initial value. This value will also appear in the `ExtensionTester`'s editor box. 
 
@@ -239,32 +227,46 @@ ExtensionTester.Api.Ticket.create().then(function(testTicket){
 
 If you comment out the line `testTicket.subject.count = 12`, the `count` property won't be defined, but the plugin should still work whether that property is initialized or not.
 
-2. In the `build` method, set `this.count` to the value stored in the ticket. Use the `countField` option to access the correct ticket field:
+2. To check to see if there is already value for `count` stored in the ticket, use the `countField` option to access the correct ticket field.
 
 ```
 var countProperty = optionsObservee.subject.countField
-this.count = ticket.subject[countProperty]
 ```
 
-4. If `this.count` is already defined, the `greeting` text and `countText` should be visible when the page is loaded, so call the `updateText` method to initialize the text. It needs to come before the click event listener. If `this.count` is not defined, then both texts shouldn't be visible and set `this.count` to 0. 
+3. If `count` is not defined, then both texts shouldn't be visible and set `count` to 0. If `count` is already defined, the `greeting` text and `countText` should be visible when the page is loaded, so call the `updateText` method to initialize the text. We are going to get the value of `count` and send it as a parameter of `updateText`. 
 
 ```
-if(this.count === undefined){
+if(ticekt.get(countPropery).subject === undefined){
   this.greeting.visible = false
   this.countText.visible = false
-  this.count = 0
+  ticket.set('count', 0)
 } else{
-  this.updateText()
+  this.updateText(ticket.get(countProperty).subject)
 }
 ```
 
+4. The `updateText' method will need updating of its own. Since it now has a parameter, that needs to be added and then used for iterating through `newGreeting` and giving the correct times the button has been clicked in `countText`.
+
+```
+this.updateText = function(num){
+  this.greeting.text = newGreeting[(num-1)%newGreeting.length]
+  this.countText.text = 'You have clicked this button ' + num + ' times.'
+}
+```
 
 5. The plugin running on your machine isn't the only thing that can update the ticket. If someone else is using your plugin on the same ticket, or if another plugin modifies the ticket, the ticket data will change. We need some way to listen for those changes so the plugin can be updated appropriately. To do this, listen for the `change` event on the ticket's `"count"` property:
 
 ```
 ticket.get(‘count’).on(‘change’, function(){
-  that.count = ticket.subject.count
-  that.updateText()
+  that.updateText(ticket.get(countProperty).subject)
+})
+```
+
+6. We aren't going to use `this.count` anymore, so the event listener on the button needs modified. The `count` property can be saved to the ticket and incremented at the same time. And because the ticket is listening for any changes to 'count' and calling `updateText`, we don't need to call `updateText` here.
+
+```
+button.on('click', function(){
+  ticket.set('count', ticket.get(countProperty).subject+1)
 })
 ```
 
