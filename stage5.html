@@ -16,7 +16,7 @@
 				var that = this
 				this.ticket = ticket
 				
-				// Stage 5 - add/use observe
+				// Stage 5 - Access the saved ticket data
 				optionsObservee = {subject:optionsObservee} // todo: remove this when Tixit is deployed next
 				var countProperty = optionsObservee.subject.countField
 				
@@ -26,10 +26,7 @@
 				var box = Gem.Block('box', this.greeting, button, this.countText)
 				this.add(box)
 				
-				button.on('click', function() {
-					ticket.set('count', ticket.get(countProperty).subject+1)
-				})
-				// Stage 5 - no text if count undefined/set count to 0
+				// Stage 5 - No text if count undefined and set count to 0
 				if(ticket.get(countProperty).subject === undefined){
 					this.greeting.visible = false
 					this.countText.visible = false
@@ -38,16 +35,18 @@
 					this.updateText(ticket.get(countProperty).subject)	
 				}
 				
-				// button.on('click', function() {
-				// 	ticket.set('count', ticket.get(countProperty).subject+1)
-				// })
+				// Stage 5 - Save and increment count
+				button.on('click', function() {
+					ticket.set('count', ticket.get(countProperty).subject+1)
+				})
 				
-				// Stage 5 - Updates count and text when count changed in Editor box
+				// Stage 5 - Updates count and text when count changed anywhere
 				ticket.get('count').on('change', function() {
 					that.updateText(ticket.get(countProperty).subject)
 				})
 			}
 			
+			// Stage 5 - Add the parameter for updateText and use it
 			this.updateText = function(num){
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 				this.greeting.text = newGreeting[(num-1)%newGreeting.length]
@@ -81,7 +80,7 @@
 		})
 
 		ExtensionTester.Api.Ticket.create().then(function(testTicket){
-			// Stage 5 - testing if count > 0 and adding count Field to editor box
+			// Stage 5 - Give count a value
 			testTicket.subject.count = 12
 			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()

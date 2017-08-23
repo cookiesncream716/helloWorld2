@@ -68,6 +68,7 @@
 		})
 
 		ExtensionTester.Api.Ticket.create().then(function(testTicket){
+			// Stage 4 - Add countField and the editor box
 			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()
 	</script>
