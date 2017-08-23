@@ -206,10 +206,9 @@ ExtensionTester.Api.Ticket.create().then(function(testTicket){
 ticket.set('count', that.count)
 ```
 
-The `count` property in the editor box should now be updated every time the button is clicked.
+The `count` property in the editor box should now be updated every time the button is clicked. 
 
-
-Now open your browser and try it out!
+Open your browser and try out the new changes!
 
 
 ### STAGE 5 - Add the ability to recognize a change in the count from an external source and update the text appropriately
