@@ -5,7 +5,7 @@ Creating a plugin is easy! This tutorial will show you how to build a basic Hell
 * [Stage 1](#stage-1---setup-environment-to-test-your-plugin) - Setup the environment to test your plugin
 * [Stage 2](#stage-2---display-the-text-hello-world-in-the-plugin-space) - Display the text “Hello World” in the plugin space
 * [Stage 3](#stage-3---display-hello-world-after-the-button-is-clicked) - Display “Hello World” after the button is clicked
-* [Stage 4](#stage-4---add-text-that-tells-how-many-times-the-button-has-been-clicked) - Add text that tells how many times the button has been clicked
+* [Stage 4](#stage-4---add-text-that-tells-how-many-times-the-button-has-been-clicked) - Add text that tells how many times the button has been clicked and save that number to the ticket.
 * [Stage 5](#stage-5---add-the-ability-to-recognize-a-change-in-the-count-from-an-external-source-and-update-the-text-appropriately) - Add the ability to recognize a change in the count from an external source 
 
 ### Stage 1 - Setup environment to test your plugin
@@ -181,7 +181,7 @@ button.on(‘click’, function(){
 Now open the page in the browser and test out the "click me" button!
 
 
-### STAGE 4 - Add text that tells how many times the button has been clicked
+### STAGE 4 - Add text that tells how many times the button has been clicked and save that number to the ticket
 
 Ok, now let's add a click counter. The count variable is already counting the number of clicks, so we will just use it.
 
@@ -203,6 +203,13 @@ this.updateText = function(){
   this.countText.visible = true
 }
 ```
+3. To save `count` to the ticket, a configuration option for the plugin must be added: `countField`. This option configures what ticket field the plugin will interact with. The `showEditor` option tells the `ExtensionTester` to show a box of editable ticket data. The value for `count` will be in that box.
+
+```
+ExtensionTester.Api.Ticket.create().then(function(testTicket){
+  ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
+}).done()
+```
 
 Now open your browser and try it out!
 
@@ -210,12 +217,12 @@ Now open your browser and try it out!
 
 For our last trick, let's actually save this data to the ticket and react to changes to ticket data that happen outside our plugin!
 
-1. To simulate a ticket that has saved data, set the property `count` of the `testTicket`'s `subject` with some initial value. This value will also appear in the `ExtensionTester`'s editor box. The `showEditor` option tells the `ExtenstionTester` to show a box of editable ticket data. Also, add a configuration option for the plugin: `countField`. This option configures what ticket field the plugin will interact with.
+1. To simulate a ticket that has saved data, set the property `count` of the `testTicket`'s `subject` with some initial value. This value will also appear in the `ExtensionTester`'s editor box. 
 
 ```
 ExtensionTester.Api.Ticket.create().then(function(testTicket){
   testTicket.subject.count = 12
-  ExtensionTester(HelloWorld, {countField: ‘count’}, {ticketId:testTicket.subject._id, showEditor: true})
+  ExtensionTester(HelloWorld, {countField: ‘count’}, {ticketId: testTicket.subject._id, showEditor: true})
 }).done()
 ```
 

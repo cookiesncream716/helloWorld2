@@ -20,10 +20,10 @@
 				optionsObservee = {subject:optionsObservee} // todo: remove this when Tixit is deployed next
 				var countProperty = optionsObservee.subject.countField
 				this.count = ticket.subject[countProperty]
+				
 				this.greeting = Gem.Text('greeting', 'Hello World')
 				var button = Gem.Button('click me')
 				this.countText = Gem.Text()	
-				
 				var box = Gem.Block('box', this.greeting, button, this.countText)
 				this.add(box)
 				
@@ -38,11 +38,8 @@
 				}
 				
 				button.on('click', function() {
-					console.log(that.count)
-					that.updateText()
 					that.count++
-					
-					// Stage 5 - Updates count in test Editor box
+					that.updateText()
 					ticket.set('count', that.count)
 				})
 				
@@ -54,9 +51,8 @@
 			}
 			
 			this.updateText = function(){
-				console.log('update ' + this.count)
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-				this.greeting.text = newGreeting[this.count%newGreeting.length]
+				this.greeting.text = newGreeting[(this.count-1)%newGreeting.length]
 				this.greeting.visible = true
 				this.countText.text = 'You have this clicked this button ' + this.count + ' times.'
 				this.countText.visible = true
@@ -88,7 +84,7 @@
 
 		ExtensionTester.Api.Ticket.create().then(function(testTicket){
 			// Stage 5 - testing if count > 0 and adding count Field to editor box
-			// testTicket.subject.count = '12'
+			testTicket.subject.count = '12'
 			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()
 	</script>

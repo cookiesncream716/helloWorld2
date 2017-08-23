@@ -23,17 +23,18 @@
 				var box = Gem.Block('box', this.greeting, button, this.countText)
 				this.add(box)
 				
-				// Stage 4 - count will keep track of how many times button clicked
 				this.count = 0
 				button.on('click', function(){
-					that.updateText()
 					that.count++
+					that.updateText()
+					// Stage 4 - save count to the ticket and it updates in the editor box
+					ticket.set('count', that.count)
 				})
 			}
 			
 			this.updateText = function(){
 				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-				this.greeting.text = newGreeting[this.count%newGreeting.length]
+				this.greeting.text = newGreeting[(this.count-1)%newGreeting.length]
 				this.greeting.visible = true
 				
 				// Stage 4 - show number of times button clicked
@@ -66,7 +67,7 @@
 		})
 
 		ExtensionTester.Api.Ticket.create().then(function(testTicket){
-			ExtensionTester(HelloWorld, {}, {ticketId: testTicket.subject._id})
+			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()
 	</script>
 </html>
