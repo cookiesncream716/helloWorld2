@@ -74,7 +74,7 @@ this.getStyle = function(){
     $box: {
       width: 550,
       minHeight: 300,
-      border: '1pix solid black',
+      border: '1px solid black',
       padding: 5,
       margin: 50
     },
