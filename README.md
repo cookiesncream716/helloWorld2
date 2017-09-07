@@ -275,7 +275,7 @@ Congratulations, you have just built a plugin! Test it out and see how it works.
 
 ### Stage 6 - Add a module and bundle it all together
 
-Sometimes you might want to add a feature to your plugin that requires an outside dependency. In this example, let's add a calendar that could be used to select a date for a deadline or a meeting.
+Sometimes you might want to add a feature to your plugin that requires an outside dependency. If you do that, you are going to need to use a module bundler to bundle your Javascript files together. In this example, let's add a calendar that could be used to select a date for a deadline or a meeting and then bundle it all up.
 
 1. We are going to use [flatpickr](https://chmln.github.io/flatpickr/) for the calendar. It needs to be added to the project.
 
@@ -291,7 +291,7 @@ var flatpickr = require('flatpickr')
 registerPlugin()
 ```
 
-3. Follow the directions to configure flatpickr in whatever way you need and add it to `box`. Below is an example.
+3. Follow the directions to configure flatpickr in whatever way you need inside of the build method and add it to `box`. Below is an example.
 
 ```
 var calender = TextField()
