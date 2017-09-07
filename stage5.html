@@ -1,88 +1,15 @@
 <html>
 	<head>
-    	<meta charset="utf-8" />
+		<meta charset="utf-8" />
 	</head>
-	<body>
-		<h1>rest of page</h1>
-	</body>
-	<script src="node_modules/proto/dist/proto.umd.js"></script>
-	<script src="node_modules/gem/dist/Gem.umd.js"></script>
-	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
+	<body></body>
+	<script src="https://tixit.me/PluginTester.umd.js"></script>
+	<script src="stage5.js"></script>
 	<script>
-		var HelloWorld = proto(Gem, function(superclass){
-			this.name = 'HelloWorld'
-			
-			this.build = function(ticket, optionsObservee, api){
-				var that = this
-				this.ticket = ticket
-				
-				// Stage 5 - Access the saved ticket data
-				optionsObservee = {subject:optionsObservee} // todo: remove this when Tixit is deployed next
-				var countProperty = optionsObservee.subject.countField
-				
-				this.greeting = Gem.Text('greeting', 'Hello World')
-				var button = Gem.Button('click me')
-				this.countText = Gem.Text()	
-				var box = Gem.Block('box', this.greeting, button, this.countText)
-				this.add(box)
-				
-				// Stage 5 - No text if count undefined and set count to 0
-				if(ticket.get(countProperty).subject === undefined){
-					this.greeting.visible = false
-					this.countText.visible = false
-					ticket.set('count', 0)
-				} else {
-					this.updateText(ticket.get(countProperty).subject)	
-				}
-				
-				// Stage 5 - Save and increment count
-				button.on('click', function() {
-					ticket.set('count', ticket.get(countProperty).subject+1)
-				})
-				
-				// Stage 5 - Updates count and text when count changed anywhere
-				ticket.get('count').on('change', function() {
-					that.updateText(ticket.get(countProperty).subject)
-				})
-			}
-			
-			// Stage 5 - Add the parameter for updateText and use it
-			this.updateText = function(num){
-				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-				this.greeting.text = newGreeting[(num-1)%newGreeting.length]
-				this.greeting.visible = true
-				this.countText.text = 'You have this clicked this button ' + num + ' times.'
-				this.countText.visible = true
-			}
-			
-			this.getStyle = function(){
-				return Gem.Style({
-					$box: {
-						width: 250,
-						minHeight: 100,
-						border: '1px solid black',
-						padding: 5
-					},
-					$greeting: {
-						color: 'blue',
-						fontSize: 24,
-						display: 'block',
-						margin: 10
-					},
-					Button: {
-						backgroundColor: 'green',
-						color: 'white',
-						display:'block',
-						margin: 10
-					}
-				})
-			}
-		})
-
-		ExtensionTester.Api.Ticket.create().then(function(testTicket){
-			// Stage 5 - Give count a value
+		PluginTester.Api.Ticket.create().then(function(testTicket){
+			// give count a value
 			testTicket.subject.count = 12
-			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
+			PluginTester('HelloWorld', {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()
 	</script>
 </html>

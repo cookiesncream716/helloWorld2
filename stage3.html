@@ -1,73 +1,11 @@
 <html>
 	<head>
-    	<meta charset="utf-8" />
+		<meta charset="utf-8" />
 	</head>
-	<body>
-		<h1>rest of page</h1>
-	</body>
-	<script src="node_modules/proto/dist/proto.umd.js"></script>
-	<script src="node_modules/gem/dist/Gem.umd.js"></script>
-	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
+	<body></body>
+	<script src="https://tixit.me/PluginTester.umd.js"></script>
+	<script src="stage3.js"></script>
 	<script>
-		var HelloWorld = proto(Gem, function(superclass) {
-			this.name = 'HelloWorld'
-			
-			this.build = function(ticket, optionsObservee, api) {
-				// Stage 3
-				var that = this	
-				
-				// Stage 3 - make greeting an instance variable rather than local variable
-				this.greeting = Gem.Text('greeting', 'Hello World')
-				
-				// Stage 3 - make greeting invisible and add button
-				this.greeting.visible = false
-				var button = Gem.Button('click me')
-				var box = Gem.Block('box', this.greeting, button)
-				this.add(box)
-				
-				// Stage 3 - show greeting on click
-				this.count = 0
-				button.on('click', function(){
-					that.updateText()
-					that.count++
-				})
-			}
-			
-			// Stage 3 - add function for updating text
-			this.updateText = function(){
-				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-				this.greeting.text = newGreeting[this.count%newGreeting.length]
-				this.greeting.visible = true
-			}
-			
-			this.getStyle = function(){
-				return Gem.Style({
-					$box: {
-						width: 250,
-						minHeight: 100,
-						border: '1px solid black',
-						padding: 5
-					},
-					$greeting: {
-						color: 'blue',
-						fontSize: 24,
-						display: 'block',
-						margin: 10
-					},
-					
-					// Stage 3 - give button some style
-					Button: {
-						backgroundColor: 'green',
-						color: 'white',
-						display:'block',
-						margin: 10
-					}
-				})
-			}
-		})
-
-		ExtensionTester.Api.Ticket.create().then(function(testTicket){
-			ExtensionTester(HelloWorld, {}, {ticketId: testTicket.subject._id})
-		}).done()
+   	 	PluginTester('HelloWorld')
 	</script>
 </html>

@@ -1,75 +1,14 @@
 <html>
 	<head>
-    	<meta charset="utf-8" />
+		<meta charset="utf-8" />
 	</head>
-	<body>
-		<h1>rest of page</h1>
-	</body>
-	<script src="node_modules/proto/dist/proto.umd.js"></script>
-	<script src="node_modules/gem/dist/Gem.umd.js"></script>
-	<script src="https://tixit.me/ExtensionTester.umd.js"></script>
+	<body></body>
+	<script src="https://tixit.me/PluginTester.umd.js"></script>
+	<script src="stage4.js"></script>
 	<script>
-		var HelloWorld = proto(Gem, function(superclass){
-			this.name = 'HelloWorld'
-			this.build = function(ticket, optionsObservee, api){
-				var that = this				
-				this.greeting = Gem.Text('greeting', 'Hello World')
-				this.greeting.visible = false
-				var button = Gem.Button('click me')
-				
-				// Stage 4 - create text to tell number of times button clicked, make it invisible, and add it
-				this.countText = Gem.Text()
-				this.countText.visible = false
-				var box = Gem.Block('box', this.greeting, button, this.countText)
-				this.add(box)
-				
-				this.count = 0
-				button.on('click', function(){
-					that.count++
-					that.updateText()
-
-					// Stage 4 - save count to the ticket and update the editor box
-					ticket.set('count', that.count)
-				})
-			}
-			
-			this.updateText = function(){
-				var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-				this.greeting.text = newGreeting[(this.count-1)%newGreeting.length]
-				this.greeting.visible = true
-				
-				// Stage 4 - show number of times button clicked
-				this.countText.text = 'You have clicked this button ' + this.count + ' times.'
-				this.countText.visible = true
-			}
-			
-			this.getStyle = function(){
-				return Gem.Style({
-					$box: {
-						width: 250,
-						minHeight: 100,
-						border: '1px solid black',
-						padding: 5
-					},
-					$greeting: {
-						color: 'blue',
-						fontSize: 24,
-						display: 'block',
-						margin: 10
-					},
-					Button: {
-						backgroundColor: 'green',
-						color: 'white',
-						display:'block',
-						margin: 10
-					}
-				})
-			}
-		})
-
-		ExtensionTester.Api.Ticket.create().then(function(testTicket){
-			// Stage 4 - Add countField and the editor box
-			ExtensionTester(HelloWorld, {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
+		// create a ticket and add configuration option countField
+		PluginTester.Api.Ticket.create().then(function(testTicket){
+			PluginTester('HelloWorld', {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()
 	</script>
 </html>
