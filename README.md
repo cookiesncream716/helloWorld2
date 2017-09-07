@@ -3,12 +3,12 @@ Creating a plugin is easy! This tutorial will show you how to build a basic Hell
 
 ## Build Stages
 * [Stage 1](#stage-1---setup-environment-to-test-your-plugin) - Setup the environment to test your plugin
-* [Stage 2](#stage-2---display-the-text-hello-world-in-the-plugin-space) - Display the text “Hello World” in the plugin space
+* [Stage 2](#stage-2---style-the-plugin) - Style the plugin
 * [Stage 3](#stage-3---display-hello-world-after-the-button-is-clicked) - Display “Hello World” after the button is clicked
 * [Stage 4](#stage-4---add-text-that-tells-how-many-times-the-button-has-been-clicked-and-save-that-number-to-the-ticket) - Add text that tells how many times the button has been clicked and save that number to the ticket.
 * [Stage 5](#stage-5---add-the-ability-to-recognize-a-change-in-the-count-from-an-external-source-and-update-the-text-appropriately) - Add the ability to recognize a change in the count from an external source 
 
-### Stage 1 - Setup environment to test your plugin
+### Stage 1 - Setup environment to test your plugin and display "Hello World"
 
 1. First, create a project folder and create package.json inside it. The two node modules [gem.js](https://github.com/Tixit/Gem.js) and [proto](https://github.com/fresheneesz/proto) are required to build plugins for Tixit. In the terminal, go into the project folder and run the following commands:
 
@@ -41,36 +41,40 @@ registerPlugin(proto(Gem, function(){
 }))
 ```
 
-To test that everything is working, add the line `this.add(Text('It works!'))` inside the build method. Now open the html file in the browser and you should see "It works!" This line won't be needed for the next stages, so delete it when you're done testing.
-
-
-### STAGE 2 - Display the text "Hello World" in the plugin space
-
-Now that we have the boiler-plate set up, let's add some visual content to the plugin!
-
-1. Inside the build method, create a [`Text`](https://github.com/Tixit/Gem.js#text) gem containing the greeting `'Hello World'`. Let's make it an instance variable because we will want access to it in a later step. Give it a label so it can be styled differently from text that will be coming in a later step. Here, `'greetng'` is used as the label.
+4. Inside the build method, create a [`Text`](https://github.com/Tixit/Gem.js#text) gem containing the greeting `'Hello World'`. Let's make it an instance variable because we will want access to it in a later step. Give it a label so it can be styled differently from text that will be coming in a later step. Here, `'greetng'` is used as the label.
 
 ```
 this.greeting = Text(‘greeting’, ‘Hello World’)
 ```
 
-2. Use the [`Block`](https://github.com/Tixit/Gem.js#block) gem to make an area for the plugin. Enter `'box'` as the label and pass `greeting` in to add it to the `Block`.
+5. Use the [`Block`](https://github.com/Tixit/Gem.js#block) gem to make an area for the plugin. Enter `'box'` as the label and pass `greeting` in to add it to the `Block`.
 
 ```
 var box = Block(‘box’, this.greeting)
 ```
 
-3. Append `box` to the plugin.
+6. Append `box` to the plugin.
 
 ```
 this.add(box)
 ```
 
-4. Styles can be added after the `build` method by using the `getStyle` method. The `getStyle` method should return a gem [`Style`](https://github.com/Tixit/Gem.js#style-objects) object. Items in the style that start with the symbol [$](https://github.com/Tixit/Gem.js#label) allows you to style objects with the label given after the `$` symbol. Here, a border is given so an outline of the space can be seen. The text for `greeting` will be blue and given a size of 74px.
+To test that everything is working, open the html file in the browser. You should see the greeting "Hello World".
+
+
+### STAGE 2 - Style the plugin
+
+Our plugin looks a bit boring so let's give it some style.
+
+1. Styles can be added after the `build` method by using the `getStyle` method. The `getStyle` method should return a gem [`Style`](https://github.com/Tixit/Gem.js#style-objects) object. 
+
+2. Items in the style that start with the symbol [$](https://github.com/Tixit/Gem.js#label) allows you to style objects with the label given after the `$` symbol.
+
+3. Style your plugin any way that you would like. Here, a border is given so an outline of the space can be seen. The text for `greeting` will be blue and given a size of 74px. The text is also centered.
 
 ```
 this.getStyle = function(){
-  return Gem.Style({
+  return Style({
     $box: {
       width: 550,
       minHeight: 300,
@@ -88,7 +92,8 @@ this.getStyle = function(){
   })
 }
 ```
-It's now ready to test! Open the page in the browser and you'll see it greet the world!
+
+It's now ready to test! Open the page in the browser and see how much better it looks!
 
 
 ### STAGE 3 - Display "Hello World" after the button is clicked
