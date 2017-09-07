@@ -306,7 +306,8 @@ var box = Block('box', this.greeting, button, this.countText, calendar)
 
 4. This particular module also requires that you use it's stylesheet. In order to do that, we are going to add another module, [raw-loader](https://www.npmjs.com/package/raw-loader).
 
-``npm install raw-loader
+```
+npm install raw-loader
 ```
 
 Inside of the build method, we are going to attach a link to the flatpickr stylesheet in the head of the html file.
