@@ -2,7 +2,7 @@
 Creating a plugin is easy! This tutorial will show you how to build a basic Hello World [Tixit](https://tixit.me/) plugin in 5 stages, each building on the previous stage.
 
 ## Build Stages
-* [Stage 1](#stage-1---setup-environment-to-test-your-plugin-and-display-hello-world) - Setup the environment to test your plugin
+* [Stage 1](#stage-1---setup-environment-to-test-your-plugin-and-display-hello-world) - Setup the environment to test your plugin and display "Hello World"
 * [Stage 2](#stage-2---style-the-plugin) - Style the plugin
 * [Stage 3](#stage-3---display-hello-world-after-the-button-is-clicked) - Display “Hello World” after the button is clicked
 * [Stage 4](#stage-4---add-text-that-tells-how-many-times-the-button-has-been-clicked-and-save-that-number-to-the-ticket) - Add text that tells how many times the button has been clicked and save that number to the ticket.
