@@ -2,8 +2,11 @@
 	"name": "HelloWorld",
 	"description": "plugin tutorial",
 	"dependencies": {
+		"build-modules": "^2.1.2",
+		"flatpickr": "^3.0.7",
 		"gem": "^2.4.2",
 		"observe": "^1.3.7",
-		"proto": "^1.0.19"
+		"proto": "^1.0.19",
+		"raw-loader": "^0.5.1"
 	}
 }

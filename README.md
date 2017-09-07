@@ -1,12 +1,13 @@
 # helloWorld2
-Creating a plugin is easy! This tutorial will show you how to build a basic Hello World [Tixit](https://tixit.me/) plugin in 5 stages, each building on the previous stage.
+Creating a plugin is easy! This tutorial will show you how to build a basic Hello World [Tixit](https://tixit.me/) plugin in 6 stages, each building on the previous stage.
 
 ## Build Stages
 * [Stage 1](#stage-1---setup-environment-to-test-your-plugin-and-display-hello-world) - Setup the environment to test your plugin and display "Hello World"
 * [Stage 2](#stage-2---style-the-plugin) - Style the plugin
 * [Stage 3](#stage-3---display-hello-world-after-the-button-is-clicked) - Display “Hello World” after the button is clicked
 * [Stage 4](#stage-4---add-text-that-tells-how-many-times-the-button-has-been-clicked-and-save-that-number-to-the-ticket) - Add text that tells how many times the button has been clicked and save that number to the ticket.
-* [Stage 5](#stage-5---add-the-ability-to-recognize-a-change-in-the-count-from-an-external-source-and-update-the-text-appropriately) - Add the ability to recognize a change in the count from an external source 
+* [Stage 5](#stage-5---add-the-ability-to-recognize-a-change-in-the-count-from-an-external-source-and-update-the-text-appropriately) - Add the ability to recognize a change in the count from an external source
+* [Stage 6](#stage-6---add-a-module-and-bundle-it-all-together) - Add a module and bundle it all together
 
 ### Stage 1 - Setup environment to test your plugin and display "Hello World"
 
@@ -20,15 +21,15 @@ npm install proto —save
 2. Create a new html file and open it.  Adding a link to the [plugin tester](http://docs.tixit.me/d/Plugin_API#Plugin_Tester) (PluginTester.umd.js) allows you to run and test the plugin. You'll write your plugin code in a javascript file and need to add a link to it. Your html file should look something like this:
 
 ```
-	<html>
-	  <head></head>
-	  <body></body>
-	  <script src='https://tixit.me/PluginTester.umd.js'></script>
-    <script src='stage1.js'></script>
-	  <script>
-      PluginTester('HelloWorld')
-	  </script>
-	</html>
+<html>
+  <head></head>
+  <body></body>
+  <script src='https://tixit.me/PluginTester.umd.js'></script>
+  <script src='stage1.js'></script>
+  <script>
+    PluginTester('HelloWorld')
+  </script>
+</html>
 ```
 
 3. Make your javascript file and create your Gem. Plugins require a `name` property and a constructor method called `build`, which has three parameters: `ticket', `optionsObservee`, and `api`.
@@ -269,6 +270,68 @@ button.on('click', function(){
 
 Now, if `count` is changed elsewhere (for example if you edit the `count` property in the editor box), the plugin will be updated for the new count! Open the file up in your browser and try it out!
 
-Congratulations, you have just built a plugin! 
+Congratulations, you have just built a plugin! Test it out and see how it works. 
+
+
+### Stage 6 - Add a module and bundle it all together
+
+Sometimes you might want to add a feature to your plugin that requires an outside dependency. In this example, let's add a calendar that could be used to select a date for a deadline or a meeting.
+
+1. We are going to use [flatpickr](https://chmln.github.io/flatpickr/) for the calendar. It needs to be added to the project.
+
+```
+npm install flatpickr --save
+```
+
+2. Flatpickr will need to be imported before creating the plugin. 
+
+```
+var flatpickr = require('flatpickr')
+
+registerPlugin()
+```
+
+3. Follow the directions to configure flatpickr in whatever way you need and add it to `box`. Below is an example.
+
+```
+var calender = TextField()
+var fp_calendar = new flatpickr(calendar.domNode, {
+  enableTime: true,
+  dateFormat: 'm-d-Y h:i K'
+  defaultDate: new Date()
+})
+
+var box = Block('box', this.greeting, button, this.countText, calendar)
+```
+
+4. This particular module also requires that you use it's stylesheet. In order to do that, we are going to add another module, [raw-loader](https://www.npmjs.com/package/raw-loader).
+
+``npm install raw-loader
+```
+
+Inside of the build method, we are going to attach a link to the flatpickr stylesheet in the head of the html file.
+
+```
+this.on('attach', function(){
+  var flatpickrStylesheet = require('raw-loader!flatpickr/dist/flatpckr.min.css')
+  var style = document.createElement('style')
+  style.innerHTML = flatpickrStylesheet
+  document.head.appendChild(style)
+})
+```
+
+5. *(optional)* In the getStyle method, add some style. Let's just move the calendar to the center of the plugin area and away from `countText`.
+
+```
+TextField: {
+  dispaly:'block',
+  margin: 'auto',
+  marginTop: 30
+}
+```
+
+6. Because we have added some dependencies, we are going to need to bundle everything together using something like [build-modules](https://github.com/fresheneesz/buildModules). Install build-modules, create a javascript file (e.g. bundle.js), and follow the example. When you run it, the output will be a ___.umd.js file, which will be what you need to link to in the html file.
+
+Open it in the browser and see what day it is.
 
 To learn more about building Tixit plugins look [here](http://docs.tixit.me/d/Plugin_API).
