@@ -274,7 +274,7 @@ Sometimes you might want to add a feature to your plugin that requires an outsid
 
 In order to install node modules, you will need to have npm installed on your computer. If you don't have [node.js](https://nodejs.org/en/) installed, you will need to install it before continuing.
 
-1. We are going to use [flatpickr](https://chmln.github.io/flatpickr/) for the calendar. Before adding it, create a file called [package.json](https://docs.npmjs.com/getting-started/using-a-package.json). Then add flatpickr; it will be automatically added as a dependency in the package.json file.
+1. We are going to use [flatpickr](https://chmln.github.io/flatpickr/) for the calendar. Before adding it, create a file called [package.json](https://docs.npmjs.com/getting-started/using-a-package.json).
 
 package.json
 ```
@@ -283,6 +283,8 @@ package.json
   "version": "1.0"
 }
 ```
+
+Then add flatpickr; it will be automatically added as a dependency in the package.json file.
 
 ```
 npm install flatpickr --save
