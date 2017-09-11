@@ -276,7 +276,6 @@ In order to install node modules, you will need to have npm installed on your co
 
 1. We are going to use [flatpickr](https://chmln.github.io/flatpickr/) for the calendar. Before adding it, create a file called [package.json](https://docs.npmjs.com/getting-started/using-a-package.json).
 
-package.json
 ```
 {
   "name": "helloWorld2",
