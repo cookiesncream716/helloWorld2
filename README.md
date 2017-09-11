@@ -11,14 +11,9 @@ Creating a plugin is easy! This tutorial will show you how to build a basic Hell
 
 ### Stage 1 - Setup environment to test your plugin and display "Hello World"
 
-1. First, create a project folder and create package.json inside it. The two node modules [gem.js](https://github.com/Tixit/Gem.js) and [proto](https://github.com/fresheneesz/proto) are required to build plugins for Tixit. In the terminal, go into the project folder and run the following commands:
+1. First, create a project folder. The two node modules [gem.js](https://github.com/Tixit/Gem.js) and [proto](https://github.com/fresheneesz/proto) are used to build plugins for Tixit. They are loaded and made available by the plugin tester in the next step, so no need to install them. 
 
-```
-npm install gem —save
-npm install proto —save
-```
-
-2. Create a new html file and open it.  Adding a link to the [plugin tester](http://docs.tixit.me/d/Plugin_API#Plugin_Tester) (PluginTester.umd.js) allows you to run and test the plugin. You'll write your plugin code in a javascript file and need to add a link to it. Your html file should look something like this:
+2. Create a new html file and open it.  Adding a link to the [plugin tester](http://docs.tixit.me/d/Plugin_API#Plugin_Tester) (https://tixit.me/PluginTester.umd.js) allows you to run and test the plugin. You'll write your plugin code in a javascript file and need to add a link to it. Your html file should look something like this:
 
 ```
 <html>
@@ -277,7 +272,17 @@ Congratulations, you have just built a plugin! Test it out and see how it works.
 
 Sometimes you might want to add a feature to your plugin that requires an outside dependency. If you do that, you are going to need to use a module bundler to bundle your Javascript files together. In this example, let's add a calendar that could be used to select a date for a deadline or a meeting and then bundle it all up.
 
-1. We are going to use [flatpickr](https://chmln.github.io/flatpickr/) for the calendar. It needs to be added to the project.
+In order to install node modules, you will need to have npm installed on your computer. If you don't have [node.js](https://nodejs.org/en/) installed, you will need to install it before continuing.
+
+1. We are going to use [flatpickr](https://chmln.github.io/flatpickr/) for the calendar. Before adding it, create a file called [package.json](https://docs.npmjs.com/getting-started/using-a-package.json). Then add flatpickr; it will be automatically added as a dependency in the package.json file.
+
+package.json
+```
+{
+  "name": "helloWorld2",
+  "version": "1.0"
+}
+```
 
 ```
 npm install flatpickr --save
@@ -304,7 +309,7 @@ var fp_calendar = new flatpickr(calendar.domNode, {
 var box = Block('box', this.greeting, button, this.countText, calendar)
 ```
 
-4. This particular module also requires that you use it's stylesheet. In order to do that, we are going to add another module, [raw-loader](https://www.npmjs.com/package/raw-loader).
+4. This particular module also requires that you use it's stylesheet. In order to do that, we are going to add another module, [raw-loader](https://www.npmjs.com/package/raw-loader). This module will convert flatpickr's stylesheet into a string.
 
 ```
 npm install raw-loader
@@ -331,7 +336,7 @@ TextField: {
 }
 ```
 
-6. Because we have added some dependencies, we are going to need to bundle everything together using something like [build-modules](https://github.com/fresheneesz/buildModules). Install build-modules, create a javascript file (e.g. bundle.js), and follow the example. When you run it, the output will be a ___.umd.js file, which will be what you need to link to in the html file.
+6. Because we have added some dependencies, we are going to need to bundle everything together using something like [build-modules](https://github.com/fresheneesz/buildModules). [Webpack](https://webpack.github.io/) is probably the most popular bundler, but for our purposes, build-modules will be a little easier to use. Install build-modules, create a javascript file (e.g. bundle.js), and follow the example. When you run it, the output will be a ___.umd.js file, which will be what you need to link to in the html file.
 
 Open it in the browser and see what day it is.
 
