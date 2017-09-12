@@ -4,7 +4,6 @@ registerPlugin(proto(Gem, function(){
 		// add that
 		var that = this
 
-		// make greeting an instance variable
 		this.greeting = Text('greeting', 'Hello World')
 
 		// make greeting invisible and add button
@@ -16,15 +15,15 @@ registerPlugin(proto(Gem, function(){
 		// show greeting on click
 		this.count = 0
 		button.on('click', function(){
-			that.updateText()
 			that.count++
+			that.updateText()
 		})
 	}
 
-	// add function for updating text
+	// add method for updating text
 	this.updateText = function(){
 		var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-		this.greeting.text = newGreeting[this.count%newGreeting.length]
+		this.greeting.text = newGreeting[(this.count-1)%newGreeting.length]
 		this.greeting.visible = true
 	}
 

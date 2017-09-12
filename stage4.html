@@ -6,9 +6,7 @@
 	<script src="https://tixit.me/PluginTester.umd.js"></script>
 	<script src="stage4.js"></script>
 	<script>
-		// create a ticket and add configuration option countField
-		PluginTester.Api.Ticket.create().then(function(testTicket){
-			PluginTester('HelloWorld', {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
-		}).done()
+		// add configuration option countField
+		PluginTester('HelloWorld', {countField: 'count'})
 	</script>
 </html>

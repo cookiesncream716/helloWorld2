@@ -25,7 +25,7 @@ Creating a Tixit plugin is easy! This tutorial will show you how to build a basi
 </html>
 ```
 
-2. Make a new javascript file for your plugin code. A Tixit plugin must be a Gem instance using the view-library [gem.js](https://github.com/Tixit/Gem.js). This tutorial also uses the class library [proto](https://github.com/fresheneesz/proto). Plugins automatically have access to `proto`, `Gem`, `Text`, `Block`, `Style`, and a number of [other gem components](http://docs.tixit.me/d/Plugin_API#Main_Plugin_API), so don't need to be installed. Gems require a `name` property and a constructor method called `build`. 
+2. Make a new javascript file for your plugin code. A Tixit plugin must be a Gem instance using the view-library [gem.js](https://github.com/Tixit/Gem.js). This tutorial also uses the class library [proto](https://github.com/fresheneesz/proto). Plugins automatically have access to `proto`, `Gem`, `Text`, `Block`, `Style`, and a number of [other gem components](http://docs.tixit.me/d/Plugin_API#Main_Plugin_API), so they don't need to be installed. Gems require a `name` property and a constructor method called `build`. 
 
 ```
 registerPlugin(proto(Gem, function(){
@@ -56,7 +56,7 @@ To test that everything is working, open the html file in the browser. You shoul
 
 Our plugin looks a bit boring so let's give it some style.
 
-1. Styles can be added by creating a `getStyle` method. The `getStyle` method should return a gem [`Style`](https://github.com/Tixit/Gem.js#style-objects) object. Note that the `getStyle` method shouldn't be
+1. Styles can be added by creating a `getStyle` method. The `getStyle` method should return a gem [`Style`](https://github.com/Tixit/Gem.js#style-objects) object. Note that the `getStyle` method shouldn't be in the `build` constructor.
 
 2. Items in the style that start with the symbol [$](https://github.com/Tixit/Gem.js#label) allows you to style objects with the label given after the `$` symbol.
 
@@ -100,7 +100,7 @@ this.greeting.visible = false
 
 ```
 var button = Button('click me')
-var box = Gem.Block(‘box’, this.greeting, button)
+var box = Block(‘box’, this.greeting, button)
 ```
 
 3. *(optional)* Give the button some style. Just add it after `$greeting` in the `getStyle` method. Here, we're using the `Button`'s `name` to select it and give it a style, rather than using a label.
@@ -130,8 +130,8 @@ this.updateText = function(){
 var that = this // so the instance can be accessed inside the click handler
 this.count = 0
 button.on(‘click’, function(){
-  that.updateText()
   that.count++
+  that.updateText()
 })
 ```
 
@@ -147,7 +147,7 @@ Ok, now let's add a click counter. The count variable is already counting the nu
 ```
 this.countText = Text()
 this.countText.visible = false
-var box = Gem.Block(‘box’, this.greeting, button, this.countText)
+var box = Block(‘box’, this.greeting, button, this.countText)
 ```
 
 Notice that `countText` doesn’t have the label `‘greeting’` so it won’t have any of the greeting style.

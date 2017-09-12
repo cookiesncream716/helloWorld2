@@ -4,7 +4,7 @@ registerPlugin(proto(Gem, function(){
 		var that = this
 
 		// access saved ticket data
-		var countProperty = optionsObservee.subject.countField
+		var countField = optionsObservee.subject.countField
 
 		this.greeting = Text('greeting', 'Hello World')
 		var button = Button('click me')
@@ -14,31 +14,31 @@ registerPlugin(proto(Gem, function(){
 		this.add(box)
 
 		// no text if count undefined and set count to 0 or display greeting and countText
-		if(ticket.get(countProperty).subject === undefined){
+		if(ticket.get(countField).subject === undefined){
 			this.greeting.visible = false
 			this.countText.visible = false
 			ticket.set('count', 0)
 		} else {
-			this.updateText(ticket.get(countProperty).subject)
+			this.updateText(ticket.get(countField).subject)
 		}
 
 		// save and increment count
 		button.on('click', function(){
-			ticket.set('count', ticket.get(countProperty).subject+1)
+			ticket.set('count', ticket.get(countField).subject+1)
 		})
 
 		// updates count and text when count changed anywhere
 		ticket.get('count').on('change', function(){
-			that.updateText(ticket.get(countProperty).subject)
+			that.updateText(ticket.get(countField).subject)
 		})
 	}
 
 	// add parameter for updateText and use it
-	this.updateText = function(num){
+	this.updateText = function(count){
 		var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-		this.greeting.text = newGreeting[(num -1)%newGreeting.length]
+		this.greeting.text = newGreeting[(count -1)%newGreeting.length]
 		this.greeting.visible = true
-		this.countText.text = 'You have clicked this button ' + num + ' times.'
+		this.countText.text = 'You have clicked this button ' + count + ' times.'
 		this.countText.visible = true
 	}
 

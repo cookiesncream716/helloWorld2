@@ -7,7 +7,7 @@
 	<script src="stage5.js"></script>
 	<script>
 		PluginTester.Api.Ticket.create().then(function(testTicket){
-			// give count a value
+			// create a ticket and give initial count
 			testTicket.subject.count = 12
 			PluginTester('HelloWorld', {countField: 'count'}, {ticketId: testTicket.subject._id, showEditor: true})
 		}).done()
