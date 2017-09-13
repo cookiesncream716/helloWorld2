@@ -6,7 +6,7 @@ registerPlugin(proto(Gem, function(){
 	this.build = function(ticket, optionsObservee, api){
 		var that = this
 
-		var countProperty = optionsObservee.subject.countField
+		var countField = optionsObservee.subject.countField
 
 		this.greeting = Text('greeting', 'Hello World')
 		var button = Button('click me')
@@ -23,20 +23,20 @@ registerPlugin(proto(Gem, function(){
 		var box = Block('box', this.greeting, button, this.countText, calendar)
 		this.add(box)
 
-		if(ticket.get(countProperty).subject === undefined){
+		if(ticket.get(countField).subject === undefined){
 			this.greeting.visible = false
 			this.countText.visible = false
-			ticket.set('count', 0)
+			ticket.set(optionsObservee.subject.countField, 0)
 		} else {
-			this.updateText(ticket.get(countProperty).subject)
+			this.updateText(ticket.get(countField).subject)
 		}
 
 		button.on('click', function(){
-			ticket.set('count', ticket.get(countProperty).subject+1)
+			ticket.set(optionsObservee.subject.countField, ticket.get(countField).subject+1)
 		})
 
-		ticket.get('count').on('change', function(){
-			that.updateText(ticket.get(countProperty).subject)
+		ticket.get(optionsObservee.subject.countField).on('change', function(){
+			that.updateText(ticket.get(countField).subject)
 		})
 
 		// stylesheet for flatpick
@@ -48,11 +48,11 @@ registerPlugin(proto(Gem, function(){
 		})		
 	}
 
-	this.updateText = function(num){
+	this.updateText = function(count){
 		var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
 		this.greeting.text = newGreeting[(num -1)%newGreeting.length]
 		this.greeting.visible = true
-		this.countText.text = 'You have clicked this button ' + num + ' times.'
+		this.countText.text = 'You have clicked this button ' + count + ' times.'
 		this.countText.visible = true
 	}
 

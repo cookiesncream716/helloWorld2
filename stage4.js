@@ -17,7 +17,7 @@ registerPlugin(proto(Gem, function(){
 			that.count++
 			that.updateText()
 
-			// save count to the ticket and update the editor box
+			// save count to the ticket
 			ticket.set(optionsObservee.subject.countField, that.count)
 		})
 	}

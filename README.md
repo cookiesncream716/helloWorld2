@@ -197,7 +197,7 @@ var countField = optionsObservee.subject.countField
 if(ticekt.get(countField).subject === undefined){
   this.greeting.visible = false
   this.countText.visible = false
-  ticket.set('count', 0)
+  ticket.set(optionsObservee.subject.countField, 0)
 } else{
   this.updateText(ticket.get(countField).subject)
 }
@@ -216,7 +216,7 @@ this.updateText = function(count){
 4. The plugin running on your machine isn't the only thing that can update the ticket. If someone else is using your plugin on the same ticket, or if another plugin modifies the ticket, we want to be able to react to those ticket changes. To do this, listen for the `change` event on the ticket's `"count"` property. Add this inside the `build` constructor:
 
 ```
-ticket.get(‘count’).on(‘change’, function(){
+ticket.get(optionsObservee.subject.countField).on(‘change’, function(){
   that.updateText(ticket.get(countProperty).subject)
 })
 ```
@@ -225,7 +225,7 @@ ticket.get(‘count’).on(‘change’, function(){
 
 ```
 button.on('click', function(){
-  ticket.set('count', ticket.get(countProperty).subject+1)
+  ticket.set(optionsObservee.subject.countField, ticket.get(countProperty).subject+1)
 })
 ```
 

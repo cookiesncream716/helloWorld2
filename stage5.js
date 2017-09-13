@@ -17,18 +17,18 @@ registerPlugin(proto(Gem, function(){
 		if(ticket.get(countField).subject === undefined){
 			this.greeting.visible = false
 			this.countText.visible = false
-			ticket.set('count', 0)
+			ticket.set(optionsObservee.subject.countField, 0)
 		} else {
 			this.updateText(ticket.get(countField).subject)
 		}
 
 		// save and increment count
 		button.on('click', function(){
-			ticket.set('count', ticket.get(countField).subject+1)
+			ticket.set(optionsObservee.subject.countField, ticket.get(countField).subject+1)
 		})
 
 		// updates count and text when count changed anywhere
-		ticket.get('count').on('change', function(){
+		ticket.get(optionsObservee.subject.countField).on('change', function(){
 			that.updateText(ticket.get(countField).subject)
 		})
 	}
