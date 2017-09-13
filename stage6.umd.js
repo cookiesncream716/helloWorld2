@@ -1,2 +1,2551 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.stage6=t():e.stage6=t()}(this,function(){return function(e){function t(a){if(n[a])return n[a].exports;var r=n[a]={i:a,l:!1,exports:{}};return e[a].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var n={};return t.m=e,t.c=n,t.d=function(e,n,a){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:a})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,n){var a=n(1);registerPlugin(proto(Gem,function(){this.name="HelloWorld",this.build=function(e,t,r){var i=this,o=t.subject.countField;this.greeting=Text("greeting","Hello World");var l=Button("click me");this.countText=Text(),this.countText.visible=!1;var c=TextField(),s=(new a(c.domNode,{enableTime:!0,dateFormat:"m-d-Y h:i K",defaultDate:new Date}),Block("box",this.greeting,l,this.countText,c));this.add(s),void 0===e.get(o).subject?(this.greeting.visible=!1,this.countText.visible=!1,e.set("count",0)):this.updateText(e.get(o).subject),l.on("click",function(){e.set("count",e.get(o).subject+1)}),e.get("count").on("change",function(){i.updateText(e.get(o).subject)}),this.on("attach",function(){var e=n(2),t=document.createElement("style");t.innerHTML=e,document.head.appendChild(t)})},this.updateText=function(e){var t=["Hello World","Hi There","Howdy","Hello","Hey"];this.greeting.text=t[(e-1)%t.length],this.greeting.visible=!0,this.countText.text="You have clicked this button "+e+" times.",this.countText.visible=!0},this.getStyle=function(){return Style({$box:{width:550,minHeight:300,border:"1px solid black",padding:10,margin:50,textAlign:"center"},$greeting:{color:"blue",fontSize:74,display:"block",margin:10,textAlign:"center"},Button:{backgroundColor:"green",color:"white",display:"block",margin:"auto",marginBottom:30},TextField:{display:"block",margin:"auto",marginTop:30}})}}))},function(e,t,n){/*! flatpickr v3.0.6, @license MIT */
-function a(e,t){function n(e){return e.bind(ve)}function r(e){ve.config.noCalendar&&!ve.selectedDates.length&&(ve.selectedDates=[ve.now]),ye(e),ve.selectedDates.length&&(!ve.minDateHasTime||"input"!==e.type||e.target.value.length>=2?(c(),fe()):setTimeout(function(){c(),fe()},1e3))}function c(){if(ve.config.enableTime){var e=(parseInt(ve.hourElement.value,10)||0)%(ve.amPM?12:24),t=(parseInt(ve.minuteElement.value,10)||0)%60,n=ve.config.enableSeconds?(parseInt(ve.secondElement.value,10)||0)%60:0;void 0!==ve.amPM&&(e=e%12+12*("PM"===ve.amPM.textContent)),ve.minDateHasTime&&0===ke(ve.latestSelectedDateObj,ve.config.minDate)&&(e=Math.max(e,ve.config.minDate.getHours()))===ve.config.minDate.getHours()&&(t=Math.max(t,ve.config.minDate.getMinutes())),ve.maxDateHasTime&&0===ke(ve.latestSelectedDateObj,ve.config.maxDate)&&(e=Math.min(e,ve.config.maxDate.getHours()))===ve.config.maxDate.getHours()&&(t=Math.min(t,ve.config.maxDate.getMinutes())),d(e,t,n)}}function s(e){var t=e||ve.latestSelectedDateObj;t&&d(t.getHours(),t.getMinutes(),t.getSeconds())}function d(e,t,n){ve.selectedDates.length&&ve.latestSelectedDateObj.setHours(e%24,t,n||0,0),ve.config.enableTime&&!ve.isMobile&&(ve.hourElement.value=ve.pad(ve.config.time_24hr?e:(12+e)%12+12*(e%12==0)),ve.minuteElement.value=ve.pad(t),ve.config.time_24hr||(ve.amPM.textContent=e>=12?"PM":"AM"),!0===ve.config.enableSeconds&&(ve.secondElement.value=ve.pad(n)))}function f(e){var t=e.target.value;e.delta&&(t=(parseInt(t)+e.delta).toString()),4!==t.length&&"Enter"!==e.key||(ve.currentYearElement.blur(),/[^\d]/.test(t)||j(t))}function p(e,t,n){return t instanceof Array?t.forEach(function(t){return p(e,t,n)}):e instanceof Array?e.forEach(function(e){return p(e,t,n)}):(e.addEventListener(t,n),void ve._handlers.push({element:e,event:t,handler:n}))}function u(e){return function(t){return 1===t.which&&e(t)}}function m(){if(ve._handlers=[],ve._animationLoop=[],ve.config.wrap&&["open","close","toggle","clear"].forEach(function(e){Array.prototype.forEach.call(ve.element.querySelectorAll("[data-"+e+"]"),function(t){return p(t,"mousedown",u(ve[e]))})}),ve.isMobile)return re();if(ve.debouncedResize=we(W,50),ve.triggerChange=function(){oe("Change")},ve.debouncedChange=we(ve.triggerChange,300),"range"===ve.config.mode&&ve.daysContainer&&p(ve.daysContainer,"mouseover",function(e){return z(e.target)}),p(window.document.body,"keydown",P),ve.config.static||p(ve._input,"keydown",P),ve.config.inline||ve.config.static||p(window,"resize",ve.debouncedResize),void 0!==window.ontouchstart&&p(window.document,"touchstart",A),p(window.document,"mousedown",u(A)),p(ve._input,"blur",A),!0===ve.config.clickOpens&&(p(ve._input,"focus",ve.open),p(ve._input,"mousedown",u(ve.open))),ve.config.noCalendar||(ve.monthNav.addEventListener("wheel",function(e){return e.preventDefault()}),p(ve.monthNav,"wheel",we(ue,10)),p(ve.monthNav,"mousedown",u(me)),p(ve.monthNav,["keyup","increment"],f),p(ve.daysContainer,"mousedown",u(G)),ve.config.animate&&(p(ve.daysContainer,["webkitAnimationEnd","animationend"],h),p(ve.monthNav,["webkitAnimationEnd","animationend"],b))),ve.config.enableTime){var e=function(e){return e.target.select()};p(ve.timeContainer,["wheel","input","increment"],r),p(ve.timeContainer,"mousedown",u(k)),p(ve.timeContainer,["wheel","increment"],ve.debouncedChange),p(ve.timeContainer,"input",ve.triggerChange),p([ve.hourElement,ve.minuteElement],"focus",e),void 0!==ve.secondElement&&p(ve.secondElement,"focus",function(){return ve.secondElement.select()}),void 0!==ve.amPM&&p(ve.amPM,"mousedown",u(function(e){r(e),ve.triggerChange(e)}))}}function g(){for(var e=ve._animationLoop.length;e--;)ve._animationLoop[e](),ve._animationLoop.splice(e,1)}function h(e){if(ve.daysContainer.childNodes.length>1)switch(e.animationName){case"fpSlideLeft":ve.daysContainer.lastChild.classList.remove("slideLeftNew"),ve.daysContainer.removeChild(ve.daysContainer.firstChild),ve.days=ve.daysContainer.firstChild,g();break;case"fpSlideRight":ve.daysContainer.firstChild.classList.remove("slideRightNew"),ve.daysContainer.removeChild(ve.daysContainer.lastChild),ve.days=ve.daysContainer.firstChild,g()}}function b(e){switch(e.animationName){case"fpSlideLeftNew":case"fpSlideRightNew":ve.navigationCurrentMonth.classList.remove("slideLeftNew"),ve.navigationCurrentMonth.classList.remove("slideRightNew");for(var t=ve.navigationCurrentMonth;t.nextSibling&&/curr/.test(t.nextSibling.className);)ve.monthNav.removeChild(t.nextSibling);for(;t.previousSibling&&/curr/.test(t.previousSibling.className);)ve.monthNav.removeChild(t.previousSibling);ve.oldCurMonth=null}}function w(e){e=e?ve.parseDate(e):ve.latestSelectedDateObj||(ve.config.minDate>ve.now?ve.config.minDate:ve.config.maxDate&&ve.config.maxDate<ve.now?ve.config.maxDate:ve.now);try{ve.currentYear=e.getFullYear(),ve.currentMonth=e.getMonth()}catch(t){console.error(t.stack),console.warn("Invalid date supplied: "+e)}ve.redraw()}function k(e){~e.target.className.indexOf("arrow")&&y(e,e.target.classList.contains("arrowUp")?1:-1)}function y(e,t,n){var a=n||e.target.parentNode.childNodes[0],r=le("increment");r.delta=t,a.dispatchEvent(r)}function v(e){var t=ge("div","numInputWrapper"),n=ge("input","numInput "+e),a=ge("span","arrowUp"),r=ge("span","arrowDown");return n.type="text",n.pattern="\\d*",t.appendChild(n),t.appendChild(a),t.appendChild(r),t}function x(){var e=window.document.createDocumentFragment();ve.calendarContainer=ge("div","flatpickr-calendar"),ve.calendarContainer.tabIndex=-1,ve.config.noCalendar||(e.appendChild(T()),ve.innerContainer=ge("div","flatpickr-innerContainer"),ve.config.weekNumbers&&ve.innerContainer.appendChild(R()),ve.rContainer=ge("div","flatpickr-rContainer"),ve.rContainer.appendChild(I()),ve.daysContainer||(ve.daysContainer=ge("div","flatpickr-days"),ve.daysContainer.tabIndex=-1),E(),ve.rContainer.appendChild(ve.daysContainer),ve.innerContainer.appendChild(ve.rContainer),e.appendChild(ve.innerContainer)),ve.config.enableTime&&e.appendChild(N()),be(ve.calendarContainer,"rangeMode","range"===ve.config.mode),be(ve.calendarContainer,"animate",ve.config.animate),ve.calendarContainer.appendChild(e);var t=ve.config.appendTo&&ve.config.appendTo.nodeType;if(ve.config.inline||ve.config.static){if(ve.calendarContainer.classList.add(ve.config.inline?"inline":"static"),ve.config.inline&&!t)return ve.element.parentNode.insertBefore(ve.calendarContainer,ve._input.nextSibling);if(ve.config.static){var n=ge("div","flatpickr-wrapper");return ve.element.parentNode.insertBefore(n,ve.element),n.appendChild(ve.element),ve.altInput&&n.appendChild(ve.altInput),void n.appendChild(ve.calendarContainer)}}(t?ve.config.appendTo:window.document.body).appendChild(ve.calendarContainer)}function D(e,t,n,a){var r=H(t,!0),i=ge("span","flatpickr-day "+e,t.getDate());return i.dateObj=t,i.$i=a,i.setAttribute("aria-label",ve.formatDate(t,ve.config.ariaDateFormat)),0===ke(t,ve.now)&&(ve.todayDateElem=i,i.classList.add("today")),r?(i.tabIndex=-1,ce(t)&&(i.classList.add("selected"),ve.selectedDateElem=i,"range"===ve.config.mode&&(be(i,"startRange",0===ke(t,ve.selectedDates[0])),be(i,"endRange",0===ke(t,ve.selectedDates[1]))))):(i.classList.add("disabled"),ve.selectedDates[0]&&t>ve.minRangeDate&&t<ve.selectedDates[0]?ve.minRangeDate=t:ve.selectedDates[0]&&t<ve.maxRangeDate&&t>ve.selectedDates[0]&&(ve.maxRangeDate=t)),"range"===ve.config.mode&&(se(t)&&!ce(t)&&i.classList.add("inRange"),1===ve.selectedDates.length&&(t<ve.minRangeDate||t>ve.maxRangeDate)&&i.classList.add("notAllowed")),ve.config.weekNumbers&&"prevMonthDay"!==e&&n%7==1&&ve.weekNumbers.insertAdjacentHTML("beforeend","<span class='disabled flatpickr-day'>"+ve.config.getWeek(t)+"</span>"),oe("DayCreate",i),i}function C(e,t){var n=e+t||0,a=void 0!==e?ve.days.childNodes[n]:ve.selectedDateElem||ve.todayDateElem||ve.days.childNodes[0],r=function(){a=a||ve.days.childNodes[n],a.focus(),"range"===ve.config.mode&&z(a)};if(void 0===a&&0!==t)return t>0?(ve.changeMonth(1),n%=42):t<0&&(ve.changeMonth(-1),n+=42),M(r);r()}function M(e){if(!0===ve.config.animate)return ve._animationLoop.push(e);e()}function E(e){var t=(new Date(ve.currentYear,ve.currentMonth,1).getDay()-ve.l10n.firstDayOfWeek+7)%7,n="range"===ve.config.mode;ve.prevMonthDays=ve.utils.getDaysinMonth((ve.currentMonth-1+12)%12),ve.selectedDateElem=void 0,ve.todayDateElem=void 0;var a=ve.utils.getDaysinMonth(),r=window.document.createDocumentFragment(),i=ve.prevMonthDays+1-t,o=0;for(ve.config.weekNumbers&&ve.weekNumbers.firstChild&&(ve.weekNumbers.textContent=""),n&&(ve.minRangeDate=new Date(ve.currentYear,ve.currentMonth-1,i),ve.maxRangeDate=new Date(ve.currentYear,ve.currentMonth+1,(42-t)%a));i<=ve.prevMonthDays;i++,o++)r.appendChild(D("prevMonthDay",new Date(ve.currentYear,ve.currentMonth-1,i),i,o));for(i=1;i<=a;i++,o++)r.appendChild(D("",new Date(ve.currentYear,ve.currentMonth,i),i,o));for(var l=a+1;l<=42-t;l++,o++)r.appendChild(D("nextMonthDay",new Date(ve.currentYear,ve.currentMonth+1,l%a),l,o));n&&1===ve.selectedDates.length&&r.childNodes[0]?(ve._hidePrevMonthArrow=ve._hidePrevMonthArrow||ve.minRangeDate>r.childNodes[0].dateObj,ve._hideNextMonthArrow=ve._hideNextMonthArrow||ve.maxRangeDate<new Date(ve.currentYear,ve.currentMonth+1,1)):de();var c=ge("div","dayContainer");if(c.appendChild(r),ve.config.animate&&void 0!==e)for(;ve.daysContainer.childNodes.length>1;)ve.daysContainer.removeChild(ve.daysContainer.firstChild);else S(ve.daysContainer);return e>=0?ve.daysContainer.appendChild(c):ve.daysContainer.insertBefore(c,ve.daysContainer.firstChild),ve.days=ve.daysContainer.firstChild,ve.daysContainer}function S(e){for(;e.firstChild;)e.removeChild(e.firstChild)}function T(){var e=window.document.createDocumentFragment();ve.monthNav=ge("div","flatpickr-month"),ve.prevMonthNav=ge("span","flatpickr-prev-month"),ve.prevMonthNav.innerHTML=ve.config.prevArrow,ve.currentMonthElement=ge("span","cur-month"),ve.currentMonthElement.title=ve.l10n.scrollTitle;var t=v("cur-year");return ve.currentYearElement=t.childNodes[0],ve.currentYearElement.title=ve.l10n.scrollTitle,ve.config.minDate&&(ve.currentYearElement.min=ve.config.minDate.getFullYear()),ve.config.maxDate&&(ve.currentYearElement.max=ve.config.maxDate.getFullYear(),ve.currentYearElement.disabled=ve.config.minDate&&ve.config.minDate.getFullYear()===ve.config.maxDate.getFullYear()),ve.nextMonthNav=ge("span","flatpickr-next-month"),ve.nextMonthNav.innerHTML=ve.config.nextArrow,ve.navigationCurrentMonth=ge("span","flatpickr-current-month"),ve.navigationCurrentMonth.appendChild(ve.currentMonthElement),ve.navigationCurrentMonth.appendChild(t),e.appendChild(ve.prevMonthNav),e.appendChild(ve.navigationCurrentMonth),e.appendChild(ve.nextMonthNav),ve.monthNav.appendChild(e),Object.defineProperty(ve,"_hidePrevMonthArrow",{get:function(){return this.__hidePrevMonthArrow},set:function(e){this.__hidePrevMonthArrow!==e&&(ve.prevMonthNav.style.display=e?"none":"block"),this.__hidePrevMonthArrow=e}}),Object.defineProperty(ve,"_hideNextMonthArrow",{get:function(){return this.__hideNextMonthArrow},set:function(e){this.__hideNextMonthArrow!==e&&(ve.nextMonthNav.style.display=e?"none":"block"),this.__hideNextMonthArrow=e}}),de(),ve.monthNav}function N(){ve.calendarContainer.classList.add("hasTime"),ve.config.noCalendar&&ve.calendarContainer.classList.add("noCalendar"),ve.timeContainer=ge("div","flatpickr-time"),ve.timeContainer.tabIndex=-1;var e=ge("span","flatpickr-time-separator",":"),t=v("flatpickr-hour");ve.hourElement=t.childNodes[0];var n=v("flatpickr-minute");if(ve.minuteElement=n.childNodes[0],ve.hourElement.tabIndex=ve.minuteElement.tabIndex=-1,ve.hourElement.value=ve.pad(ve.latestSelectedDateObj?ve.latestSelectedDateObj.getHours():ve.config.defaultHour%(ve.time_24hr?24:12)),ve.minuteElement.value=ve.pad(ve.latestSelectedDateObj?ve.latestSelectedDateObj.getMinutes():ve.config.defaultMinute),ve.hourElement.step=ve.config.hourIncrement,ve.minuteElement.step=ve.config.minuteIncrement,ve.hourElement.min=ve.config.time_24hr?0:1,ve.hourElement.max=ve.config.time_24hr?23:12,ve.minuteElement.min=0,ve.minuteElement.max=59,ve.hourElement.title=ve.minuteElement.title=ve.l10n.scrollTitle,ve.timeContainer.appendChild(t),ve.timeContainer.appendChild(e),ve.timeContainer.appendChild(n),ve.config.time_24hr&&ve.timeContainer.classList.add("time24hr"),ve.config.enableSeconds){ve.timeContainer.classList.add("hasSeconds");var a=v("flatpickr-second");ve.secondElement=a.childNodes[0],ve.secondElement.value=ve.pad(ve.latestSelectedDateObj?ve.latestSelectedDateObj.getSeconds():ve.config.defaultSeconds),ve.secondElement.step=ve.minuteElement.step,ve.secondElement.min=ve.minuteElement.min,ve.secondElement.max=ve.minuteElement.max,ve.timeContainer.appendChild(ge("span","flatpickr-time-separator",":")),ve.timeContainer.appendChild(a)}return ve.config.time_24hr||(ve.amPM=ge("span","flatpickr-am-pm",["AM","PM"][(ve.latestSelectedDateObj?ve.hourElement.value:ve.config.defaultHour)>11|0]),ve.amPM.title=ve.l10n.toggleTitle,ve.amPM.tabIndex=-1,ve.timeContainer.appendChild(ve.amPM)),ve.timeContainer}function I(){ve.weekdayContainer||(ve.weekdayContainer=ge("div","flatpickr-weekdays"));var e=ve.l10n.firstDayOfWeek,t=ve.l10n.weekdays.shorthand.slice();return e>0&&e<t.length&&(t=[].concat(t.splice(e,t.length),t.splice(0,e))),ve.weekdayContainer.innerHTML="\n\t\t<span class=flatpickr-weekday>\n\t\t\t"+t.join("</span><span class=flatpickr-weekday>")+"\n\t\t</span>\n\t\t",ve.weekdayContainer}function R(){return ve.calendarContainer.classList.add("hasWeeks"),ve.weekWrapper=ge("div","flatpickr-weekwrapper"),ve.weekWrapper.appendChild(ge("span","flatpickr-weekday",ve.l10n.weekAbbreviation)),ve.weekNumbers=ge("div","flatpickr-weeks"),ve.weekWrapper.appendChild(ve.weekNumbers),ve.weekWrapper}function F(e,t,n){t=void 0===t||t;var a=t?e:e-ve.currentMonth,r=!ve.config.animate||!1===n;if(!(a<0&&ve._hidePrevMonthArrow||a>0&&ve._hideNextMonthArrow)){if(ve.currentMonth+=a,(ve.currentMonth<0||ve.currentMonth>11)&&(ve.currentYear+=ve.currentMonth>11?1:-1,ve.currentMonth=(ve.currentMonth+12)%12,oe("YearChange")),E(r?void 0:a),r)return oe("MonthChange"),de();var i=ve.navigationCurrentMonth;if(a<0)for(;i.nextSibling&&/curr/.test(i.nextSibling.className);)ve.monthNav.removeChild(i.nextSibling);else if(a>0)for(;i.previousSibling&&/curr/.test(i.previousSibling.className);)ve.monthNav.removeChild(i.previousSibling);if(ve.oldCurMonth=ve.navigationCurrentMonth,ve.navigationCurrentMonth=ve.monthNav.insertBefore(ve.oldCurMonth.cloneNode(!0),a>0?ve.oldCurMonth.nextSibling:ve.oldCurMonth),a>0?(ve.daysContainer.firstChild.classList.add("slideLeft"),ve.daysContainer.lastChild.classList.add("slideLeftNew"),ve.oldCurMonth.classList.add("slideLeft"),ve.navigationCurrentMonth.classList.add("slideLeftNew")):a<0&&(ve.daysContainer.firstChild.classList.add("slideRightNew"),ve.daysContainer.lastChild.classList.add("slideRight"),ve.oldCurMonth.classList.add("slideRight"),ve.navigationCurrentMonth.classList.add("slideRightNew")),ve.currentMonthElement=ve.navigationCurrentMonth.firstChild,ve.currentYearElement=ve.navigationCurrentMonth.lastChild.childNodes[0],de(),ve.oldCurMonth.firstChild.textContent=ve.utils.monthToStr(ve.currentMonth-a),oe("MonthChange"),document.activeElement&&document.activeElement.$i){var o=document.activeElement.$i;M(function(){C(o,0)})}}}function _(e){ve.input.value="",ve.altInput&&(ve.altInput.value=""),ve.mobileInput&&(ve.mobileInput.value=""),ve.selectedDates=[],ve.latestSelectedDateObj=void 0,ve.showTimeInput=!1,ve.redraw(),!1!==e&&oe("Change")}function Y(){ve.isOpen=!1,ve.isMobile||(ve.calendarContainer.classList.remove("open"),ve._input.classList.remove("active")),oe("Close")}function O(){void 0!==ve.config&&oe("Destroy");for(var e=ve._handlers.length;e--;){var t=ve._handlers[e];t.element.removeEventListener(t.event,t.handler)}ve._handlers=[],ve.mobileInput?(ve.mobileInput.parentNode&&ve.mobileInput.parentNode.removeChild(ve.mobileInput),ve.mobileInput=null):ve.calendarContainer&&ve.calendarContainer.parentNode&&ve.calendarContainer.parentNode.removeChild(ve.calendarContainer),ve.altInput&&(ve.input.type="text",ve.altInput.parentNode&&ve.altInput.parentNode.removeChild(ve.altInput),delete ve.altInput),ve.input&&(ve.input.type=ve.input._type,ve.input.classList.remove("flatpickr-input"),ve.input.removeAttribute("readonly"),ve.input.value=""),["_showTimeInput","latestSelectedDateObj","_hideNextMonthArrow","_hidePrevMonthArrow","__hideNextMonthArrow","__hidePrevMonthArrow","isMobile","isOpen","selectedDateElem","minDateHasTime","maxDateHasTime","days","daysContainer","_input","_positionElement","innerContainer","rContainer","monthNav","todayDateElem","calendarContainer","weekdayContainer","prevMonthNav","nextMonthNav","currentMonthElement","currentYearElement","navigationCurrentMonth","selectedDateElem","config"].forEach(function(e){try{delete ve[e]}catch(e){}})}function L(e){return!(!ve.config.appendTo||!ve.config.appendTo.contains(e))||ve.calendarContainer.contains(e)}function A(e){if(ve.isOpen&&!ve.config.inline){var t=L(e.target),n=e.target===ve.input||e.target===ve.altInput||ve.element.contains(e.target)||e.path&&e.path.indexOf&&(~e.path.indexOf(ve.input)||~e.path.indexOf(ve.altInput));("blur"===e.type?n&&e.relatedTarget&&!L(e.relatedTarget):!n&&!t)&&-1===ve.config.ignoredFocusElements.indexOf(e.target)&&(ve.close(),"range"===ve.config.mode&&1===ve.selectedDates.length&&(ve.clear(!1),ve.redraw()))}}function j(e){if(!(!e||ve.currentYearElement.min&&e<ve.currentYearElement.min||ve.currentYearElement.max&&e>ve.currentYearElement.max)){var t=parseInt(e,10),n=ve.currentYear!==t;ve.currentYear=t||ve.currentYear,ve.config.maxDate&&ve.currentYear===ve.config.maxDate.getFullYear()?ve.currentMonth=Math.min(ve.config.maxDate.getMonth(),ve.currentMonth):ve.config.minDate&&ve.currentYear===ve.config.minDate.getFullYear()&&(ve.currentMonth=Math.max(ve.config.minDate.getMonth(),ve.currentMonth)),n&&(ve.redraw(),oe("YearChange"))}}function H(e,t){if(ve.config.minDate&&ke(e,ve.config.minDate,void 0!==t?t:!ve.minDateHasTime)<0||ve.config.maxDate&&ke(e,ve.config.maxDate,void 0!==t?t:!ve.maxDateHasTime)>0)return!1;if(!ve.config.enable.length&&!ve.config.disable.length)return!0;for(var n,a=ve.parseDate(e,null,!0),r=ve.config.enable.length>0,i=r?ve.config.enable:ve.config.disable,o=0;o<i.length;o++){if((n=i[o])instanceof Function&&n(a))return r;if(n instanceof Date&&n.getTime()===a.getTime())return r;if("string"==typeof n&&ve.parseDate(n,null,!0).getTime()===a.getTime())return r;if("object"===(void 0===n?"undefined":l(n))&&n.from&&n.to&&a>=n.from&&a<=n.to)return r}return!r}function P(e){var t=e.target===ve._input,n=L(e.target),a=ve.config.allowInput,i=ve.isOpen&&(!a||!t),o=ve.config.inline&&t&&!a;if("Enter"===e.key&&a&&t)return ve.setDate(ve._input.value,!0,e.target===ve.altInput?ve.config.altFormat:ve.config.dateFormat),e.target.blur();if(n||i||o){var l=ve.timeContainer&&ve.timeContainer.contains(e.target);switch(e.key){case"Enter":l?fe():G(e);break;case"Escape":e.preventDefault(),ve.close();break;case"Backspace":case"Delete":ve.config.allowInput||ve.clear();break;case"ArrowLeft":case"ArrowRight":if(!l)if(e.preventDefault(),ve.daysContainer){var s="ArrowRight"===e.key?1:-1;e.ctrlKey?F(s,!0):C(e.target.$i,s)}else ve.config.enableTime&&!l&&ve.hourElement.focus();break;case"ArrowUp":case"ArrowDown":e.preventDefault();var d="ArrowDown"===e.key?1:-1;ve.daysContainer?e.ctrlKey?(j(ve.currentYear-d),C(e.target.$i,0)):l||C(e.target.$i,7*d):ve.config.enableTime&&(l||ve.hourElement.focus(),r(e),ve.debouncedChange());break;case"Tab":e.target===ve.hourElement?(e.preventDefault(),ve.minuteElement.select()):e.target===ve.minuteElement&&(ve.secondElement||ve.amPM)?(e.preventDefault(),(ve.secondElement||ve.amPM).focus()):e.target===ve.secondElement&&(e.preventDefault(),ve.amPM.focus());break;case"a":e.target===ve.amPM&&(ve.amPM.textContent="AM",c(),fe());break;case"p":e.target===ve.amPM&&(ve.amPM.textContent="PM",c(),fe())}oe("KeyDown",e)}}function z(e){if(1===ve.selectedDates.length&&e.classList.contains("flatpickr-day")){for(var t=e.dateObj,n=ve.parseDate(ve.selectedDates[0],null,!0),a=Math.min(t.getTime(),ve.selectedDates[0].getTime()),r=Math.max(t.getTime(),ve.selectedDates[0].getTime()),i=!1,o=a;o<r;o+=ve.utils.duration.DAY)if(!H(new Date(o))){i=!0;break}for(var l=ve.days.childNodes[0].dateObj.getTime(),c=0;c<42;c++,l+=ve.utils.duration.DAY){(function(o,l){var c=o<ve.minRangeDate.getTime()||o>ve.maxRangeDate.getTime(),s=ve.days.childNodes[l];if(c)return ve.days.childNodes[l].classList.add("notAllowed"),["inRange","startRange","endRange"].forEach(function(e){s.classList.remove(e)}),"continue";if(i&&!c)return"continue";["startRange","inRange","endRange","notAllowed"].forEach(function(e){s.classList.remove(e)});var d=Math.max(ve.minRangeDate.getTime(),a),f=Math.min(ve.maxRangeDate.getTime(),r);e.classList.add(t<ve.selectedDates[0]?"startRange":"endRange"),n<t&&o===n.getTime()?s.classList.add("startRange"):n>t&&o===n.getTime()&&s.classList.add("endRange"),o>=d&&o<=f&&s.classList.add("inRange")})(l,c)}}}function W(){!ve.isOpen||ve.config.static||ve.config.inline||$()}function B(e,t){if(ve.isMobile)return e&&(e.preventDefault(),e.target.blur()),setTimeout(function(){ve.mobileInput.click()},0),void oe("Open");ve.isOpen||ve._input.disabled||ve.config.inline||(ve.isOpen=!0,ve.calendarContainer.classList.add("open"),$(t),ve._input.classList.add("active"),oe("Open"))}function U(e){return function(t){var n=ve.config["_"+e+"Date"]=ve.parseDate(t),a=ve.config["_"+("min"===e?"max":"min")+"Date"],r=t&&n instanceof Date;r&&(ve[e+"DateHasTime"]=n.getHours()||n.getMinutes()||n.getSeconds()),ve.selectedDates&&(ve.selectedDates=ve.selectedDates.filter(function(e){return H(e)}),ve.selectedDates.length||"min"!==e||s(n),fe()),ve.daysContainer&&(q(),r?ve.currentYearElement[e]=n.getFullYear():ve.currentYearElement.removeAttribute(e),ve.currentYearElement.disabled=a&&n&&a.getFullYear()===n.getFullYear())}}function J(){var e=["wrap","weekNumbers","allowInput","clickOpens","time_24hr","enableTime","noCalendar","altInput","shorthandCurrentMonth","inline","static","enableSeconds","disableMobile"],t=["onChange","onClose","onDayCreate","onDestroy","onKeyDown","onMonthChange","onOpen","onParseConfig","onReady","onValueUpdate","onYearChange"];ve.config=Object.create(i.defaultConfig);var a=o({},ve.instanceConfig,JSON.parse(JSON.stringify(ve.element.dataset||{})));ve.config.parseDate=a.parseDate,ve.config.formatDate=a.formatDate,Object.defineProperty(ve.config,"enable",{get:function(){return ve.config._enable||[]},set:function(e){return ve.config._enable=X(e)}}),Object.defineProperty(ve.config,"disable",{get:function(){return ve.config._disable||[]},set:function(e){return ve.config._disable=X(e)}}),o(ve.config,a),!a.dateFormat&&a.enableTime&&(ve.config.dateFormat=ve.config.noCalendar?"H:i"+(ve.config.enableSeconds?":S":""):i.defaultConfig.dateFormat+" H:i"+(ve.config.enableSeconds?":S":"")),a.altInput&&a.enableTime&&!a.altFormat&&(ve.config.altFormat=ve.config.noCalendar?"h:i"+(ve.config.enableSeconds?":S K":" K"):i.defaultConfig.altFormat+" h:i"+(ve.config.enableSeconds?":S":"")+" K"),Object.defineProperty(ve.config,"minDate",{get:function(){return this._minDate},set:U("min")}),Object.defineProperty(ve.config,"maxDate",{get:function(){return this._maxDate},set:U("max")}),ve.config.minDate=a.minDate,ve.config.maxDate=a.maxDate;for(var r=0;r<e.length;r++)ve.config[e[r]]=!0===ve.config[e[r]]||"true"===ve.config[e[r]];for(var l=t.length;l--;)void 0!==ve.config[t[l]]&&(ve.config[t[l]]=he(ve.config[t[l]]||[]).map(n));for(var c=0;c<ve.config.plugins.length;c++){var s=ve.config.plugins[c](ve)||{};for(var d in s)ve.config[d]instanceof Array||~t.indexOf(d)?ve.config[d]=he(s[d]).map(n).concat(ve.config[d]):void 0===a[d]&&(ve.config[d]=s[d])}oe("ParseConfig")}function K(){"object"!==l(ve.config.locale)&&void 0===i.l10ns[ve.config.locale]&&console.warn("flatpickr: invalid locale "+ve.config.locale),ve.l10n=o(Object.create(i.l10ns.default),"object"===l(ve.config.locale)?ve.config.locale:"default"!==ve.config.locale?i.l10ns[ve.config.locale]||{}:{})}function $(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:ve._positionElement;if(void 0!==ve.calendarContainer){var t=ve.calendarContainer.offsetHeight,n=ve.calendarContainer.offsetWidth,a=ve.config.position,r=e.getBoundingClientRect(),i=window.innerHeight-r.bottom,o="above"===a||"below"!==a&&i<t&&r.top>t,l=window.pageYOffset+r.top+(o?-t-2:e.offsetHeight+2);if(be(ve.calendarContainer,"arrowTop",!o),be(ve.calendarContainer,"arrowBottom",o),!ve.config.inline){var c=window.pageXOffset+r.left,s=window.document.body.offsetWidth-r.right,d=c+n>window.document.body.offsetWidth;be(ve.calendarContainer,"rightMost",d),ve.config.static||(ve.calendarContainer.style.top=l+"px",d?(ve.calendarContainer.style.left="auto",ve.calendarContainer.style.right=s+"px"):(ve.calendarContainer.style.left=c+"px",ve.calendarContainer.style.right="auto"))}}}function q(){ve.config.noCalendar||ve.isMobile||(I(),de(),E())}function G(e){if(e.preventDefault(),e.stopPropagation(),e.target.classList.contains("flatpickr-day")&&!e.target.classList.contains("disabled")&&!e.target.classList.contains("notAllowed")){var t=ve.latestSelectedDateObj=new Date(e.target.dateObj.getTime()),n=t.getMonth()!==ve.currentMonth&&"range"!==ve.config.mode;if(ve.selectedDateElem=e.target,"single"===ve.config.mode)ve.selectedDates=[t];else if("multiple"===ve.config.mode){var a=ce(t);a?ve.selectedDates.splice(a,1):ve.selectedDates.push(t)}else"range"===ve.config.mode&&(2===ve.selectedDates.length&&ve.clear(),ve.selectedDates.push(t),0!==ke(t,ve.selectedDates[0],!0)&&ve.selectedDates.sort(function(e,t){return e.getTime()-t.getTime()}));if(c(),n){var r=ve.currentYear!==t.getFullYear();ve.currentYear=t.getFullYear(),ve.currentMonth=t.getMonth(),r&&oe("YearChange"),oe("MonthChange")}if(E(),ve.minDateHasTime&&ve.config.enableTime&&0===ke(t,ve.config.minDate)&&s(ve.config.minDate),fe(),ve.config.enableTime&&setTimeout(function(){return ve.showTimeInput=!0},50),"range"===ve.config.mode&&(1===ve.selectedDates.length?(z(e.target),ve._hidePrevMonthArrow=ve._hidePrevMonthArrow||ve.minRangeDate>ve.days.childNodes[0].dateObj,ve._hideNextMonthArrow=ve._hideNextMonthArrow||ve.maxRangeDate<new Date(ve.currentYear,ve.currentMonth+1,1)):de()),oe("Change"),n?M(function(){return ve.selectedDateElem&&ve.selectedDateElem.focus()}):C(e.target.$i,0),ve.config.enableTime&&setTimeout(function(){return ve.hourElement.select()},451),ve.config.closeOnSelect){var i="single"===ve.config.mode&&!ve.config.enableTime,o="range"===ve.config.mode&&2===ve.selectedDates.length&&!ve.config.enableTime;(i||o)&&ve.close()}}}function V(e,t){null!==e&&"object"===(void 0===e?"undefined":l(e))?o(ve.config,e):ve.config[e]=t,ve.redraw(),w()}function Z(e,t){if(e instanceof Array)ve.selectedDates=e.map(function(e){return ve.parseDate(e,t)});else if(e instanceof Date||!isNaN(e))ve.selectedDates=[ve.parseDate(e,t)];else if(e&&e.substring)switch(ve.config.mode){case"single":ve.selectedDates=[ve.parseDate(e,t)];break;case"multiple":ve.selectedDates=e.split("; ").map(function(e){return ve.parseDate(e,t)});break;case"range":ve.selectedDates=e.split(ve.l10n.rangeSeparator).map(function(e){return ve.parseDate(e,t)})}ve.selectedDates=ve.selectedDates.filter(function(e){return e instanceof Date&&H(e,!1)}),ve.selectedDates.sort(function(e,t){return e.getTime()-t.getTime()})}function Q(e,t,n){if(0!==e&&!e)return ve.clear(t);Z(e,n),ve.showTimeInput=ve.selectedDates.length>0,ve.latestSelectedDateObj=ve.selectedDates[0],ve.redraw(),w(),s(),fe(t),t&&oe("Change")}function X(e){for(var t=e.length;t--;)"string"==typeof e[t]||+e[t]?e[t]=ve.parseDate(e[t],null,!0):e[t]&&e[t].from&&e[t].to&&(e[t].from=ve.parseDate(e[t].from),e[t].to=ve.parseDate(e[t].to));return e.filter(function(e){return e})}function ee(){ve.selectedDates=[],ve.now=new Date;var e=ve.config.defaultDate||ve.input.value;e&&Z(e,ve.config.dateFormat);var t=ve.selectedDates.length?ve.selectedDates[0]:ve.config.minDate&&ve.config.minDate.getTime()>ve.now?ve.config.minDate:ve.config.maxDate&&ve.config.maxDate.getTime()<ve.now?ve.config.maxDate:ve.now;ve.currentYear=t.getFullYear(),ve.currentMonth=t.getMonth(),ve.selectedDates.length&&(ve.latestSelectedDateObj=ve.selectedDates[0]),ve.minDateHasTime=ve.config.minDate&&(ve.config.minDate.getHours()||ve.config.minDate.getMinutes()||ve.config.minDate.getSeconds()),ve.maxDateHasTime=ve.config.maxDate&&(ve.config.maxDate.getHours()||ve.config.maxDate.getMinutes()||ve.config.maxDate.getSeconds()),Object.defineProperty(ve,"latestSelectedDateObj",{get:function(){return ve._selectedDateObj||ve.selectedDates[ve.selectedDates.length-1]},set:function(e){ve._selectedDateObj=e}}),ve.isMobile||Object.defineProperty(ve,"showTimeInput",{get:function(){return ve._showTimeInput},set:function(e){ve._showTimeInput=e,ve.calendarContainer&&be(ve.calendarContainer,"showTimeInput",e),$()}})}function te(){ve.utils={duration:{DAY:864e5},getDaysinMonth:function(e,t){return e=void 0===e?ve.currentMonth:e,t=void 0===t?ve.currentYear:t,1===e&&(t%4==0&&t%100!=0||t%400==0)?29:ve.l10n.daysInMonth[e]},monthToStr:function(e,t){return t=void 0===t?ve.config.shorthandCurrentMonth:t,ve.l10n.months[(t?"short":"long")+"hand"][e]}}}function ne(){ve.formats=Object.create(a.prototype.formats),["D","F","J","M","W","l"].forEach(function(e){ve.formats[e]=a.prototype.formats[e].bind(ve)}),ve.revFormat.F=a.prototype.revFormat.F.bind(ve),ve.revFormat.M=a.prototype.revFormat.M.bind(ve)}function ae(){if(ve.input=ve.config.wrap?ve.element.querySelector("[data-input]"):ve.element,!ve.input)return console.warn("Error: invalid input element specified",ve.input);ve.input._type=ve.input.type,ve.input.type="text",ve.input.classList.add("flatpickr-input"),ve._input=ve.input,ve.config.altInput&&(ve.altInput=ge(ve.input.nodeName,ve.input.className+" "+ve.config.altInputClass),ve._input=ve.altInput,ve.altInput.placeholder=ve.input.placeholder,ve.altInput.disabled=ve.input.disabled,ve.altInput.required=ve.input.required,ve.altInput.type="text",ve.input.type="hidden",!ve.config.static&&ve.input.parentNode&&ve.input.parentNode.insertBefore(ve.altInput,ve.input.nextSibling)),ve.config.allowInput||ve._input.setAttribute("readonly","readonly"),ve._positionElement=ve.config.positionElement||ve._input}function re(){var e=ve.config.enableTime?ve.config.noCalendar?"time":"datetime-local":"date";ve.mobileInput=ge("input",ve.input.className+" flatpickr-mobile"),ve.mobileInput.step=ve.input.getAttribute("step")||"any",ve.mobileInput.tabIndex=1,ve.mobileInput.type=e,ve.mobileInput.disabled=ve.input.disabled,ve.mobileInput.placeholder=ve.input.placeholder,ve.mobileFormatStr="datetime-local"===e?"Y-m-d\\TH:i:S":"date"===e?"Y-m-d":"H:i:S",ve.selectedDates.length&&(ve.mobileInput.defaultValue=ve.mobileInput.value=ve.formatDate(ve.selectedDates[0],ve.mobileFormatStr)),ve.config.minDate&&(ve.mobileInput.min=ve.formatDate(ve.config.minDate,"Y-m-d")),ve.config.maxDate&&(ve.mobileInput.max=ve.formatDate(ve.config.maxDate,"Y-m-d")),ve.input.type="hidden",ve.config.altInput&&(ve.altInput.type="hidden");try{ve.input.parentNode.insertBefore(ve.mobileInput,ve.input.nextSibling)}catch(e){}ve.mobileInput.addEventListener("change",function(e){ve.setDate(e.target.value,!1,ve.mobileFormatStr),oe("Change"),oe("Close")})}function ie(){if(ve.isOpen)return ve.close();ve.open()}function oe(e,t){var n=ve.config["on"+e];if(void 0!==n&&n.length>0)for(var a=0;n[a]&&a<n.length;a++)n[a](ve.selectedDates,ve.input.value,ve,t);"Change"===e&&(ve.input.dispatchEvent(le("change")),ve.input.dispatchEvent(le("input")))}function le(e){return ve._supportsEvents?new Event(e,{bubbles:!0}):(ve._[e+"Event"]=document.createEvent("Event"),ve._[e+"Event"].initEvent(e,!0,!0),ve._[e+"Event"])}function ce(e){for(var t=0;t<ve.selectedDates.length;t++)if(0===ke(ve.selectedDates[t],e))return""+t;return!1}function se(e){return!("range"!==ve.config.mode||ve.selectedDates.length<2)&&(ke(e,ve.selectedDates[0])>=0&&ke(e,ve.selectedDates[1])<=0)}function de(){ve.config.noCalendar||ve.isMobile||!ve.monthNav||(ve.currentMonthElement.textContent=ve.utils.monthToStr(ve.currentMonth)+" ",ve.currentYearElement.value=ve.currentYear,ve._hidePrevMonthArrow=ve.config.minDate&&(ve.currentYear===ve.config.minDate.getFullYear()?ve.currentMonth<=ve.config.minDate.getMonth():ve.currentYear<ve.config.minDate.getFullYear()),ve._hideNextMonthArrow=ve.config.maxDate&&(ve.currentYear===ve.config.maxDate.getFullYear()?ve.currentMonth+1>ve.config.maxDate.getMonth():ve.currentYear>ve.config.maxDate.getFullYear()))}function fe(e){if(!ve.selectedDates.length)return ve.clear(e);ve.isMobile&&(ve.mobileInput.value=ve.selectedDates.length?ve.formatDate(ve.latestSelectedDateObj,ve.mobileFormatStr):"");var t="range"!==ve.config.mode?"; ":ve.l10n.rangeSeparator;ve.input.value=ve.selectedDates.map(function(e){return ve.formatDate(e,ve.config.dateFormat)}).join(t),ve.config.altInput&&(ve.altInput.value=ve.selectedDates.map(function(e){return ve.formatDate(e,ve.config.altFormat)}).join(t)),!1!==e&&oe("ValueUpdate")}function pe(e){return Math.max(-1,Math.min(1,e.wheelDelta||-e.deltaY))}function ue(e){e.preventDefault();var t=ve.currentYearElement.parentNode.contains(e.target);if(e.target===ve.currentMonthElement||t){var n=pe(e);t?(j(ve.currentYear+n),e.target.value=ve.currentYear):ve.changeMonth(n,!0,!1)}}function me(e){var t=ve.prevMonthNav.contains(e.target),n=ve.nextMonthNav.contains(e.target);t||n?F(t?-1:1):e.target===ve.currentYearElement?(e.preventDefault(),ve.currentYearElement.select()):"arrowUp"===e.target.className?ve.changeYear(ve.currentYear+1):"arrowDown"===e.target.className&&ve.changeYear(ve.currentYear-1)}function ge(e,t,n){var a=window.document.createElement(e);return t=t||"",n=n||"",a.className=t,void 0!==n&&(a.textContent=n),a}function he(e){return e instanceof Array?e:[e]}function be(e,t,n){if(n)return e.classList.add(t);e.classList.remove(t)}function we(e,t,n){var a=void 0;return function(){var r=this,i=arguments;clearTimeout(a),a=setTimeout(function(){a=null,n||e.apply(r,i)},t),n&&!a&&e.apply(r,i)}}function ke(e,t,n){return e instanceof Date&&t instanceof Date&&(!1!==n?new Date(e.getTime()).setHours(0,0,0,0)-new Date(t.getTime()).setHours(0,0,0,0):e.getTime()-t.getTime())}function ye(e){e.preventDefault();var t="keydown"===e.type,n=(e.type,e.type,e.target);if(ve.amPM&&e.target===ve.amPM)return e.target.textContent=["AM","PM"]["AM"===e.target.textContent|0];var a=Number(n.min),r=Number(n.max),i=Number(n.step),o=parseInt(n.value,10),l=e.delta||(t?38===e.which?1:-1:Math.max(-1,Math.min(1,e.wheelDelta||-e.deltaY))||0),c=o+i*l;if(void 0!==n.value&&2===n.value.length){var s=n===ve.hourElement,d=n===ve.minuteElement;c<a?(c=r+c+!s+(s&&!ve.amPM),d&&y(null,-1,ve.hourElement)):c>r&&(c=n===ve.hourElement?c-r-!ve.amPM:a,d&&y(null,1,ve.hourElement)),ve.amPM&&s&&(1===i?c+o===23:Math.abs(c-o)>i)&&(ve.amPM.textContent="PM"===ve.amPM.textContent?"AM":"PM"),n.value=ve.pad(c)}}var ve=this;return ve._={},ve._.afterDayAnim=M,ve._bind=p,ve._compareDates=ke,ve._setHoursFromDate=s,ve.changeMonth=F,ve.changeYear=j,ve.clear=_,ve.close=Y,ve._createElement=ge,ve.destroy=O,ve.isEnabled=H,ve.jumpToDate=w,ve.open=B,ve.redraw=q,ve.set=V,ve.setDate=Q,ve.toggle=ie,function(){ve.element=ve.input=e,ve.instanceConfig=t||{},ve.parseDate=a.prototype.parseDate.bind(ve),ve.formatDate=a.prototype.formatDate.bind(ve),ne(),J(),K(),ae(),ee(),te(),ve.isOpen=!1,ve.isMobile=!ve.config.disableMobile&&!ve.config.inline&&"single"===ve.config.mode&&!ve.config.disable.length&&!ve.config.enable.length&&!ve.config.weekNumbers&&/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),ve.isMobile||x(),m(),(ve.selectedDates.length||ve.config.noCalendar)&&(ve.config.enableTime&&s(ve.config.noCalendar?ve.latestSelectedDateObj||ve.config.minDate:null),fe(!1)),ve.showTimeInput=ve.selectedDates.length>0||ve.config.noCalendar,ve.config.weekNumbers&&(ve.calendarContainer.style.width=ve.daysContainer.offsetWidth+ve.weekWrapper.offsetWidth+"px"),ve.isMobile||$(),oe("Ready")}(),ve}function r(e,t){for(var n=Array.prototype.slice.call(e),r=[],i=0;i<n.length;i++)try{if(null!==n[i].getAttribute("data-fp-omit"))continue;n[i]._flatpickr&&(n[i]._flatpickr.destroy(),n[i]._flatpickr=null),n[i]._flatpickr=new a(n[i],t||{}),r.push(n[i]._flatpickr)}catch(e){console.warn(e,e.stack)}return 1===r.length?r[0]:r}function i(e,t){return e instanceof NodeList?r(e,t):e instanceof HTMLElement?r([e],t):r(window.document.querySelectorAll(e),t)}var o=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var a in n)Object.prototype.hasOwnProperty.call(n,a)&&(e[a]=n[a])}return e},l="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};a.prototype={formats:{Z:function(e){return e.toISOString()},D:function(e){return this.l10n.weekdays.shorthand[this.formats.w(e)]},F:function(e){return this.utils.monthToStr(this.formats.n(e)-1,!1)},G:function(e){return a.prototype.pad(a.prototype.formats.h(e))},H:function(e){return a.prototype.pad(e.getHours())},J:function(e){return e.getDate()+this.l10n.ordinal(e.getDate())},K:function(e){return e.getHours()>11?"PM":"AM"},M:function(e){return this.utils.monthToStr(e.getMonth(),!0)},S:function(e){return a.prototype.pad(e.getSeconds())},U:function(e){return e.getTime()/1e3},W:function(e){return this.config.getWeek(e)},Y:function(e){return e.getFullYear()},d:function(e){return a.prototype.pad(e.getDate())},h:function(e){return e.getHours()%12?e.getHours()%12:12},i:function(e){return a.prototype.pad(e.getMinutes())},j:function(e){return e.getDate()},l:function(e){return this.l10n.weekdays.longhand[e.getDay()]},m:function(e){return a.prototype.pad(e.getMonth()+1)},n:function(e){return e.getMonth()+1},s:function(e){return e.getSeconds()},w:function(e){return e.getDay()},y:function(e){return String(e.getFullYear()).substring(2)}},formatDate:function(e,t){var n=this;return void 0!==this.config&&void 0!==this.config.formatDate?this.config.formatDate(e,t):t.split("").map(function(t,a,r){return n.formats[t]&&"\\"!==r[a-1]?n.formats[t](e):"\\"!==t?t:""}).join("")},revFormat:{D:function(){},F:function(e,t){e.setMonth(this.l10n.months.longhand.indexOf(t))},G:function(e,t){e.setHours(parseFloat(t))},H:function(e,t){e.setHours(parseFloat(t))},J:function(e,t){e.setDate(parseFloat(t))},K:function(e,t){var n=e.getHours();12!==n&&e.setHours(n%12+12*/pm/i.test(t))},M:function(e,t){e.setMonth(this.l10n.months.shorthand.indexOf(t))},S:function(e,t){e.setSeconds(t)},U:function(e,t){return new Date(1e3*parseFloat(t))},W:function(e,t){return t=parseInt(t),new Date(e.getFullYear(),0,2+7*(t-1),0,0,0,0,0)},Y:function(e,t){e.setFullYear(t)},Z:function(e,t){return new Date(t)},d:function(e,t){e.setDate(parseFloat(t))},h:function(e,t){e.setHours(parseFloat(t))},i:function(e,t){e.setMinutes(parseFloat(t))},j:function(e,t){e.setDate(parseFloat(t))},l:function(){},m:function(e,t){e.setMonth(parseFloat(t)-1)},n:function(e,t){e.setMonth(parseFloat(t)-1)},s:function(e,t){e.setSeconds(parseFloat(t))},w:function(){},y:function(e,t){e.setFullYear(2e3+parseFloat(t))}},tokenRegex:{D:"(\\w+)",F:"(\\w+)",G:"(\\d\\d|\\d)",H:"(\\d\\d|\\d)",J:"(\\d\\d|\\d)\\w+",K:"(am|AM|Am|aM|pm|PM|Pm|pM)",M:"(\\w+)",S:"(\\d\\d|\\d)",U:"(.+)",W:"(\\d\\d|\\d)",Y:"(\\d{4})",Z:"(.+)",d:"(\\d\\d|\\d)",h:"(\\d\\d|\\d)",i:"(\\d\\d|\\d)",j:"(\\d\\d|\\d)",l:"(\\w+)",m:"(\\d\\d|\\d)",n:"(\\d\\d|\\d)",s:"(\\d\\d|\\d)",w:"(\\d\\d|\\d)",y:"(\\d{2})"},pad:function(e){return("0"+e).slice(-2)},parseDate:function(e,t,n){var a=this;if(0!==e&&!e)return null;var r=e;if(e instanceof Date)e=new Date(e.getTime());else if(void 0!==e.toFixed)e=new Date(e);else{var o=t||(this.config||i.defaultConfig).dateFormat;e=String(e).trim(),"today"===e?(e=new Date,n=!0):/Z$/.test(e)||/GMT$/.test(e)?e=new Date(e):this.config&&this.config.parseDate?e=this.config.parseDate(e,o):function(){for(var t=a.config&&a.config.noCalendar?new Date((new Date).setHours(0,0,0,0)):new Date((new Date).getFullYear(),0,1,0,0,0,0),n=void 0,r=[],i=0,l=0,c="";i<o.length;i++){var s=o[i],d="\\"===s,f="\\"===o[i-1]||d;if(a.tokenRegex[s]&&!f){c+=a.tokenRegex[s];var p=new RegExp(c).exec(e);p&&(n=!0)&&r["Y"!==s?"push":"unshift"]({fn:a.revFormat[s],val:p[++l]})}else d||(c+=".");r.forEach(function(e){var n=e.fn,a=e.val;return t=n(t,a)||t})}e=n?t:null}()}return e instanceof Date?(!0===n&&e.setHours(0,0,0,0),e):(console.warn("flatpickr: invalid date "+r),console.info(this.element),null)}},"undefined"!=typeof HTMLElement&&(HTMLCollection.prototype.flatpickr=NodeList.prototype.flatpickr=function(e){return r(this,e)},HTMLElement.prototype.flatpickr=function(e){return r([this],e)}),i.defaultConfig=a.defaultConfig={mode:"single",position:"auto",animate:"undefined"!=typeof window&&-1===window.navigator.userAgent.indexOf("MSIE"),wrap:!1,weekNumbers:!1,allowInput:!1,clickOpens:!0,closeOnSelect:!0,time_24hr:!1,enableTime:!1,noCalendar:!1,dateFormat:"Y-m-d",ariaDateFormat:"F j, Y",altInput:!1,altInputClass:"form-control input",altFormat:"F j, Y",defaultDate:null,minDate:null,maxDate:null,parseDate:null,formatDate:null,getWeek:function(e){var t=new Date(e.getTime()),n=new Date(t.getFullYear(),0,1);return Math.ceil(((t-n)/864e5+n.getDay()+1)/7)},enable:[],disable:[],shorthandCurrentMonth:!1,inline:!1,static:!1,appendTo:null,prevArrow:"<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M5.207 8.471l7.146 7.147-0.707 0.707-7.853-7.854 7.854-7.853 0.707 0.707-7.147 7.146z' /></svg>",nextArrow:"<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M13.207 8.472l-7.854 7.854-0.707-0.707 7.146-7.146-7.146-7.148 0.707-0.707 7.854 7.854z' /></svg>",enableSeconds:!1,hourIncrement:1,minuteIncrement:5,defaultHour:12,defaultMinute:0,defaultSeconds:0,disableMobile:!1,locale:"default",plugins:[],ignoredFocusElements:[],onClose:void 0,onChange:void 0,onDayCreate:void 0,onMonthChange:void 0,onOpen:void 0,onParseConfig:void 0,onReady:void 0,onValueUpdate:void 0,onYearChange:void 0,onKeyDown:void 0,onDestroy:void 0},i.l10ns={en:{weekdays:{shorthand:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],longhand:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]},months:{shorthand:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],longhand:["January","February","March","April","May","June","July","August","September","October","November","December"]},daysInMonth:[31,28,31,30,31,30,31,31,30,31,30,31],firstDayOfWeek:0,ordinal:function(e){var t=e%100;if(t>3&&t<21)return"th";switch(t%10){case 1:return"st";case 2:return"nd";case 3:return"rd";default:return"th"}},rangeSeparator:" to ",weekAbbreviation:"Wk",scrollTitle:"Scroll to increment",toggleTitle:"Click to toggle"}},i.l10ns.default=Object.create(i.l10ns.en),i.localize=function(e){return o(i.l10ns.default,e||{})},i.setDefaults=function(e){return o(i.defaultConfig,e||{})},"undefined"!=typeof jQuery&&(jQuery.fn.flatpickr=function(e){return r(this,e)}),Date.prototype.fp_incr=function(e){return new Date(this.getFullYear(),this.getMonth(),this.getDate()+parseInt(e,10))},e.exports=i},function(e,t){e.exports='.flatpickr-calendar{background:transparent;overflow:hidden;max-height:0;opacity:0;visibility:hidden;text-align:center;padding:0;-webkit-animation:none;animation:none;direction:ltr;border:0;font-size:14px;line-height:24px;border-radius:5px;position:absolute;width:307.875px;-webkit-box-sizing:border-box;box-sizing:border-box;-ms-touch-action:manipulation;touch-action:manipulation;background:#fff;-webkit-box-shadow:1px 0 0 #e6e6e6,-1px 0 0 #e6e6e6,0 1px 0 #e6e6e6,0 -1px 0 #e6e6e6,0 3px 13px rgba(0,0,0,0.08);box-shadow:1px 0 0 #e6e6e6,-1px 0 0 #e6e6e6,0 1px 0 #e6e6e6,0 -1px 0 #e6e6e6,0 3px 13px rgba(0,0,0,0.08);}.flatpickr-calendar.open,.flatpickr-calendar.inline{opacity:1;visibility:visible;overflow:visible;max-height:640px}.flatpickr-calendar.open{display:inline-block;z-index:99999}.flatpickr-calendar.animate.open{-webkit-animation:fpFadeInDown 300ms cubic-bezier(.23,1,.32,1);animation:fpFadeInDown 300ms cubic-bezier(.23,1,.32,1)}.flatpickr-calendar.inline{display:block;position:relative;top:2px}.flatpickr-calendar.static{position:absolute;top:calc(100% + 2px);}.flatpickr-calendar.static.open{z-index:999;display:block}.flatpickr-calendar.hasWeeks{width:auto}.flatpickr-calendar .hasWeeks .dayContainer,.flatpickr-calendar .hasTime .dayContainer{border-bottom:0;border-bottom-right-radius:0;border-bottom-left-radius:0}.flatpickr-calendar .hasWeeks .dayContainer{border-left:0}.flatpickr-calendar.showTimeInput.hasTime .flatpickr-time{height:40px;border-top:1px solid #e6e6e6}.flatpickr-calendar.noCalendar.hasTime .flatpickr-time{height:auto}.flatpickr-calendar:before,.flatpickr-calendar:after{position:absolute;display:block;pointer-events:none;border:solid transparent;content:\'\';height:0;width:0;left:22px}.flatpickr-calendar.rightMost:before,.flatpickr-calendar.rightMost:after{left:auto;right:22px}.flatpickr-calendar:before{border-width:5px;margin:0 -5px}.flatpickr-calendar:after{border-width:4px;margin:0 -4px}.flatpickr-calendar.arrowTop:before,.flatpickr-calendar.arrowTop:after{bottom:100%}.flatpickr-calendar.arrowTop:before{border-bottom-color:#e6e6e6}.flatpickr-calendar.arrowTop:after{border-bottom-color:#fff}.flatpickr-calendar.arrowBottom:before,.flatpickr-calendar.arrowBottom:after{top:100%}.flatpickr-calendar.arrowBottom:before{border-top-color:#e6e6e6}.flatpickr-calendar.arrowBottom:after{border-top-color:#fff}.flatpickr-calendar:focus{outline:0}.flatpickr-wrapper{position:relative;display:inline-block}.flatpickr-month{background:transparent;color:rgba(0,0,0,0.9);fill:rgba(0,0,0,0.9);height:28px;line-height:1;text-align:center;position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;overflow:hidden}.flatpickr-prev-month,.flatpickr-next-month{text-decoration:none;cursor:pointer;position:absolute;top:0;line-height:16px;height:28px;padding:10px calc(3.57% - 1.5px);z-index:3;}.flatpickr-prev-month i,.flatpickr-next-month i{position:relative}.flatpickr-prev-month.flatpickr-prev-month,.flatpickr-next-month.flatpickr-prev-month{/*\n        /*rtl:begin:ignore*/left:0;/*\n        /*rtl:end:ignore*/}/*\n        /*rtl:begin:ignore*/\n/*\n        /*rtl:end:ignore*/\n.flatpickr-prev-month.flatpickr-next-month,.flatpickr-next-month.flatpickr-next-month{/*\n        /*rtl:begin:ignore*/right:0;/*\n        /*rtl:end:ignore*/}/*\n        /*rtl:begin:ignore*/\n/*\n        /*rtl:end:ignore*/\n.flatpickr-prev-month:hover,.flatpickr-next-month:hover{color:#959ea9;}.flatpickr-prev-month:hover svg,.flatpickr-next-month:hover svg{fill:#f64747}.flatpickr-prev-month svg,.flatpickr-next-month svg{width:14px;}.flatpickr-prev-month svg path,.flatpickr-next-month svg path{-webkit-transition:fill .1s;transition:fill .1s;fill:inherit}.numInputWrapper{position:relative;height:auto;}.numInputWrapper input,.numInputWrapper span{display:inline-block}.numInputWrapper input{width:100%}.numInputWrapper span{position:absolute;right:0;width:14px;padding:0 4px 0 2px;height:50%;line-height:50%;opacity:0;cursor:pointer;border:1px solid rgba(57,57,57,0.05);-webkit-box-sizing:border-box;box-sizing:border-box;}.numInputWrapper span:hover{background:rgba(0,0,0,0.1)}.numInputWrapper span:active{background:rgba(0,0,0,0.2)}.numInputWrapper span:after{display:block;content:"";position:absolute;top:33%}.numInputWrapper span.arrowUp{top:0;border-bottom:0;}.numInputWrapper span.arrowUp:after{border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:4px solid rgba(57,57,57,0.6)}.numInputWrapper span.arrowDown{top:50%;}.numInputWrapper span.arrowDown:after{border-left:4px solid transparent;border-right:4px solid transparent;border-top:4px solid rgba(57,57,57,0.6)}.numInputWrapper span svg{width:inherit;height:auto;}.numInputWrapper span svg path{fill:rgba(0,0,0,0.5)}.numInputWrapper:hover{background:rgba(0,0,0,0.05);}.numInputWrapper:hover span{opacity:1}.flatpickr-current-month{font-size:135%;line-height:inherit;font-weight:300;color:inherit;position:absolute;width:75%;left:12.5%;padding:6.16px 0 0 0;line-height:1;height:28px;display:inline-block;text-align:center;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);}.flatpickr-current-month.slideLeft{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0);-webkit-animation:fpFadeOut 400ms ease,fpSlideLeft 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeOut 400ms ease,fpSlideLeft 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-current-month.slideLeftNew{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0);-webkit-animation:fpFadeIn 400ms ease,fpSlideLeftNew 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeIn 400ms ease,fpSlideLeftNew 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-current-month.slideRight{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0);-webkit-animation:fpFadeOut 400ms ease,fpSlideRight 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeOut 400ms ease,fpSlideRight 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-current-month.slideRightNew{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);-webkit-animation:fpFadeIn 400ms ease,fpSlideRightNew 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeIn 400ms ease,fpSlideRightNew 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-current-month span.cur-month{font-family:inherit;font-weight:700;color:inherit;display:inline-block;margin-left:.5ch;padding:0;}.flatpickr-current-month span.cur-month:hover{background:rgba(0,0,0,0.05)}.flatpickr-current-month .numInputWrapper{width:6ch;width:7ch\\0;display:inline-block;}.flatpickr-current-month .numInputWrapper span.arrowUp:after{border-bottom-color:rgba(0,0,0,0.9)}.flatpickr-current-month .numInputWrapper span.arrowDown:after{border-top-color:rgba(0,0,0,0.9)}.flatpickr-current-month input.cur-year{background:transparent;-webkit-box-sizing:border-box;box-sizing:border-box;color:inherit;cursor:default;padding:0 0 0 .5ch;margin:0;display:inline-block;font-size:inherit;font-family:inherit;font-weight:300;line-height:inherit;height:initial;border:0;border-radius:0;vertical-align:initial;}.flatpickr-current-month input.cur-year:focus{outline:0}.flatpickr-current-month input.cur-year[disabled],.flatpickr-current-month input.cur-year[disabled]:hover{font-size:100%;color:rgba(0,0,0,0.5);background:transparent;pointer-events:none}.flatpickr-weekdays{background:transparent;text-align:center;overflow:hidden;width:100%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;height:28px}span.flatpickr-weekday{cursor:default;font-size:90%;background:transparent;color:rgba(0,0,0,0.54);line-height:1;margin:0;text-align:center;display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;font-weight:bolder}.dayContainer,.flatpickr-weeks{padding:1px 0 0 0}.flatpickr-days{position:relative;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;width:307.875px;}.flatpickr-days:focus{outline:0}.dayContainer{padding:0;outline:0;text-align:left;width:307.875px;min-width:307.875px;max-width:307.875px;-webkit-box-sizing:border-box;box-sizing:border-box;display:inline-block;display:-ms-flexbox;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;-ms-flex-wrap:wrap;-ms-flex-pack:justify;-webkit-justify-content:space-around;justify-content:space-around;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);opacity:1}.flatpickr-calendar.animate .dayContainer.slideLeft{-webkit-animation:fpFadeOut 400ms cubic-bezier(.23,1,.32,1),fpSlideLeft 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeOut 400ms cubic-bezier(.23,1,.32,1),fpSlideLeft 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-calendar.animate .dayContainer.slideLeft,.flatpickr-calendar.animate .dayContainer.slideLeftNew{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}.flatpickr-calendar.animate .dayContainer.slideLeftNew{-webkit-animation:fpFadeIn 400ms cubic-bezier(.23,1,.32,1),fpSlideLeft 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeIn 400ms cubic-bezier(.23,1,.32,1),fpSlideLeft 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-calendar.animate .dayContainer.slideRight{-webkit-animation:fpFadeOut 400ms cubic-bezier(.23,1,.32,1),fpSlideRight 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeOut 400ms cubic-bezier(.23,1,.32,1),fpSlideRight 400ms cubic-bezier(.23,1,.32,1);-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}.flatpickr-calendar.animate .dayContainer.slideRightNew{-webkit-animation:fpFadeIn 400ms cubic-bezier(.23,1,.32,1),fpSlideRightNew 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeIn 400ms cubic-bezier(.23,1,.32,1),fpSlideRightNew 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-day{background:none;border:1px solid transparent;border-radius:150px;-webkit-box-sizing:border-box;box-sizing:border-box;color:#393939;cursor:pointer;font-weight:400;width:14.2857143%;-webkit-flex-basis:14.2857143%;-ms-flex-preferred-size:14.2857143%;flex-basis:14.2857143%;max-width:39px;height:39px;line-height:39px;margin:0;display:inline-block;position:relative;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;text-align:center;}.flatpickr-day.inRange,.flatpickr-day.prevMonthDay.inRange,.flatpickr-day.nextMonthDay.inRange,.flatpickr-day.today.inRange,.flatpickr-day.prevMonthDay.today.inRange,.flatpickr-day.nextMonthDay.today.inRange,.flatpickr-day:hover,.flatpickr-day.prevMonthDay:hover,.flatpickr-day.nextMonthDay:hover,.flatpickr-day:focus,.flatpickr-day.prevMonthDay:focus,.flatpickr-day.nextMonthDay:focus{cursor:pointer;outline:0;background:#e6e6e6;border-color:#e6e6e6}.flatpickr-day.today{border-color:#959ea9;}.flatpickr-day.today:hover,.flatpickr-day.today:focus{border-color:#959ea9;background:#959ea9;color:#fff}.flatpickr-day.selected,.flatpickr-day.startRange,.flatpickr-day.endRange,.flatpickr-day.selected.inRange,.flatpickr-day.startRange.inRange,.flatpickr-day.endRange.inRange,.flatpickr-day.selected:focus,.flatpickr-day.startRange:focus,.flatpickr-day.endRange:focus,.flatpickr-day.selected:hover,.flatpickr-day.startRange:hover,.flatpickr-day.endRange:hover,.flatpickr-day.selected.prevMonthDay,.flatpickr-day.startRange.prevMonthDay,.flatpickr-day.endRange.prevMonthDay,.flatpickr-day.selected.nextMonthDay,.flatpickr-day.startRange.nextMonthDay,.flatpickr-day.endRange.nextMonthDay{background:#569ff7;-webkit-box-shadow:none;box-shadow:none;color:#fff;border-color:#569ff7}.flatpickr-day.selected.startRange,.flatpickr-day.startRange.startRange,.flatpickr-day.endRange.startRange{border-radius:50px 0 0 50px}.flatpickr-day.selected.endRange,.flatpickr-day.startRange.endRange,.flatpickr-day.endRange.endRange{border-radius:0 50px 50px 0}.flatpickr-day.selected.startRange + .endRange,.flatpickr-day.startRange.startRange + .endRange,.flatpickr-day.endRange.startRange + .endRange{-webkit-box-shadow:-10px 0 0 #569ff7;box-shadow:-10px 0 0 #569ff7}.flatpickr-day.selected.startRange.endRange,.flatpickr-day.startRange.startRange.endRange,.flatpickr-day.endRange.startRange.endRange{border-radius:50px}.flatpickr-day.inRange{border-radius:0;-webkit-box-shadow:-5px 0 0 #e6e6e6,5px 0 0 #e6e6e6;box-shadow:-5px 0 0 #e6e6e6,5px 0 0 #e6e6e6}.flatpickr-day.disabled,.flatpickr-day.disabled:hover{pointer-events:none}.flatpickr-day.disabled,.flatpickr-day.disabled:hover,.flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay,.flatpickr-day.notAllowed,.flatpickr-day.notAllowed.prevMonthDay,.flatpickr-day.notAllowed.nextMonthDay{color:rgba(57,57,57,0.3);background:transparent;border-color:transparent;cursor:default}.flatpickr-day.week.selected{border-radius:0;-webkit-box-shadow:-5px 0 0 #569ff7,5px 0 0 #569ff7;box-shadow:-5px 0 0 #569ff7,5px 0 0 #569ff7}.rangeMode .flatpickr-day{margin-top:1px}.flatpickr-weekwrapper{display:inline-block;float:left;}.flatpickr-weekwrapper .flatpickr-weeks{padding:0 12px;-webkit-box-shadow:1px 0 0 #e6e6e6;box-shadow:1px 0 0 #e6e6e6}.flatpickr-weekwrapper .flatpickr-weekday{float:none;width:100%;line-height:28px}.flatpickr-weekwrapper span.flatpickr-day{display:block;width:100%;max-width:none}.flatpickr-innerContainer{display:block;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden;}.flatpickr-rContainer{display:inline-block;padding:0;-webkit-box-sizing:border-box;box-sizing:border-box}.flatpickr-time{text-align:center;outline:0;display:block;height:0;line-height:40px;max-height:40px;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}.flatpickr-time:after{content:"";display:table;clear:both}.flatpickr-time .numInputWrapper{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;width:40%;height:40px;float:left;}.flatpickr-time .numInputWrapper span.arrowUp:after{border-bottom-color:#393939}.flatpickr-time .numInputWrapper span.arrowDown:after{border-top-color:#393939}.flatpickr-time.hasSeconds .numInputWrapper{width:26%}.flatpickr-time.time24hr .numInputWrapper{width:49%}.flatpickr-time input{background:transparent;-webkit-box-shadow:none;box-shadow:none;border:0;border-radius:0;text-align:center;margin:0;padding:0;height:inherit;line-height:inherit;cursor:pointer;color:#393939;font-size:14px;position:relative;-webkit-box-sizing:border-box;box-sizing:border-box;}.flatpickr-time input.flatpickr-hour{font-weight:bold}.flatpickr-time input.flatpickr-minute,.flatpickr-time input.flatpickr-second{font-weight:400}.flatpickr-time input:focus{outline:0;border:0}.flatpickr-time .flatpickr-time-separator,.flatpickr-time .flatpickr-am-pm{height:inherit;display:inline-block;float:left;line-height:inherit;color:#393939;font-weight:bold;width:2%;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-align-self:center;-ms-flex-item-align:center;align-self:center}.flatpickr-time .flatpickr-am-pm{outline:0;width:18%;cursor:pointer;text-align:center;font-weight:400;}.flatpickr-time .flatpickr-am-pm:hover,.flatpickr-time .flatpickr-am-pm:focus{background:#f0f0f0}.flatpickr-input[readonly]{cursor:pointer}@-webkit-keyframes fpFadeInDown{from{opacity:0;-webkit-transform:translate3d(0,-20px,0);transform:translate3d(0,-20px,0)}to{opacity:1;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@keyframes fpFadeInDown{from{opacity:0;-webkit-transform:translate3d(0,-20px,0);transform:translate3d(0,-20px,0)}to{opacity:1;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@-webkit-keyframes fpSlideLeft{from{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}to{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}}@keyframes fpSlideLeft{from{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}to{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}}@-webkit-keyframes fpSlideLeftNew{from{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}to{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@keyframes fpSlideLeftNew{from{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}to{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@-webkit-keyframes fpSlideRight{from{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}to{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}}@keyframes fpSlideRight{from{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}to{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}}@-webkit-keyframes fpSlideRightNew{from{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}to{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@keyframes fpSlideRightNew{from{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}to{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@-webkit-keyframes fpFadeOut{from{opacity:1}to{opacity:0}}@keyframes fpFadeOut{from{opacity:1}to{opacity:0}}@-webkit-keyframes fpFadeIn{from{opacity:0}to{opacity:1}}@keyframes fpFadeIn{from{opacity:0}to{opacity:1}}'}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["stage6"] = factory();
+	else
+		root["stage6"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/*!*******************!*\
+  !*** ./stage6.js ***!
+  \*******************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+// add flatpickr
+var flatpickr = __webpack_require__(/*! flatpickr */ 1)
+
+registerPlugin(proto(Gem, function(){
+	this.name = 'HelloWorld'
+	this.build = function(ticket, optionsObservee, api){
+		var that = this
+
+		var countField = optionsObservee.subject.countField
+
+		this.greeting = Text('greeting', 'Hello World')
+		var button = Button('click me')
+		this.countText = Text()
+		this.countText.visible = false
+
+		// create and add calendar
+		var calendar = TextField()
+		var fp_calendar = new flatpickr(calendar.domNode, {
+			enableTime: true,
+			dateFormat:'m-d-Y h:i K',
+			defaultDate: new Date()
+		})
+		var box = Block('box', this.greeting, button, this.countText, calendar)
+		this.add(box)
+
+		if(ticket.get(countField).subject === undefined){
+			this.greeting.visible = false
+			this.countText.visible = false
+			ticket.set(optionsObservee.subject.countField, 0)
+		} else {
+			this.updateText(ticket.get(countField).subject)
+		}
+
+		button.on('click', function(){
+			ticket.set(optionsObservee.subject.countField, ticket.get(countField).subject+1)
+		})
+
+		ticket.get(optionsObservee.subject.countField).on('change', function(){
+			that.updateText(ticket.get(countField).subject)
+		})
+
+		// stylesheet for flatpick
+		this.on('attach', function(){
+			var flatpickrStylesheet = __webpack_require__(/*! raw-loader!flatpickr/dist/flatpickr.min.css */ 2)
+			var style = document.createElement('style')
+			style.innerHTML = flatpickrStylesheet
+			document.head.appendChild(style)
+		})		
+	}
+
+	this.updateText = function(count){
+		var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
+		this.greeting.text = newGreeting[(count -1)%newGreeting.length]
+		this.greeting.visible = true
+		this.countText.text = 'You have clicked this button ' + count + ' times.'
+		this.countText.visible = true
+	}
+
+	this.getStyle = function(){
+		return Style({
+			$box: {
+				width: 550,
+				minHeight: 300,
+				border: '1px solid black',
+				padding: 10,
+				margin: 50,
+				textAlign: 'center'
+			},
+			$greeting: {
+				color: 'blue',
+				fontSize: 74,
+				display: 'block',
+				margin: 10,
+				textAlign: 'center'
+			},
+			Button: {
+				backgroundColor: 'green',
+				color: 'white',
+				display: 'block',
+				margin: 'auto',
+				marginBottom: 30
+			},
+			TextField: {
+				display: 'block',
+				margin: 'auto',
+				marginTop: 30
+			}
+		})
+	}
+}))
+
+/***/ }),
+/* 1 */
+/*!**************************************************!*\
+  !*** ./node_modules/flatpickr/dist/flatpickr.js ***!
+  \**************************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/*! flatpickr v3.0.6, @license MIT */
+function FlatpickrInstance(element, config) {
+	var self = this;
+
+	self._ = {};
+	self._.afterDayAnim = afterDayAnim;
+	self._bind = bind;
+	self._compareDates = compareDates;
+	self._setHoursFromDate = setHoursFromDate;
+	self.changeMonth = changeMonth;
+	self.changeYear = changeYear;
+	self.clear = clear;
+	self.close = close;
+	self._createElement = createElement;
+	self.destroy = destroy;
+	self.isEnabled = isEnabled;
+	self.jumpToDate = jumpToDate;
+	self.open = open;
+	self.redraw = redraw;
+	self.set = set;
+	self.setDate = setDate;
+	self.toggle = toggle;
+
+	function init() {
+		self.element = self.input = element;
+		self.instanceConfig = config || {};
+		self.parseDate = FlatpickrInstance.prototype.parseDate.bind(self);
+		self.formatDate = FlatpickrInstance.prototype.formatDate.bind(self);
+
+		setupFormats();
+		parseConfig();
+		setupLocale();
+		setupInputs();
+		setupDates();
+		setupHelperFunctions();
+
+		self.isOpen = false;
+
+		self.isMobile = !self.config.disableMobile && !self.config.inline && self.config.mode === "single" && !self.config.disable.length && !self.config.enable.length && !self.config.weekNumbers && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+		if (!self.isMobile) build();
+
+		bindEvents();
+
+		if (self.selectedDates.length || self.config.noCalendar) {
+			if (self.config.enableTime) {
+				setHoursFromDate(self.config.noCalendar ? self.latestSelectedDateObj || self.config.minDate : null);
+			}
+			updateValue(false);
+		}
+
+		self.showTimeInput = self.selectedDates.length > 0 || self.config.noCalendar;
+
+		if (self.config.weekNumbers) {
+			self.calendarContainer.style.width = self.daysContainer.offsetWidth + self.weekWrapper.offsetWidth + "px";
+		}
+
+		if (!self.isMobile) positionCalendar();
+
+		triggerEvent("Ready");
+	}
+
+	/**
+  * Binds a function to the current flatpickr instance
+  * @param {Function} fn the function
+  * @return {Function} the function bound to the instance
+  */
+	function bindToInstance(fn) {
+		return fn.bind(self);
+	}
+
+	/**
+  * The handler for all events targeting the time inputs
+  * @param {Event} e the event - "input", "wheel", "increment", etc
+  */
+	function updateTime(e) {
+		if (self.config.noCalendar && !self.selectedDates.length)
+			// picking time only
+			self.selectedDates = [self.now];
+
+		timeWrapper(e);
+
+		if (!self.selectedDates.length) return;
+
+		if (!self.minDateHasTime || e.type !== "input" || e.target.value.length >= 2) {
+			setHoursFromInputs();
+			updateValue();
+		} else {
+			setTimeout(function () {
+				setHoursFromInputs();
+				updateValue();
+			}, 1000);
+		}
+	}
+
+	/**
+  * Syncs the selected date object time with user's time input
+  */
+	function setHoursFromInputs() {
+		if (!self.config.enableTime) return;
+
+		var hours = (parseInt(self.hourElement.value, 10) || 0) % (self.amPM ? 12 : 24),
+		    minutes = (parseInt(self.minuteElement.value, 10) || 0) % 60,
+		    seconds = self.config.enableSeconds ? (parseInt(self.secondElement.value, 10) || 0) % 60 : 0;
+
+		if (self.amPM !== undefined) hours = hours % 12 + 12 * (self.amPM.textContent === "PM");
+
+		if (self.minDateHasTime && compareDates(self.latestSelectedDateObj, self.config.minDate) === 0) {
+
+			hours = Math.max(hours, self.config.minDate.getHours());
+			if (hours === self.config.minDate.getHours()) minutes = Math.max(minutes, self.config.minDate.getMinutes());
+		}
+
+		if (self.maxDateHasTime && compareDates(self.latestSelectedDateObj, self.config.maxDate) === 0) {
+			hours = Math.min(hours, self.config.maxDate.getHours());
+			if (hours === self.config.maxDate.getHours()) minutes = Math.min(minutes, self.config.maxDate.getMinutes());
+		}
+
+		setHours(hours, minutes, seconds);
+	}
+
+	/**
+  * Syncs time input values with a date
+  * @param {Date} dateObj the date to sync with
+  */
+	function setHoursFromDate(dateObj) {
+		var date = dateObj || self.latestSelectedDateObj;
+
+		if (date) setHours(date.getHours(), date.getMinutes(), date.getSeconds());
+	}
+
+	/**
+  * Sets the hours, minutes, and optionally seconds
+  * of the latest selected date object and the
+  * corresponding time inputs
+  * @param {Number} hours the hour. whether its military
+  *                 or am-pm gets inferred from config
+  * @param {Number} minutes the minutes
+  * @param {Number} seconds the seconds (optional)
+  */
+	function setHours(hours, minutes, seconds) {
+		if (self.selectedDates.length) {
+			self.latestSelectedDateObj.setHours(hours % 24, minutes, seconds || 0, 0);
+		}
+
+		if (!self.config.enableTime || self.isMobile) return;
+
+		self.hourElement.value = self.pad(!self.config.time_24hr ? (12 + hours) % 12 + 12 * (hours % 12 === 0) : hours);
+
+		self.minuteElement.value = self.pad(minutes);
+
+		if (!self.config.time_24hr) self.amPM.textContent = hours >= 12 ? "PM" : "AM";
+
+		if (self.config.enableSeconds === true) self.secondElement.value = self.pad(seconds);
+	}
+
+	/**
+  * Handles the year input and incrementing events
+  * @param {Event} event the keyup or increment event
+  */
+	function onYearInput(event) {
+		var year = event.target.value;
+		if (event.delta) year = (parseInt(year) + event.delta).toString();
+
+		if (year.length === 4 || event.key === "Enter") {
+			self.currentYearElement.blur();
+			if (!/[^\d]/.test(year)) changeYear(year);
+		}
+	}
+
+	/**
+  * Essentially addEventListener + tracking
+  * @param {Element} element the element to addEventListener to
+  * @param {String} event the event name
+  * @param {Function} handler the event handler
+  */
+	function bind(element, event, handler) {
+		if (event instanceof Array) return event.forEach(function (ev) {
+			return bind(element, ev, handler);
+		});
+
+		if (element instanceof Array) return element.forEach(function (el) {
+			return bind(el, event, handler);
+		});
+
+		element.addEventListener(event, handler);
+		self._handlers.push({ element: element, event: event, handler: handler });
+	}
+
+	/**
+  * A mousedown handler which mimics click.
+  * Minimizes latency, since we don't need to wait for mouseup in most cases.
+  * Also, avoids handling right clicks.
+  *
+  * @param {Function} handler the event handler
+  */
+	function onClick(handler) {
+		return function (evt) {
+			return evt.which === 1 && handler(evt);
+		};
+	}
+
+	/**
+  * Adds all the necessary event listeners
+  */
+	function bindEvents() {
+		self._handlers = [];
+		self._animationLoop = [];
+		if (self.config.wrap) {
+			["open", "close", "toggle", "clear"].forEach(function (evt) {
+				Array.prototype.forEach.call(self.element.querySelectorAll("[data-" + evt + "]"), function (el) {
+					return bind(el, "mousedown", onClick(self[evt]));
+				});
+			});
+		}
+
+		if (self.isMobile) return setupMobile();
+
+		self.debouncedResize = debounce(onResize, 50);
+		self.triggerChange = function () {
+			triggerEvent("Change");
+		};
+		self.debouncedChange = debounce(self.triggerChange, 300);
+
+		if (self.config.mode === "range" && self.daysContainer) bind(self.daysContainer, "mouseover", function (e) {
+			return onMouseOver(e.target);
+		});
+
+		bind(window.document.body, "keydown", onKeyDown);
+
+		if (!self.config.static) bind(self._input, "keydown", onKeyDown);
+
+		if (!self.config.inline && !self.config.static) bind(window, "resize", self.debouncedResize);
+
+		if (window.ontouchstart !== undefined) bind(window.document, "touchstart", documentClick);
+
+		bind(window.document, "mousedown", onClick(documentClick));
+		bind(self._input, "blur", documentClick);
+
+		if (self.config.clickOpens === true) {
+			bind(self._input, "focus", self.open);
+			bind(self._input, "mousedown", onClick(self.open));
+		}
+
+		if (!self.config.noCalendar) {
+			self.monthNav.addEventListener("wheel", function (e) {
+				return e.preventDefault();
+			});
+			bind(self.monthNav, "wheel", debounce(onMonthNavScroll, 10));
+			bind(self.monthNav, "mousedown", onClick(onMonthNavClick));
+
+			bind(self.monthNav, ["keyup", "increment"], onYearInput);
+			bind(self.daysContainer, "mousedown", onClick(selectDate));
+
+			if (self.config.animate) {
+				bind(self.daysContainer, ["webkitAnimationEnd", "animationend"], animateDays);
+				bind(self.monthNav, ["webkitAnimationEnd", "animationend"], animateMonths);
+			}
+		}
+
+		if (self.config.enableTime) {
+			var selText = function selText(e) {
+				return e.target.select();
+			};
+			bind(self.timeContainer, ["wheel", "input", "increment"], updateTime);
+			bind(self.timeContainer, "mousedown", onClick(timeIncrement));
+
+			bind(self.timeContainer, ["wheel", "increment"], self.debouncedChange);
+			bind(self.timeContainer, "input", self.triggerChange);
+
+			bind([self.hourElement, self.minuteElement], "focus", selText);
+
+			if (self.secondElement !== undefined) bind(self.secondElement, "focus", function () {
+				return self.secondElement.select();
+			});
+
+			if (self.amPM !== undefined) {
+				bind(self.amPM, "mousedown", onClick(function (e) {
+					updateTime(e);
+					self.triggerChange(e);
+				}));
+			}
+		}
+	}
+
+	function processPostDayAnimation() {
+		for (var i = self._animationLoop.length; i--;) {
+			self._animationLoop[i]();
+			self._animationLoop.splice(i, 1);
+		}
+	}
+
+	/**
+  * Removes the day container that slided out of view
+  * @param {Event} e the animation event
+  */
+	function animateDays(e) {
+		if (self.daysContainer.childNodes.length > 1) {
+			switch (e.animationName) {
+				case "fpSlideLeft":
+					self.daysContainer.lastChild.classList.remove("slideLeftNew");
+					self.daysContainer.removeChild(self.daysContainer.firstChild);
+					self.days = self.daysContainer.firstChild;
+					processPostDayAnimation();
+
+					break;
+
+				case "fpSlideRight":
+					self.daysContainer.firstChild.classList.remove("slideRightNew");
+					self.daysContainer.removeChild(self.daysContainer.lastChild);
+					self.days = self.daysContainer.firstChild;
+					processPostDayAnimation();
+
+					break;
+
+				default:
+					break;
+			}
+		}
+	}
+
+	/**
+  * Removes the month element that animated out of view
+  * @param {Event} e the animation event
+  */
+	function animateMonths(e) {
+		switch (e.animationName) {
+			case "fpSlideLeftNew":
+			case "fpSlideRightNew":
+				self.navigationCurrentMonth.classList.remove("slideLeftNew");
+				self.navigationCurrentMonth.classList.remove("slideRightNew");
+				var nav = self.navigationCurrentMonth;
+
+				while (nav.nextSibling && /curr/.test(nav.nextSibling.className)) {
+					self.monthNav.removeChild(nav.nextSibling);
+				}while (nav.previousSibling && /curr/.test(nav.previousSibling.className)) {
+					self.monthNav.removeChild(nav.previousSibling);
+				}self.oldCurMonth = null;
+				break;
+		}
+	}
+
+	/**
+  * Set the calendar view to a particular date.
+  * @param {Date} jumpDate the date to set the view to
+  */
+	function jumpToDate(jumpDate) {
+		jumpDate = jumpDate ? self.parseDate(jumpDate) : self.latestSelectedDateObj || (self.config.minDate > self.now ? self.config.minDate : self.config.maxDate && self.config.maxDate < self.now ? self.config.maxDate : self.now);
+
+		try {
+			self.currentYear = jumpDate.getFullYear();
+			self.currentMonth = jumpDate.getMonth();
+		} catch (e) {
+			/* istanbul ignore next */
+			console.error(e.stack);
+			/* istanbul ignore next */
+			console.warn("Invalid date supplied: " + jumpDate);
+		}
+
+		self.redraw();
+	}
+
+	/**
+  * The up/down arrow handler for time inputs
+  * @param {Event} e the click event
+  */
+	function timeIncrement(e) {
+		if (~e.target.className.indexOf("arrow")) incrementNumInput(e, e.target.classList.contains("arrowUp") ? 1 : -1);
+	}
+
+	/**
+  * Increments/decrements the value of input associ-
+  * ated with the up/down arrow by dispatching an
+  * "increment" event on the input.
+  *
+  * @param {Event} e the click event
+  * @param {Number} delta the diff (usually 1 or -1)
+  * @param {Element} inputElem the input element
+  */
+	function incrementNumInput(e, delta, inputElem) {
+		var input = inputElem || e.target.parentNode.childNodes[0];
+		var event = createEvent("increment");
+		event.delta = delta;
+		input.dispatchEvent(event);
+	}
+
+	function createNumberInput(inputClassName) {
+		var wrapper = createElement("div", "numInputWrapper"),
+		    numInput = createElement("input", "numInput " + inputClassName),
+		    arrowUp = createElement("span", "arrowUp"),
+		    arrowDown = createElement("span", "arrowDown");
+
+		numInput.type = "text";
+		numInput.pattern = "\\d*";
+
+		wrapper.appendChild(numInput);
+		wrapper.appendChild(arrowUp);
+		wrapper.appendChild(arrowDown);
+
+		return wrapper;
+	}
+
+	function build() {
+		var fragment = window.document.createDocumentFragment();
+		self.calendarContainer = createElement("div", "flatpickr-calendar");
+		self.calendarContainer.tabIndex = -1;
+
+		if (!self.config.noCalendar) {
+			fragment.appendChild(buildMonthNav());
+			self.innerContainer = createElement("div", "flatpickr-innerContainer");
+
+			if (self.config.weekNumbers) self.innerContainer.appendChild(buildWeeks());
+
+			self.rContainer = createElement("div", "flatpickr-rContainer");
+			self.rContainer.appendChild(buildWeekdays());
+
+			if (!self.daysContainer) {
+				self.daysContainer = createElement("div", "flatpickr-days");
+				self.daysContainer.tabIndex = -1;
+			}
+
+			buildDays();
+			self.rContainer.appendChild(self.daysContainer);
+
+			self.innerContainer.appendChild(self.rContainer);
+			fragment.appendChild(self.innerContainer);
+		}
+
+		if (self.config.enableTime) fragment.appendChild(buildTime());
+
+		toggleClass(self.calendarContainer, "rangeMode", self.config.mode === "range");
+		toggleClass(self.calendarContainer, "animate", self.config.animate);
+
+		self.calendarContainer.appendChild(fragment);
+
+		var customAppend = self.config.appendTo && self.config.appendTo.nodeType;
+
+		if (self.config.inline || self.config.static) {
+			self.calendarContainer.classList.add(self.config.inline ? "inline" : "static");
+
+			if (self.config.inline && !customAppend) {
+				return self.element.parentNode.insertBefore(self.calendarContainer, self._input.nextSibling);
+			}
+
+			if (self.config.static) {
+				var wrapper = createElement("div", "flatpickr-wrapper");
+				self.element.parentNode.insertBefore(wrapper, self.element);
+				wrapper.appendChild(self.element);
+
+				if (self.altInput) wrapper.appendChild(self.altInput);
+
+				wrapper.appendChild(self.calendarContainer);
+				return;
+			}
+		}
+
+		(customAppend ? self.config.appendTo : window.document.body).appendChild(self.calendarContainer);
+	}
+
+	function createDay(className, date, dayNumber, i) {
+		var dateIsEnabled = isEnabled(date, true),
+		    dayElement = createElement("span", "flatpickr-day " + className, date.getDate());
+
+		dayElement.dateObj = date;
+		dayElement.$i = i;
+		dayElement.setAttribute("aria-label", self.formatDate(date, self.config.ariaDateFormat));
+
+		if (compareDates(date, self.now) === 0) {
+			self.todayDateElem = dayElement;
+			dayElement.classList.add("today");
+		}
+
+		if (dateIsEnabled) {
+			dayElement.tabIndex = -1;
+			if (isDateSelected(date)) {
+				dayElement.classList.add("selected");
+				self.selectedDateElem = dayElement;
+				if (self.config.mode === "range") {
+					toggleClass(dayElement, "startRange", compareDates(date, self.selectedDates[0]) === 0);
+
+					toggleClass(dayElement, "endRange", compareDates(date, self.selectedDates[1]) === 0);
+				}
+			}
+		} else {
+			dayElement.classList.add("disabled");
+			if (self.selectedDates[0] && date > self.minRangeDate && date < self.selectedDates[0]) self.minRangeDate = date;else if (self.selectedDates[0] && date < self.maxRangeDate && date > self.selectedDates[0]) self.maxRangeDate = date;
+		}
+
+		if (self.config.mode === "range") {
+			if (isDateInRange(date) && !isDateSelected(date)) dayElement.classList.add("inRange");
+
+			if (self.selectedDates.length === 1 && (date < self.minRangeDate || date > self.maxRangeDate)) dayElement.classList.add("notAllowed");
+		}
+
+		if (self.config.weekNumbers && className !== "prevMonthDay" && dayNumber % 7 === 1) {
+			self.weekNumbers.insertAdjacentHTML("beforeend", "<span class='disabled flatpickr-day'>" + self.config.getWeek(date) + "</span>");
+		}
+
+		triggerEvent("DayCreate", dayElement);
+
+		return dayElement;
+	}
+
+	function focusOnDay(currentIndex, offset) {
+		var newIndex = currentIndex + offset || 0,
+		    targetNode = currentIndex !== undefined ? self.days.childNodes[newIndex] : self.selectedDateElem || self.todayDateElem || self.days.childNodes[0],
+		    focus = function focus() {
+			targetNode = targetNode || self.days.childNodes[newIndex];
+			targetNode.focus();
+
+			if (self.config.mode === "range") onMouseOver(targetNode);
+		};
+
+		if (targetNode === undefined && offset !== 0) {
+			if (offset > 0) {
+				self.changeMonth(1);
+				newIndex = newIndex % 42;
+			} else if (offset < 0) {
+				self.changeMonth(-1);
+				newIndex += 42;
+			}
+
+			return afterDayAnim(focus);
+		}
+
+		focus();
+	}
+
+	function afterDayAnim(fn) {
+		if (self.config.animate === true) return self._animationLoop.push(fn);
+		fn();
+	}
+
+	function buildDays(delta) {
+		var firstOfMonth = (new Date(self.currentYear, self.currentMonth, 1).getDay() - self.l10n.firstDayOfWeek + 7) % 7,
+		    isRangeMode = self.config.mode === "range";
+
+		self.prevMonthDays = self.utils.getDaysinMonth((self.currentMonth - 1 + 12) % 12);
+		self.selectedDateElem = undefined;
+		self.todayDateElem = undefined;
+
+		var daysInMonth = self.utils.getDaysinMonth(),
+		    days = window.document.createDocumentFragment();
+
+		var dayNumber = self.prevMonthDays + 1 - firstOfMonth,
+		    dayIndex = 0;
+
+		if (self.config.weekNumbers && self.weekNumbers.firstChild) self.weekNumbers.textContent = "";
+
+		if (isRangeMode) {
+			// const dateLimits = self.config.enable.length || self.config.disable.length || self.config.mixDate || self.config.maxDate;
+			self.minRangeDate = new Date(self.currentYear, self.currentMonth - 1, dayNumber);
+			self.maxRangeDate = new Date(self.currentYear, self.currentMonth + 1, (42 - firstOfMonth) % daysInMonth);
+		}
+
+		// prepend days from the ending of previous month
+		for (; dayNumber <= self.prevMonthDays; dayNumber++, dayIndex++) {
+			days.appendChild(createDay("prevMonthDay", new Date(self.currentYear, self.currentMonth - 1, dayNumber), dayNumber, dayIndex));
+		}
+
+		// Start at 1 since there is no 0th day
+		for (dayNumber = 1; dayNumber <= daysInMonth; dayNumber++, dayIndex++) {
+			days.appendChild(createDay("", new Date(self.currentYear, self.currentMonth, dayNumber), dayNumber, dayIndex));
+		}
+
+		// append days from the next month
+		for (var dayNum = daysInMonth + 1; dayNum <= 42 - firstOfMonth; dayNum++, dayIndex++) {
+			days.appendChild(createDay("nextMonthDay", new Date(self.currentYear, self.currentMonth + 1, dayNum % daysInMonth), dayNum, dayIndex));
+		}
+
+		if (isRangeMode && self.selectedDates.length === 1 && days.childNodes[0]) {
+			self._hidePrevMonthArrow = self._hidePrevMonthArrow || self.minRangeDate > days.childNodes[0].dateObj;
+
+			self._hideNextMonthArrow = self._hideNextMonthArrow || self.maxRangeDate < new Date(self.currentYear, self.currentMonth + 1, 1);
+		} else updateNavigationCurrentMonth();
+
+		var dayContainer = createElement("div", "dayContainer");
+		dayContainer.appendChild(days);
+
+		if (!self.config.animate || delta === undefined) clearNode(self.daysContainer);else {
+			while (self.daysContainer.childNodes.length > 1) {
+				self.daysContainer.removeChild(self.daysContainer.firstChild);
+			}
+		}
+
+		if (delta >= 0) self.daysContainer.appendChild(dayContainer);else self.daysContainer.insertBefore(dayContainer, self.daysContainer.firstChild);
+
+		self.days = self.daysContainer.firstChild;
+		return self.daysContainer;
+	}
+
+	function clearNode(node) {
+		while (node.firstChild) {
+			node.removeChild(node.firstChild);
+		}
+	}
+
+	function buildMonthNav() {
+		var monthNavFragment = window.document.createDocumentFragment();
+		self.monthNav = createElement("div", "flatpickr-month");
+
+		self.prevMonthNav = createElement("span", "flatpickr-prev-month");
+		self.prevMonthNav.innerHTML = self.config.prevArrow;
+
+		self.currentMonthElement = createElement("span", "cur-month");
+		self.currentMonthElement.title = self.l10n.scrollTitle;
+
+		var yearInput = createNumberInput("cur-year");
+		self.currentYearElement = yearInput.childNodes[0];
+		self.currentYearElement.title = self.l10n.scrollTitle;
+
+		if (self.config.minDate) self.currentYearElement.min = self.config.minDate.getFullYear();
+
+		if (self.config.maxDate) {
+			self.currentYearElement.max = self.config.maxDate.getFullYear();
+
+			self.currentYearElement.disabled = self.config.minDate && self.config.minDate.getFullYear() === self.config.maxDate.getFullYear();
+		}
+
+		self.nextMonthNav = createElement("span", "flatpickr-next-month");
+		self.nextMonthNav.innerHTML = self.config.nextArrow;
+
+		self.navigationCurrentMonth = createElement("span", "flatpickr-current-month");
+		self.navigationCurrentMonth.appendChild(self.currentMonthElement);
+		self.navigationCurrentMonth.appendChild(yearInput);
+
+		monthNavFragment.appendChild(self.prevMonthNav);
+		monthNavFragment.appendChild(self.navigationCurrentMonth);
+		monthNavFragment.appendChild(self.nextMonthNav);
+		self.monthNav.appendChild(monthNavFragment);
+
+		Object.defineProperty(self, "_hidePrevMonthArrow", {
+			get: function get() {
+				return this.__hidePrevMonthArrow;
+			},
+			set: function set(bool) {
+				if (this.__hidePrevMonthArrow !== bool) self.prevMonthNav.style.display = bool ? "none" : "block";
+				this.__hidePrevMonthArrow = bool;
+			}
+		});
+
+		Object.defineProperty(self, "_hideNextMonthArrow", {
+			get: function get() {
+				return this.__hideNextMonthArrow;
+			},
+			set: function set(bool) {
+				if (this.__hideNextMonthArrow !== bool) self.nextMonthNav.style.display = bool ? "none" : "block";
+				this.__hideNextMonthArrow = bool;
+			}
+		});
+
+		updateNavigationCurrentMonth();
+
+		return self.monthNav;
+	}
+
+	function buildTime() {
+		self.calendarContainer.classList.add("hasTime");
+		if (self.config.noCalendar) self.calendarContainer.classList.add("noCalendar");
+		self.timeContainer = createElement("div", "flatpickr-time");
+		self.timeContainer.tabIndex = -1;
+		var separator = createElement("span", "flatpickr-time-separator", ":");
+
+		var hourInput = createNumberInput("flatpickr-hour");
+		self.hourElement = hourInput.childNodes[0];
+
+		var minuteInput = createNumberInput("flatpickr-minute");
+		self.minuteElement = minuteInput.childNodes[0];
+
+		self.hourElement.tabIndex = self.minuteElement.tabIndex = -1;
+
+		self.hourElement.value = self.pad(self.latestSelectedDateObj ? self.latestSelectedDateObj.getHours() : self.config.defaultHour % (self.time_24hr ? 24 : 12));
+
+		self.minuteElement.value = self.pad(self.latestSelectedDateObj ? self.latestSelectedDateObj.getMinutes() : self.config.defaultMinute);
+
+		self.hourElement.step = self.config.hourIncrement;
+		self.minuteElement.step = self.config.minuteIncrement;
+
+		self.hourElement.min = self.config.time_24hr ? 0 : 1;
+		self.hourElement.max = self.config.time_24hr ? 23 : 12;
+
+		self.minuteElement.min = 0;
+		self.minuteElement.max = 59;
+
+		self.hourElement.title = self.minuteElement.title = self.l10n.scrollTitle;
+
+		self.timeContainer.appendChild(hourInput);
+		self.timeContainer.appendChild(separator);
+		self.timeContainer.appendChild(minuteInput);
+
+		if (self.config.time_24hr) self.timeContainer.classList.add("time24hr");
+
+		if (self.config.enableSeconds) {
+			self.timeContainer.classList.add("hasSeconds");
+
+			var secondInput = createNumberInput("flatpickr-second");
+			self.secondElement = secondInput.childNodes[0];
+
+			self.secondElement.value = self.pad(self.latestSelectedDateObj ? self.latestSelectedDateObj.getSeconds() : self.config.defaultSeconds);
+
+			self.secondElement.step = self.minuteElement.step;
+			self.secondElement.min = self.minuteElement.min;
+			self.secondElement.max = self.minuteElement.max;
+
+			self.timeContainer.appendChild(createElement("span", "flatpickr-time-separator", ":"));
+			self.timeContainer.appendChild(secondInput);
+		}
+
+		if (!self.config.time_24hr) {
+			// add self.amPM if appropriate
+			self.amPM = createElement("span", "flatpickr-am-pm", ["AM", "PM"][(self.latestSelectedDateObj ? self.hourElement.value : self.config.defaultHour) > 11 | 0]);
+			self.amPM.title = self.l10n.toggleTitle;
+			self.amPM.tabIndex = -1;
+			self.timeContainer.appendChild(self.amPM);
+		}
+
+		return self.timeContainer;
+	}
+
+	function buildWeekdays() {
+		if (!self.weekdayContainer) self.weekdayContainer = createElement("div", "flatpickr-weekdays");
+
+		var firstDayOfWeek = self.l10n.firstDayOfWeek;
+		var weekdays = self.l10n.weekdays.shorthand.slice();
+
+		if (firstDayOfWeek > 0 && firstDayOfWeek < weekdays.length) {
+			weekdays = [].concat(weekdays.splice(firstDayOfWeek, weekdays.length), weekdays.splice(0, firstDayOfWeek));
+		}
+
+		self.weekdayContainer.innerHTML = "\n\t\t<span class=flatpickr-weekday>\n\t\t\t" + weekdays.join("</span><span class=flatpickr-weekday>") + "\n\t\t</span>\n\t\t";
+
+		return self.weekdayContainer;
+	}
+
+	/* istanbul ignore next */
+	function buildWeeks() {
+		self.calendarContainer.classList.add("hasWeeks");
+		self.weekWrapper = createElement("div", "flatpickr-weekwrapper");
+		self.weekWrapper.appendChild(createElement("span", "flatpickr-weekday", self.l10n.weekAbbreviation));
+		self.weekNumbers = createElement("div", "flatpickr-weeks");
+		self.weekWrapper.appendChild(self.weekNumbers);
+
+		return self.weekWrapper;
+	}
+
+	function changeMonth(value, is_offset, animate) {
+		is_offset = is_offset === undefined || is_offset;
+		var delta = is_offset ? value : value - self.currentMonth;
+		var skipAnimations = !self.config.animate || animate === false;
+
+		if (delta < 0 && self._hidePrevMonthArrow || delta > 0 && self._hideNextMonthArrow) return;
+
+		self.currentMonth += delta;
+
+		if (self.currentMonth < 0 || self.currentMonth > 11) {
+			self.currentYear += self.currentMonth > 11 ? 1 : -1;
+			self.currentMonth = (self.currentMonth + 12) % 12;
+
+			triggerEvent("YearChange");
+		}
+
+		buildDays(!skipAnimations ? delta : undefined);
+
+		if (skipAnimations) {
+			triggerEvent("MonthChange");
+			return updateNavigationCurrentMonth();
+		}
+
+		// remove possible remnants from clicking too fast
+		var nav = self.navigationCurrentMonth;
+		if (delta < 0) {
+			while (nav.nextSibling && /curr/.test(nav.nextSibling.className)) {
+				self.monthNav.removeChild(nav.nextSibling);
+			}
+		} else if (delta > 0) {
+			while (nav.previousSibling && /curr/.test(nav.previousSibling.className)) {
+				self.monthNav.removeChild(nav.previousSibling);
+			}
+		}
+
+		self.oldCurMonth = self.navigationCurrentMonth;
+
+		self.navigationCurrentMonth = self.monthNav.insertBefore(self.oldCurMonth.cloneNode(true), delta > 0 ? self.oldCurMonth.nextSibling : self.oldCurMonth);
+
+		if (delta > 0) {
+			self.daysContainer.firstChild.classList.add("slideLeft");
+			self.daysContainer.lastChild.classList.add("slideLeftNew");
+
+			self.oldCurMonth.classList.add("slideLeft");
+			self.navigationCurrentMonth.classList.add("slideLeftNew");
+		} else if (delta < 0) {
+			self.daysContainer.firstChild.classList.add("slideRightNew");
+			self.daysContainer.lastChild.classList.add("slideRight");
+
+			self.oldCurMonth.classList.add("slideRight");
+			self.navigationCurrentMonth.classList.add("slideRightNew");
+		}
+
+		self.currentMonthElement = self.navigationCurrentMonth.firstChild;
+		self.currentYearElement = self.navigationCurrentMonth.lastChild.childNodes[0];
+
+		updateNavigationCurrentMonth();
+		self.oldCurMonth.firstChild.textContent = self.utils.monthToStr(self.currentMonth - delta);
+
+		triggerEvent("MonthChange");
+
+		if (document.activeElement && document.activeElement.$i) {
+			var index = document.activeElement.$i;
+			afterDayAnim(function () {
+				focusOnDay(index, 0);
+			});
+		}
+	}
+
+	function clear(triggerChangeEvent) {
+		self.input.value = "";
+
+		if (self.altInput) self.altInput.value = "";
+
+		if (self.mobileInput) self.mobileInput.value = "";
+
+		self.selectedDates = [];
+		self.latestSelectedDateObj = undefined;
+		self.showTimeInput = false;
+
+		self.redraw();
+
+		if (triggerChangeEvent !== false)
+			// triggerChangeEvent is true (default) or an Event
+			triggerEvent("Change");
+	}
+
+	function close() {
+		self.isOpen = false;
+
+		if (!self.isMobile) {
+			self.calendarContainer.classList.remove("open");
+			self._input.classList.remove("active");
+		}
+
+		triggerEvent("Close");
+	}
+
+	function destroy() {
+		if (self.config !== undefined) triggerEvent("Destroy");
+
+		for (var i = self._handlers.length; i--;) {
+			var h = self._handlers[i];
+			h.element.removeEventListener(h.event, h.handler);
+		}
+
+		self._handlers = [];
+
+		if (self.mobileInput) {
+			if (self.mobileInput.parentNode) self.mobileInput.parentNode.removeChild(self.mobileInput);
+			self.mobileInput = null;
+		} else if (self.calendarContainer && self.calendarContainer.parentNode) self.calendarContainer.parentNode.removeChild(self.calendarContainer);
+
+		if (self.altInput) {
+			self.input.type = "text";
+			if (self.altInput.parentNode) self.altInput.parentNode.removeChild(self.altInput);
+			delete self.altInput;
+		}
+
+		if (self.input) {
+			self.input.type = self.input._type;
+			self.input.classList.remove("flatpickr-input");
+			self.input.removeAttribute("readonly");
+			self.input.value = "";
+		}
+
+		["_showTimeInput", "latestSelectedDateObj", "_hideNextMonthArrow", "_hidePrevMonthArrow", "__hideNextMonthArrow", "__hidePrevMonthArrow", "isMobile", "isOpen", "selectedDateElem", "minDateHasTime", "maxDateHasTime", "days", "daysContainer", "_input", "_positionElement", "innerContainer", "rContainer", "monthNav", "todayDateElem", "calendarContainer", "weekdayContainer", "prevMonthNav", "nextMonthNav", "currentMonthElement", "currentYearElement", "navigationCurrentMonth", "selectedDateElem", "config"].forEach(function (k) {
+			try {
+				delete self[k];
+			} catch (e) {}
+		});
+	}
+
+	function isCalendarElem(elem) {
+		if (self.config.appendTo && self.config.appendTo.contains(elem)) return true;
+
+		return self.calendarContainer.contains(elem);
+	}
+
+	function documentClick(e) {
+		if (self.isOpen && !self.config.inline) {
+			var isCalendarElement = isCalendarElem(e.target);
+			var isInput = e.target === self.input || e.target === self.altInput || self.element.contains(e.target) ||
+			// web components
+			e.path && e.path.indexOf && (~e.path.indexOf(self.input) || ~e.path.indexOf(self.altInput));
+
+			var lostFocus = e.type === "blur" ? isInput && e.relatedTarget && !isCalendarElem(e.relatedTarget) : !isInput && !isCalendarElement;
+
+			if (lostFocus && self.config.ignoredFocusElements.indexOf(e.target) === -1) {
+				self.close();
+
+				if (self.config.mode === "range" && self.selectedDates.length === 1) {
+					self.clear(false);
+					self.redraw();
+				}
+			}
+		}
+	}
+
+	function changeYear(newYear) {
+		if (!newYear || self.currentYearElement.min && newYear < self.currentYearElement.min || self.currentYearElement.max && newYear > self.currentYearElement.max) return;
+
+		var newYearNum = parseInt(newYear, 10),
+		    isNewYear = self.currentYear !== newYearNum;
+
+		self.currentYear = newYearNum || self.currentYear;
+
+		if (self.config.maxDate && self.currentYear === self.config.maxDate.getFullYear()) {
+			self.currentMonth = Math.min(self.config.maxDate.getMonth(), self.currentMonth);
+		} else if (self.config.minDate && self.currentYear === self.config.minDate.getFullYear()) {
+			self.currentMonth = Math.max(self.config.minDate.getMonth(), self.currentMonth);
+		}
+
+		if (isNewYear) {
+			self.redraw();
+			triggerEvent("YearChange");
+		}
+	}
+
+	function isEnabled(date, timeless) {
+		if (self.config.minDate && compareDates(date, self.config.minDate, timeless !== undefined ? timeless : !self.minDateHasTime) < 0 || self.config.maxDate && compareDates(date, self.config.maxDate, timeless !== undefined ? timeless : !self.maxDateHasTime) > 0) return false;
+
+		if (!self.config.enable.length && !self.config.disable.length) return true;
+
+		var dateToCheck = self.parseDate(date, null, true); // timeless
+
+		var bool = self.config.enable.length > 0,
+		    array = bool ? self.config.enable : self.config.disable;
+
+		for (var i = 0, d; i < array.length; i++) {
+			d = array[i];
+
+			if (d instanceof Function && d(dateToCheck)) // disabled by function
+				return bool;else if (d instanceof Date && d.getTime() === dateToCheck.getTime())
+				// disabled by date
+				return bool;else if (typeof d === "string" && self.parseDate(d, null, true).getTime() === dateToCheck.getTime())
+				// disabled by date string
+				return bool;else if ( // disabled by range
+			(typeof d === "undefined" ? "undefined" : _typeof(d)) === "object" && d.from && d.to && dateToCheck >= d.from && dateToCheck <= d.to) return bool;
+		}
+
+		return !bool;
+	}
+
+	function onKeyDown(e) {
+		var isInput = e.target === self._input;
+		var calendarElem = isCalendarElem(e.target);
+		var allowInput = self.config.allowInput;
+		var allowKeydown = self.isOpen && (!allowInput || !isInput);
+		var allowInlineKeydown = self.config.inline && isInput && !allowInput;
+
+		if (e.key === "Enter" && allowInput && isInput) {
+			self.setDate(self._input.value, true, e.target === self.altInput ? self.config.altFormat : self.config.dateFormat);
+			return e.target.blur();
+		} else if (calendarElem || allowKeydown || allowInlineKeydown) {
+			var isTimeObj = self.timeContainer && self.timeContainer.contains(e.target);
+			switch (e.key) {
+				case "Enter":
+					if (isTimeObj) updateValue();else selectDate(e);
+
+					break;
+
+				case "Escape":
+					// escape
+					e.preventDefault();
+					self.close();
+					break;
+
+				case "Backspace":
+				case "Delete":
+					if (!self.config.allowInput) self.clear();
+					break;
+
+				case "ArrowLeft":
+				case "ArrowRight":
+					if (!isTimeObj) {
+						e.preventDefault();
+
+						if (self.daysContainer) {
+							var _delta = e.key === "ArrowRight" ? 1 : -1;
+
+							if (!e.ctrlKey) focusOnDay(e.target.$i, _delta);else changeMonth(_delta, true);
+						} else if (self.config.enableTime && !isTimeObj) self.hourElement.focus();
+					}
+
+					break;
+
+				case "ArrowUp":
+				case "ArrowDown":
+					e.preventDefault();
+					var delta = e.key === "ArrowDown" ? 1 : -1;
+
+					if (self.daysContainer) {
+						if (e.ctrlKey) {
+							changeYear(self.currentYear - delta);
+							focusOnDay(e.target.$i, 0);
+						} else if (!isTimeObj) focusOnDay(e.target.$i, delta * 7);
+					} else if (self.config.enableTime) {
+						if (!isTimeObj) self.hourElement.focus();
+						updateTime(e);
+						self.debouncedChange();
+					}
+
+					break;
+
+				case "Tab":
+					if (e.target === self.hourElement) {
+						e.preventDefault();
+						self.minuteElement.select();
+					} else if (e.target === self.minuteElement && (self.secondElement || self.amPM)) {
+						e.preventDefault();
+						(self.secondElement || self.amPM).focus();
+					} else if (e.target === self.secondElement) {
+						e.preventDefault();
+						self.amPM.focus();
+					}
+
+					break;
+
+				case "a":
+					if (e.target === self.amPM) {
+						self.amPM.textContent = "AM";
+						setHoursFromInputs();
+						updateValue();
+					}
+					break;
+
+				case "p":
+					if (e.target === self.amPM) {
+						self.amPM.textContent = "PM";
+						setHoursFromInputs();
+						updateValue();
+					}
+					break;
+
+				default:
+					break;
+
+			}
+
+			triggerEvent("KeyDown", e);
+		}
+	}
+
+	function onMouseOver(elem) {
+		if (self.selectedDates.length !== 1 || !elem.classList.contains("flatpickr-day")) return;
+
+		var hoverDate = elem.dateObj,
+		    initialDate = self.parseDate(self.selectedDates[0], null, true),
+		    rangeStartDate = Math.min(hoverDate.getTime(), self.selectedDates[0].getTime()),
+		    rangeEndDate = Math.max(hoverDate.getTime(), self.selectedDates[0].getTime()),
+		    containsDisabled = false;
+
+		for (var t = rangeStartDate; t < rangeEndDate; t += self.utils.duration.DAY) {
+			if (!isEnabled(new Date(t))) {
+				containsDisabled = true;
+				break;
+			}
+		}
+
+		var _loop = function _loop(timestamp, i) {
+			var outOfRange = timestamp < self.minRangeDate.getTime() || timestamp > self.maxRangeDate.getTime(),
+			    dayElem = self.days.childNodes[i];
+
+			if (outOfRange) {
+				self.days.childNodes[i].classList.add("notAllowed");
+				["inRange", "startRange", "endRange"].forEach(function (c) {
+					dayElem.classList.remove(c);
+				});
+				return "continue";
+			} else if (containsDisabled && !outOfRange) return "continue";
+
+			["startRange", "inRange", "endRange", "notAllowed"].forEach(function (c) {
+				dayElem.classList.remove(c);
+			});
+
+			var minRangeDate = Math.max(self.minRangeDate.getTime(), rangeStartDate),
+			    maxRangeDate = Math.min(self.maxRangeDate.getTime(), rangeEndDate);
+
+			elem.classList.add(hoverDate < self.selectedDates[0] ? "startRange" : "endRange");
+
+			if (initialDate < hoverDate && timestamp === initialDate.getTime()) dayElem.classList.add("startRange");else if (initialDate > hoverDate && timestamp === initialDate.getTime()) dayElem.classList.add("endRange");
+
+			if (timestamp >= minRangeDate && timestamp <= maxRangeDate) dayElem.classList.add("inRange");
+		};
+
+		for (var timestamp = self.days.childNodes[0].dateObj.getTime(), i = 0; i < 42; i++, timestamp += self.utils.duration.DAY) {
+			var _ret = _loop(timestamp, i);
+
+			if (_ret === "continue") continue;
+		}
+	}
+
+	function onResize() {
+		if (self.isOpen && !self.config.static && !self.config.inline) positionCalendar();
+	}
+
+	function open(e, positionElement) {
+		if (self.isMobile) {
+			if (e) {
+				e.preventDefault();
+				e.target.blur();
+			}
+
+			setTimeout(function () {
+				self.mobileInput.click();
+			}, 0);
+
+			triggerEvent("Open");
+			return;
+		}
+
+		if (self.isOpen || self._input.disabled || self.config.inline) return;
+
+		self.isOpen = true;
+		self.calendarContainer.classList.add("open");
+		positionCalendar(positionElement);
+		self._input.classList.add("active");
+
+		triggerEvent("Open");
+	}
+
+	function minMaxDateSetter(type) {
+		return function (date) {
+			var dateObj = self.config["_" + type + "Date"] = self.parseDate(date);
+
+			var inverseDateObj = self.config["_" + (type === "min" ? "max" : "min") + "Date"];
+			var isValidDate = date && dateObj instanceof Date;
+
+			if (isValidDate) {
+				self[type + "DateHasTime"] = dateObj.getHours() || dateObj.getMinutes() || dateObj.getSeconds();
+			}
+
+			if (self.selectedDates) {
+				self.selectedDates = self.selectedDates.filter(function (d) {
+					return isEnabled(d);
+				});
+				if (!self.selectedDates.length && type === "min") setHoursFromDate(dateObj);
+				updateValue();
+			}
+
+			if (self.daysContainer) {
+				redraw();
+
+				if (isValidDate) self.currentYearElement[type] = dateObj.getFullYear();else self.currentYearElement.removeAttribute(type);
+
+				self.currentYearElement.disabled = inverseDateObj && dateObj && inverseDateObj.getFullYear() === dateObj.getFullYear();
+			}
+		};
+	}
+
+	function parseConfig() {
+		var boolOpts = ["wrap", "weekNumbers", "allowInput", "clickOpens", "time_24hr", "enableTime", "noCalendar", "altInput", "shorthandCurrentMonth", "inline", "static", "enableSeconds", "disableMobile"];
+
+		var hooks = ["onChange", "onClose", "onDayCreate", "onDestroy", "onKeyDown", "onMonthChange", "onOpen", "onParseConfig", "onReady", "onValueUpdate", "onYearChange"];
+
+		self.config = Object.create(flatpickr.defaultConfig);
+
+		var userConfig = _extends({}, self.instanceConfig, JSON.parse(JSON.stringify(self.element.dataset || {})));
+
+		self.config.parseDate = userConfig.parseDate;
+		self.config.formatDate = userConfig.formatDate;
+
+		Object.defineProperty(self.config, "enable", {
+			get: function get() {
+				return self.config._enable || [];
+			},
+			set: function set(dates) {
+				return self.config._enable = parseDateRules(dates);
+			}
+		});
+
+		Object.defineProperty(self.config, "disable", {
+			get: function get() {
+				return self.config._disable || [];
+			},
+			set: function set(dates) {
+				return self.config._disable = parseDateRules(dates);
+			}
+		});
+
+		_extends(self.config, userConfig);
+
+		if (!userConfig.dateFormat && userConfig.enableTime) {
+			self.config.dateFormat = self.config.noCalendar ? "H:i" + (self.config.enableSeconds ? ":S" : "") : flatpickr.defaultConfig.dateFormat + " H:i" + (self.config.enableSeconds ? ":S" : "");
+		}
+
+		if (userConfig.altInput && userConfig.enableTime && !userConfig.altFormat) {
+			self.config.altFormat = self.config.noCalendar ? "h:i" + (self.config.enableSeconds ? ":S K" : " K") : flatpickr.defaultConfig.altFormat + (" h:i" + (self.config.enableSeconds ? ":S" : "") + " K");
+		}
+
+		Object.defineProperty(self.config, "minDate", {
+			get: function get() {
+				return this._minDate;
+			},
+			set: minMaxDateSetter("min")
+		});
+
+		Object.defineProperty(self.config, "maxDate", {
+			get: function get() {
+				return this._maxDate;
+			},
+			set: minMaxDateSetter("max")
+		});
+
+		self.config.minDate = userConfig.minDate;
+		self.config.maxDate = userConfig.maxDate;
+
+		for (var i = 0; i < boolOpts.length; i++) {
+			self.config[boolOpts[i]] = self.config[boolOpts[i]] === true || self.config[boolOpts[i]] === "true";
+		}for (var _i = hooks.length; _i--;) {
+			if (self.config[hooks[_i]] !== undefined) {
+				self.config[hooks[_i]] = arrayify(self.config[hooks[_i]] || []).map(bindToInstance);
+			}
+		}
+
+		for (var _i2 = 0; _i2 < self.config.plugins.length; _i2++) {
+			var pluginConf = self.config.plugins[_i2](self) || {};
+			for (var key in pluginConf) {
+
+				if (self.config[key] instanceof Array || ~hooks.indexOf(key)) {
+					self.config[key] = arrayify(pluginConf[key]).map(bindToInstance).concat(self.config[key]);
+				} else if (typeof userConfig[key] === "undefined") self.config[key] = pluginConf[key];
+			}
+		}
+
+		triggerEvent("ParseConfig");
+	}
+
+	function setupLocale() {
+		if (_typeof(self.config.locale) !== "object" && typeof flatpickr.l10ns[self.config.locale] === "undefined") console.warn("flatpickr: invalid locale " + self.config.locale);
+
+		self.l10n = _extends(Object.create(flatpickr.l10ns.default), _typeof(self.config.locale) === "object" ? self.config.locale : self.config.locale !== "default" ? flatpickr.l10ns[self.config.locale] || {} : {});
+	}
+
+	function positionCalendar() {
+		var positionElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : self._positionElement;
+
+		if (self.calendarContainer === undefined) return;
+
+		var calendarHeight = self.calendarContainer.offsetHeight,
+		    calendarWidth = self.calendarContainer.offsetWidth,
+		    configPos = self.config.position,
+		    inputBounds = positionElement.getBoundingClientRect(),
+		    distanceFromBottom = window.innerHeight - inputBounds.bottom,
+		    showOnTop = configPos === "above" || configPos !== "below" && distanceFromBottom < calendarHeight && inputBounds.top > calendarHeight;
+
+		var top = window.pageYOffset + inputBounds.top + (!showOnTop ? positionElement.offsetHeight + 2 : -calendarHeight - 2);
+
+		toggleClass(self.calendarContainer, "arrowTop", !showOnTop);
+		toggleClass(self.calendarContainer, "arrowBottom", showOnTop);
+
+		if (self.config.inline) return;
+
+		var left = window.pageXOffset + inputBounds.left;
+		var right = window.document.body.offsetWidth - inputBounds.right;
+		var rightMost = left + calendarWidth > window.document.body.offsetWidth;
+
+		toggleClass(self.calendarContainer, "rightMost", rightMost);
+
+		if (self.config.static) return;
+
+		self.calendarContainer.style.top = top + "px";
+
+		if (!rightMost) {
+			self.calendarContainer.style.left = left + "px";
+			self.calendarContainer.style.right = "auto";
+		} else {
+			self.calendarContainer.style.left = "auto";
+			self.calendarContainer.style.right = right + "px";
+		}
+	}
+
+	function redraw() {
+		if (self.config.noCalendar || self.isMobile) return;
+
+		buildWeekdays();
+		updateNavigationCurrentMonth();
+		buildDays();
+	}
+
+	function selectDate(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		if (!e.target.classList.contains("flatpickr-day") || e.target.classList.contains("disabled") || e.target.classList.contains("notAllowed")) return;
+
+		var selectedDate = self.latestSelectedDateObj = new Date(e.target.dateObj.getTime());
+
+		var shouldChangeMonth = selectedDate.getMonth() !== self.currentMonth && self.config.mode !== "range";
+
+		self.selectedDateElem = e.target;
+
+		if (self.config.mode === "single") self.selectedDates = [selectedDate];else if (self.config.mode === "multiple") {
+			var selectedIndex = isDateSelected(selectedDate);
+			if (selectedIndex) self.selectedDates.splice(selectedIndex, 1);else self.selectedDates.push(selectedDate);
+		} else if (self.config.mode === "range") {
+			if (self.selectedDates.length === 2) self.clear();
+
+			self.selectedDates.push(selectedDate);
+
+			// unless selecting same date twice, sort ascendingly
+			if (compareDates(selectedDate, self.selectedDates[0], true) !== 0) self.selectedDates.sort(function (a, b) {
+				return a.getTime() - b.getTime();
+			});
+		}
+
+		setHoursFromInputs();
+
+		if (shouldChangeMonth) {
+			var isNewYear = self.currentYear !== selectedDate.getFullYear();
+			self.currentYear = selectedDate.getFullYear();
+			self.currentMonth = selectedDate.getMonth();
+
+			if (isNewYear) triggerEvent("YearChange");
+
+			triggerEvent("MonthChange");
+		}
+
+		buildDays();
+
+		if (self.minDateHasTime && self.config.enableTime && compareDates(selectedDate, self.config.minDate) === 0) setHoursFromDate(self.config.minDate);
+
+		updateValue();
+
+		if (self.config.enableTime) setTimeout(function () {
+			return self.showTimeInput = true;
+		}, 50);
+
+		if (self.config.mode === "range") {
+			if (self.selectedDates.length === 1) {
+				onMouseOver(e.target);
+
+				self._hidePrevMonthArrow = self._hidePrevMonthArrow || self.minRangeDate > self.days.childNodes[0].dateObj;
+
+				self._hideNextMonthArrow = self._hideNextMonthArrow || self.maxRangeDate < new Date(self.currentYear, self.currentMonth + 1, 1);
+			} else updateNavigationCurrentMonth();
+		}
+
+		triggerEvent("Change");
+
+		// maintain focus
+		if (!shouldChangeMonth) focusOnDay(e.target.$i, 0);else afterDayAnim(function () {
+			return self.selectedDateElem && self.selectedDateElem.focus();
+		});
+
+		if (self.config.enableTime) setTimeout(function () {
+			return self.hourElement.select();
+		}, 451);
+
+		if (self.config.closeOnSelect) {
+			var single = self.config.mode === "single" && !self.config.enableTime;
+			var range = self.config.mode === "range" && self.selectedDates.length === 2 && !self.config.enableTime;
+
+			if (single || range) self.close();
+		}
+	}
+
+	function set(option, value) {
+		if (option !== null && (typeof option === "undefined" ? "undefined" : _typeof(option)) === "object") _extends(self.config, option);else self.config[option] = value;
+
+		self.redraw();
+		jumpToDate();
+	}
+
+	function setSelectedDate(inputDate, format) {
+		if (inputDate instanceof Array) self.selectedDates = inputDate.map(function (d) {
+			return self.parseDate(d, format);
+		});else if (inputDate instanceof Date || !isNaN(inputDate)) self.selectedDates = [self.parseDate(inputDate, format)];else if (inputDate && inputDate.substring) {
+			switch (self.config.mode) {
+				case "single":
+					self.selectedDates = [self.parseDate(inputDate, format)];
+					break;
+
+				case "multiple":
+					self.selectedDates = inputDate.split("; ").map(function (date) {
+						return self.parseDate(date, format);
+					});
+					break;
+
+				case "range":
+					self.selectedDates = inputDate.split(self.l10n.rangeSeparator).map(function (date) {
+						return self.parseDate(date, format);
+					});
+
+					break;
+
+				default:
+					break;
+			}
+		}
+
+		self.selectedDates = self.selectedDates.filter(function (d) {
+			return d instanceof Date && isEnabled(d, false);
+		});
+
+		self.selectedDates.sort(function (a, b) {
+			return a.getTime() - b.getTime();
+		});
+	}
+
+	function setDate(date, triggerChange, format) {
+		if (date !== 0 && !date) return self.clear(triggerChange);
+
+		setSelectedDate(date, format);
+
+		self.showTimeInput = self.selectedDates.length > 0;
+		self.latestSelectedDateObj = self.selectedDates[0];
+
+		self.redraw();
+		jumpToDate();
+
+		setHoursFromDate();
+		updateValue(triggerChange);
+
+		if (triggerChange) triggerEvent("Change");
+	}
+
+	function parseDateRules(arr) {
+		for (var i = arr.length; i--;) {
+			if (typeof arr[i] === "string" || +arr[i]) arr[i] = self.parseDate(arr[i], null, true);else if (arr[i] && arr[i].from && arr[i].to) {
+				arr[i].from = self.parseDate(arr[i].from);
+				arr[i].to = self.parseDate(arr[i].to);
+			}
+		}
+
+		return arr.filter(function (x) {
+			return x;
+		}); // remove falsy values
+	}
+
+	function setupDates() {
+		self.selectedDates = [];
+		self.now = new Date();
+
+		var preloadedDate = self.config.defaultDate || self.input.value;
+		if (preloadedDate) setSelectedDate(preloadedDate, self.config.dateFormat);
+
+		var initialDate = self.selectedDates.length ? self.selectedDates[0] : self.config.minDate && self.config.minDate.getTime() > self.now ? self.config.minDate : self.config.maxDate && self.config.maxDate.getTime() < self.now ? self.config.maxDate : self.now;
+
+		self.currentYear = initialDate.getFullYear();
+		self.currentMonth = initialDate.getMonth();
+
+		if (self.selectedDates.length) self.latestSelectedDateObj = self.selectedDates[0];
+
+		self.minDateHasTime = self.config.minDate && (self.config.minDate.getHours() || self.config.minDate.getMinutes() || self.config.minDate.getSeconds());
+
+		self.maxDateHasTime = self.config.maxDate && (self.config.maxDate.getHours() || self.config.maxDate.getMinutes() || self.config.maxDate.getSeconds());
+
+		Object.defineProperty(self, "latestSelectedDateObj", {
+			get: function get() {
+				return self._selectedDateObj || self.selectedDates[self.selectedDates.length - 1];
+			},
+			set: function set(date) {
+				self._selectedDateObj = date;
+			}
+		});
+
+		if (!self.isMobile) {
+			Object.defineProperty(self, "showTimeInput", {
+				get: function get() {
+					return self._showTimeInput;
+				},
+				set: function set(bool) {
+					self._showTimeInput = bool;
+					if (self.calendarContainer) toggleClass(self.calendarContainer, "showTimeInput", bool);
+					positionCalendar();
+				}
+			});
+		}
+	}
+
+	function setupHelperFunctions() {
+		self.utils = {
+			duration: {
+				DAY: 86400000
+			},
+			getDaysinMonth: function getDaysinMonth(month, yr) {
+				month = typeof month === "undefined" ? self.currentMonth : month;
+
+				yr = typeof yr === "undefined" ? self.currentYear : yr;
+
+				if (month === 1 && (yr % 4 === 0 && yr % 100 !== 0 || yr % 400 === 0)) return 29;
+
+				return self.l10n.daysInMonth[month];
+			},
+			monthToStr: function monthToStr(monthNumber, shorthand) {
+				shorthand = typeof shorthand === "undefined" ? self.config.shorthandCurrentMonth : shorthand;
+
+				return self.l10n.months[(shorthand ? "short" : "long") + "hand"][monthNumber];
+			}
+		};
+	}
+
+	/* istanbul ignore next */
+	function setupFormats() {
+		self.formats = Object.create(FlatpickrInstance.prototype.formats);
+		["D", "F", "J", "M", "W", "l"].forEach(function (f) {
+			self.formats[f] = FlatpickrInstance.prototype.formats[f].bind(self);
+		});
+
+		self.revFormat.F = FlatpickrInstance.prototype.revFormat.F.bind(self);
+		self.revFormat.M = FlatpickrInstance.prototype.revFormat.M.bind(self);
+	}
+
+	function setupInputs() {
+		self.input = self.config.wrap ? self.element.querySelector("[data-input]") : self.element;
+
+		/* istanbul ignore next */
+		if (!self.input) return console.warn("Error: invalid input element specified", self.input);
+
+		self.input._type = self.input.type;
+		self.input.type = "text";
+
+		self.input.classList.add("flatpickr-input");
+		self._input = self.input;
+
+		if (self.config.altInput) {
+			// replicate self.element
+			self.altInput = createElement(self.input.nodeName, self.input.className + " " + self.config.altInputClass);
+			self._input = self.altInput;
+			self.altInput.placeholder = self.input.placeholder;
+			self.altInput.disabled = self.input.disabled;
+			self.altInput.required = self.input.required;
+			self.altInput.type = "text";
+			self.input.type = "hidden";
+
+			if (!self.config.static && self.input.parentNode) self.input.parentNode.insertBefore(self.altInput, self.input.nextSibling);
+		}
+
+		if (!self.config.allowInput) self._input.setAttribute("readonly", "readonly");
+
+		self._positionElement = self.config.positionElement || self._input;
+	}
+
+	function setupMobile() {
+		var inputType = self.config.enableTime ? self.config.noCalendar ? "time" : "datetime-local" : "date";
+
+		self.mobileInput = createElement("input", self.input.className + " flatpickr-mobile");
+		self.mobileInput.step = self.input.getAttribute("step") || "any";
+		self.mobileInput.tabIndex = 1;
+		self.mobileInput.type = inputType;
+		self.mobileInput.disabled = self.input.disabled;
+		self.mobileInput.placeholder = self.input.placeholder;
+
+		self.mobileFormatStr = inputType === "datetime-local" ? "Y-m-d\\TH:i:S" : inputType === "date" ? "Y-m-d" : "H:i:S";
+
+		if (self.selectedDates.length) {
+			self.mobileInput.defaultValue = self.mobileInput.value = self.formatDate(self.selectedDates[0], self.mobileFormatStr);
+		}
+
+		if (self.config.minDate) self.mobileInput.min = self.formatDate(self.config.minDate, "Y-m-d");
+
+		if (self.config.maxDate) self.mobileInput.max = self.formatDate(self.config.maxDate, "Y-m-d");
+
+		self.input.type = "hidden";
+		if (self.config.altInput) self.altInput.type = "hidden";
+
+		try {
+			self.input.parentNode.insertBefore(self.mobileInput, self.input.nextSibling);
+		} catch (e) {
+			//
+		}
+
+		self.mobileInput.addEventListener("change", function (e) {
+			self.setDate(e.target.value, false, self.mobileFormatStr);
+			triggerEvent("Change");
+			triggerEvent("Close");
+		});
+	}
+
+	function toggle() {
+		if (self.isOpen) return self.close();
+		self.open();
+	}
+
+	function triggerEvent(event, data) {
+		var hooks = self.config["on" + event];
+
+		if (hooks !== undefined && hooks.length > 0) {
+			for (var i = 0; hooks[i] && i < hooks.length; i++) {
+				hooks[i](self.selectedDates, self.input.value, self, data);
+			}
+		}
+
+		if (event === "Change") {
+			self.input.dispatchEvent(createEvent("change"));
+
+			// many front-end frameworks bind to the input event
+			self.input.dispatchEvent(createEvent("input"));
+		}
+	}
+
+	/**
+  * Creates an Event, normalized across browsers
+  * @param {String} name the event name, e.g. "click"
+  * @return {Event} the created event
+  */
+	function createEvent(name) {
+		if (self._supportsEvents) return new Event(name, { bubbles: true });
+
+		self._[name + "Event"] = document.createEvent("Event");
+		self._[name + "Event"].initEvent(name, true, true);
+		return self._[name + "Event"];
+	}
+
+	function isDateSelected(date) {
+		for (var i = 0; i < self.selectedDates.length; i++) {
+			if (compareDates(self.selectedDates[i], date) === 0) return "" + i;
+		}
+
+		return false;
+	}
+
+	function isDateInRange(date) {
+		if (self.config.mode !== "range" || self.selectedDates.length < 2) return false;
+		return compareDates(date, self.selectedDates[0]) >= 0 && compareDates(date, self.selectedDates[1]) <= 0;
+	}
+
+	function updateNavigationCurrentMonth() {
+		if (self.config.noCalendar || self.isMobile || !self.monthNav) return;
+
+		self.currentMonthElement.textContent = self.utils.monthToStr(self.currentMonth) + " ";
+		self.currentYearElement.value = self.currentYear;
+
+		self._hidePrevMonthArrow = self.config.minDate && (self.currentYear === self.config.minDate.getFullYear() ? self.currentMonth <= self.config.minDate.getMonth() : self.currentYear < self.config.minDate.getFullYear());
+
+		self._hideNextMonthArrow = self.config.maxDate && (self.currentYear === self.config.maxDate.getFullYear() ? self.currentMonth + 1 > self.config.maxDate.getMonth() : self.currentYear > self.config.maxDate.getFullYear());
+	}
+
+	/**
+  * Updates the values of inputs associated with the calendar
+  * @return {void}
+  */
+	function updateValue(triggerChange) {
+		if (!self.selectedDates.length) return self.clear(triggerChange);
+
+		if (self.isMobile) {
+			self.mobileInput.value = self.selectedDates.length ? self.formatDate(self.latestSelectedDateObj, self.mobileFormatStr) : "";
+		}
+
+		var joinChar = self.config.mode !== "range" ? "; " : self.l10n.rangeSeparator;
+
+		self.input.value = self.selectedDates.map(function (dObj) {
+			return self.formatDate(dObj, self.config.dateFormat);
+		}).join(joinChar);
+
+		if (self.config.altInput) {
+			self.altInput.value = self.selectedDates.map(function (dObj) {
+				return self.formatDate(dObj, self.config.altFormat);
+			}).join(joinChar);
+		}
+
+		if (triggerChange !== false) triggerEvent("ValueUpdate");
+	}
+
+	function mouseDelta(e) {
+		return Math.max(-1, Math.min(1, e.wheelDelta || -e.deltaY));
+	}
+
+	function onMonthNavScroll(e) {
+		e.preventDefault();
+		var isYear = self.currentYearElement.parentNode.contains(e.target);
+
+		if (e.target === self.currentMonthElement || isYear) {
+
+			var delta = mouseDelta(e);
+
+			if (isYear) {
+				changeYear(self.currentYear + delta);
+				e.target.value = self.currentYear;
+			} else self.changeMonth(delta, true, false);
+		}
+	}
+
+	function onMonthNavClick(e) {
+		var isPrevMonth = self.prevMonthNav.contains(e.target);
+		var isNextMonth = self.nextMonthNav.contains(e.target);
+
+		if (isPrevMonth || isNextMonth) changeMonth(isPrevMonth ? -1 : 1);else if (e.target === self.currentYearElement) {
+			e.preventDefault();
+			self.currentYearElement.select();
+		} else if (e.target.className === "arrowUp") self.changeYear(self.currentYear + 1);else if (e.target.className === "arrowDown") self.changeYear(self.currentYear - 1);
+	}
+
+	/**
+  * Creates an HTMLElement with given tag, class, and textual content
+  * @param {String} tag the HTML tag
+  * @param {String} className the new element's class name
+  * @param {String} content The new element's text content
+  * @return {HTMLElement} the created HTML element
+  */
+	function createElement(tag, className, content) {
+		var e = window.document.createElement(tag);
+		className = className || "";
+		content = content || "";
+
+		e.className = className;
+
+		if (content !== undefined) e.textContent = content;
+
+		return e;
+	}
+
+	function arrayify(obj) {
+		if (obj instanceof Array) return obj;
+		return [obj];
+	}
+
+	function toggleClass(elem, className, bool) {
+		if (bool) return elem.classList.add(className);
+		elem.classList.remove(className);
+	}
+
+	/* istanbul ignore next */
+	function debounce(func, wait, immediate) {
+		var timeout = void 0;
+		return function () {
+			var context = this,
+			    args = arguments;
+			clearTimeout(timeout);
+			timeout = setTimeout(function () {
+				timeout = null;
+				if (!immediate) func.apply(context, args);
+			}, wait);
+			if (immediate && !timeout) func.apply(context, args);
+		};
+	}
+
+	/**
+  * Compute the difference in dates, measured in ms
+  * @param {Date} date1
+  * @param {Date} date2
+  * @param {Boolean} timeless whether to reset times of both dates to 00:00
+  * @return {Number} the difference in ms
+  */
+	function compareDates(date1, date2, timeless) {
+		if (!(date1 instanceof Date) || !(date2 instanceof Date)) return false;
+
+		if (timeless !== false) {
+			return new Date(date1.getTime()).setHours(0, 0, 0, 0) - new Date(date2.getTime()).setHours(0, 0, 0, 0);
+		}
+
+		return date1.getTime() - date2.getTime();
+	}
+
+	function timeWrapper(e) {
+		e.preventDefault();
+
+		var isKeyDown = e.type === "keydown",
+		    isWheel = e.type === "wheel",
+		    isIncrement = e.type === "increment",
+		    input = e.target;
+
+		if (self.amPM && e.target === self.amPM) return e.target.textContent = ["AM", "PM"][e.target.textContent === "AM" | 0];
+
+		var min = Number(input.min),
+		    max = Number(input.max),
+		    step = Number(input.step),
+		    curValue = parseInt(input.value, 10),
+		    delta = e.delta || (!isKeyDown ? Math.max(-1, Math.min(1, e.wheelDelta || -e.deltaY)) || 0 : e.which === 38 ? 1 : -1);
+
+		var newValue = curValue + step * delta;
+
+		if (typeof input.value !== "undefined" && input.value.length === 2) {
+			var isHourElem = input === self.hourElement,
+			    isMinuteElem = input === self.minuteElement;
+
+			if (newValue < min) {
+				newValue = max + newValue + !isHourElem + (isHourElem && !self.amPM);
+
+				if (isMinuteElem) incrementNumInput(null, -1, self.hourElement);
+			} else if (newValue > max) {
+				newValue = input === self.hourElement ? newValue - max - !self.amPM : min;
+
+				if (isMinuteElem) incrementNumInput(null, 1, self.hourElement);
+			}
+
+			if (self.amPM && isHourElem && (step === 1 ? newValue + curValue === 23 : Math.abs(newValue - curValue) > step)) self.amPM.textContent = self.amPM.textContent === "PM" ? "AM" : "PM";
+
+			input.value = self.pad(newValue);
+		}
+	}
+
+	init();
+	return self;
+}
+
+FlatpickrInstance.prototype = {
+	formats: {
+		// get the date in UTC
+		Z: function Z(date) {
+			return date.toISOString();
+		},
+
+		// weekday name, short, e.g. Thu
+		D: function D(date) {
+			return this.l10n.weekdays.shorthand[this.formats.w(date)];
+		},
+
+		// full month name e.g. January
+		F: function F(date) {
+			return this.utils.monthToStr(this.formats.n(date) - 1, false);
+		},
+
+		// padded hour 1-12
+		G: function G(date) {
+			return FlatpickrInstance.prototype.pad(FlatpickrInstance.prototype.formats.h(date));
+		},
+
+		// hours with leading zero e.g. 03
+		H: function H(date) {
+			return FlatpickrInstance.prototype.pad(date.getHours());
+		},
+
+		// day (1-30) with ordinal suffix e.g. 1st, 2nd
+		J: function J(date) {
+			return date.getDate() + this.l10n.ordinal(date.getDate());
+		},
+
+		// AM/PM
+		K: function K(date) {
+			return date.getHours() > 11 ? "PM" : "AM";
+		},
+
+		// shorthand month e.g. Jan, Sep, Oct, etc
+		M: function M(date) {
+			return this.utils.monthToStr(date.getMonth(), true);
+		},
+
+		// seconds 00-59
+		S: function S(date) {
+			return FlatpickrInstance.prototype.pad(date.getSeconds());
+		},
+
+		// unix timestamp
+		U: function U(date) {
+			return date.getTime() / 1000;
+		},
+
+		W: function W(date) {
+			return this.config.getWeek(date);
+		},
+
+		// full year e.g. 2016
+		Y: function Y(date) {
+			return date.getFullYear();
+		},
+
+		// day in month, padded (01-30)
+		d: function d(date) {
+			return FlatpickrInstance.prototype.pad(date.getDate());
+		},
+
+		// hour from 1-12 (am/pm)
+		h: function h(date) {
+			return date.getHours() % 12 ? date.getHours() % 12 : 12;
+		},
+
+		// minutes, padded with leading zero e.g. 09
+		i: function i(date) {
+			return FlatpickrInstance.prototype.pad(date.getMinutes());
+		},
+
+		// day in month (1-30)
+		j: function j(date) {
+			return date.getDate();
+		},
+
+		// weekday name, full, e.g. Thursday
+		l: function l(date) {
+			return this.l10n.weekdays.longhand[date.getDay()];
+		},
+
+		// padded month number (01-12)
+		m: function m(date) {
+			return FlatpickrInstance.prototype.pad(date.getMonth() + 1);
+		},
+
+		// the month number (1-12)
+		n: function n(date) {
+			return date.getMonth() + 1;
+		},
+
+		// seconds 0-59
+		s: function s(date) {
+			return date.getSeconds();
+		},
+
+		// number of the day of the week
+		w: function w(date) {
+			return date.getDay();
+		},
+
+		// last two digits of year e.g. 16 for 2016
+		y: function y(date) {
+			return String(date.getFullYear()).substring(2);
+		}
+	},
+
+	/**
+  * Formats a given Date object into a string based on supplied format
+  * @param {Date} dateObj the date object
+  * @param {String} frmt a string composed of formatting tokens e.g. "Y-m-d"
+  * @return {String} The textual representation of the date e.g. 2017-02-03
+  */
+	formatDate: function formatDate(dateObj, frmt) {
+		var _this = this;
+
+		if (this.config !== undefined && this.config.formatDate !== undefined) return this.config.formatDate(dateObj, frmt);
+
+		return frmt.split("").map(function (c, i, arr) {
+			return _this.formats[c] && arr[i - 1] !== "\\" ? _this.formats[c](dateObj) : c !== "\\" ? c : "";
+		}).join("");
+	},
+
+
+	revFormat: {
+		D: function D() {},
+		F: function F(dateObj, monthName) {
+			dateObj.setMonth(this.l10n.months.longhand.indexOf(monthName));
+		},
+		G: function G(dateObj, hour) {
+			dateObj.setHours(parseFloat(hour));
+		},
+		H: function H(dateObj, hour) {
+			dateObj.setHours(parseFloat(hour));
+		},
+		J: function J(dateObj, day) {
+			dateObj.setDate(parseFloat(day));
+		},
+		K: function K(dateObj, amPM) {
+			var hours = dateObj.getHours();
+
+			if (hours !== 12) dateObj.setHours(hours % 12 + 12 * /pm/i.test(amPM));
+		},
+		M: function M(dateObj, shortMonth) {
+			dateObj.setMonth(this.l10n.months.shorthand.indexOf(shortMonth));
+		},
+		S: function S(dateObj, seconds) {
+			dateObj.setSeconds(seconds);
+		},
+		U: function U(dateObj, unixSeconds) {
+			return new Date(parseFloat(unixSeconds) * 1000);
+		},
+
+		W: function W(dateObj, weekNumber) {
+			weekNumber = parseInt(weekNumber);
+			return new Date(dateObj.getFullYear(), 0, 2 + (weekNumber - 1) * 7, 0, 0, 0, 0, 0);
+		},
+		Y: function Y(dateObj, year) {
+			dateObj.setFullYear(year);
+		},
+		Z: function Z(dateObj, ISODate) {
+			return new Date(ISODate);
+		},
+
+		d: function d(dateObj, day) {
+			dateObj.setDate(parseFloat(day));
+		},
+		h: function h(dateObj, hour) {
+			dateObj.setHours(parseFloat(hour));
+		},
+		i: function i(dateObj, minutes) {
+			dateObj.setMinutes(parseFloat(minutes));
+		},
+		j: function j(dateObj, day) {
+			dateObj.setDate(parseFloat(day));
+		},
+		l: function l() {},
+		m: function m(dateObj, month) {
+			dateObj.setMonth(parseFloat(month) - 1);
+		},
+		n: function n(dateObj, month) {
+			dateObj.setMonth(parseFloat(month) - 1);
+		},
+		s: function s(dateObj, seconds) {
+			dateObj.setSeconds(parseFloat(seconds));
+		},
+		w: function w() {},
+		y: function y(dateObj, year) {
+			dateObj.setFullYear(2000 + parseFloat(year));
+		}
+	},
+
+	tokenRegex: {
+		D: "(\\w+)",
+		F: "(\\w+)",
+		G: "(\\d\\d|\\d)",
+		H: "(\\d\\d|\\d)",
+		J: "(\\d\\d|\\d)\\w+",
+		K: "(am|AM|Am|aM|pm|PM|Pm|pM)",
+		M: "(\\w+)",
+		S: "(\\d\\d|\\d)",
+		U: "(.+)",
+		W: "(\\d\\d|\\d)",
+		Y: "(\\d{4})",
+		Z: "(.+)",
+		d: "(\\d\\d|\\d)",
+		h: "(\\d\\d|\\d)",
+		i: "(\\d\\d|\\d)",
+		j: "(\\d\\d|\\d)",
+		l: "(\\w+)",
+		m: "(\\d\\d|\\d)",
+		n: "(\\d\\d|\\d)",
+		s: "(\\d\\d|\\d)",
+		w: "(\\d\\d|\\d)",
+		y: "(\\d{2})"
+	},
+
+	pad: function pad(number) {
+		return ("0" + number).slice(-2);
+	},
+
+	/**
+  * Parses a date(+time) string into a Date object
+  * @param {String} date the date string, e.g. 2017-02-03 14:45
+  * @param {String} givenFormat the date format, e.g. Y-m-d H:i
+  * @param {Boolean} timeless whether to reset the time of Date object
+  * @return {Date} the parsed Date object
+  */
+	parseDate: function parseDate(date, givenFormat, timeless) {
+		var _this2 = this;
+
+		if (date !== 0 && !date) return null;
+
+		var date_orig = date;
+
+		if (date instanceof Date) date = new Date(date.getTime()); // create a copy
+
+		else if (date.toFixed !== undefined) // timestamp
+				date = new Date(date);else {
+				// date string
+				var format = givenFormat || (this.config || flatpickr.defaultConfig).dateFormat;
+				date = String(date).trim();
+
+				if (date === "today") {
+					date = new Date();
+					timeless = true;
+				} else if (/Z$/.test(date) || /GMT$/.test(date)) // datestrings w/ timezone
+					date = new Date(date);else if (this.config && this.config.parseDate) date = this.config.parseDate(date, format);else {
+					(function () {
+						var parsedDate = !_this2.config || !_this2.config.noCalendar ? new Date(new Date().getFullYear(), 0, 1, 0, 0, 0, 0) : new Date(new Date().setHours(0, 0, 0, 0));
+
+						var matched = void 0,
+						    ops = [];
+
+						for (var i = 0, matchIndex = 0, regexStr = ""; i < format.length; i++) {
+							var token = format[i];
+							var isBackSlash = token === "\\";
+							var escaped = format[i - 1] === "\\" || isBackSlash;
+
+							if (_this2.tokenRegex[token] && !escaped) {
+								regexStr += _this2.tokenRegex[token];
+								var match = new RegExp(regexStr).exec(date);
+								if (match && (matched = true)) {
+									ops[token !== "Y" ? "push" : "unshift"]({
+										fn: _this2.revFormat[token],
+										val: match[++matchIndex]
+									});
+								}
+							} else if (!isBackSlash) regexStr += "."; // don't really care
+
+							ops.forEach(function (_ref) {
+								var fn = _ref.fn,
+								    val = _ref.val;
+								return parsedDate = fn(parsedDate, val) || parsedDate;
+							});
+						}
+
+						date = matched ? parsedDate : null;
+					})();
+				}
+			}
+
+		/* istanbul ignore next */
+		if (!(date instanceof Date)) {
+			console.warn("flatpickr: invalid date " + date_orig);
+			console.info(this.element);
+			return null;
+		}
+
+		if (timeless === true) date.setHours(0, 0, 0, 0);
+
+		return date;
+	}
+};
+
+/* istanbul ignore next */
+function _flatpickr(nodeList, config) {
+	var nodes = Array.prototype.slice.call(nodeList); // static list
+	var instances = [];
+	for (var i = 0; i < nodes.length; i++) {
+		try {
+			if (nodes[i].getAttribute("data-fp-omit") !== null) continue;
+
+			if (nodes[i]._flatpickr) {
+				nodes[i]._flatpickr.destroy();
+				nodes[i]._flatpickr = null;
+			}
+
+			nodes[i]._flatpickr = new FlatpickrInstance(nodes[i], config || {});
+			instances.push(nodes[i]._flatpickr);
+		} catch (e) {
+			console.warn(e, e.stack);
+		}
+	}
+
+	return instances.length === 1 ? instances[0] : instances;
+}
+
+/* istanbul ignore next */
+if (typeof HTMLElement !== "undefined") {
+	// browser env
+	HTMLCollection.prototype.flatpickr = NodeList.prototype.flatpickr = function (config) {
+		return _flatpickr(this, config);
+	};
+
+	HTMLElement.prototype.flatpickr = function (config) {
+		return _flatpickr([this], config);
+	};
+}
+
+/* istanbul ignore next */
+function flatpickr(selector, config) {
+	if (selector instanceof NodeList) return _flatpickr(selector, config);else if (!(selector instanceof HTMLElement)) return _flatpickr(window.document.querySelectorAll(selector), config);
+
+	return _flatpickr([selector], config);
+}
+
+/* istanbul ignore next */
+flatpickr.defaultConfig = FlatpickrInstance.defaultConfig = {
+	mode: "single",
+
+	position: "auto",
+
+	animate: typeof window !== "undefined" && window.navigator.userAgent.indexOf("MSIE") === -1,
+
+	// wrap: see https://chmln.github.io/flatpickr/examples/#flatpickr-external-elements
+	wrap: false,
+
+	// enables week numbers
+	weekNumbers: false,
+
+	// allow manual datetime input
+	allowInput: false,
+
+	/*
+ 	clicking on input opens the date(time)picker.
+ 	disable if you wish to open the calendar manually with .open()
+ */
+	clickOpens: true,
+
+	/*
+ 	closes calendar after date selection,
+ 	unless 'mode' is 'multiple' or enableTime is true
+ */
+	closeOnSelect: true,
+
+	// display time picker in 24 hour mode
+	time_24hr: false,
+
+	// enables the time picker functionality
+	enableTime: false,
+
+	// noCalendar: true will hide the calendar. use for a time picker along w/ enableTime
+	noCalendar: false,
+
+	// more date format chars at https://chmln.github.io/flatpickr/#dateformat
+	dateFormat: "Y-m-d",
+
+	// date format used in aria-label for days
+	ariaDateFormat: "F j, Y",
+
+	// altInput - see https://chmln.github.io/flatpickr/#altinput
+	altInput: false,
+
+	// the created altInput element will have this class.
+	altInputClass: "form-control input",
+
+	// same as dateFormat, but for altInput
+	altFormat: "F j, Y", // defaults to e.g. June 10, 2016
+
+	// defaultDate - either a datestring or a date object. used for datetimepicker"s initial value
+	defaultDate: null,
+
+	// the minimum date that user can pick (inclusive)
+	minDate: null,
+
+	// the maximum date that user can pick (inclusive)
+	maxDate: null,
+
+	// dateparser that transforms a given string to a date object
+	parseDate: null,
+
+	// dateformatter that transforms a given date object to a string, according to passed format
+	formatDate: null,
+
+	getWeek: function getWeek(givenDate) {
+		var date = new Date(givenDate.getTime());
+		var onejan = new Date(date.getFullYear(), 0, 1);
+		return Math.ceil(((date - onejan) / 86400000 + onejan.getDay() + 1) / 7);
+	},
+
+
+	// see https://chmln.github.io/flatpickr/#disable
+	enable: [],
+
+	// see https://chmln.github.io/flatpickr/#disable
+	disable: [],
+
+	// display the short version of month names - e.g. Sep instead of September
+	shorthandCurrentMonth: false,
+
+	// displays calendar inline. see https://chmln.github.io/flatpickr/#inline-calendar
+	inline: false,
+
+	// position calendar inside wrapper and next to the input element
+	// leave at false unless you know what you"re doing
+	"static": false,
+
+	// DOM node to append the calendar to in *static* mode
+	appendTo: null,
+
+	// code for previous/next icons. this is where you put your custom icon code e.g. fontawesome
+	prevArrow: "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M5.207 8.471l7.146 7.147-0.707 0.707-7.853-7.854 7.854-7.853 0.707 0.707-7.147 7.146z' /></svg>",
+	nextArrow: "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M13.207 8.472l-7.854 7.854-0.707-0.707 7.146-7.146-7.146-7.148 0.707-0.707 7.854 7.854z' /></svg>",
+
+	// enables seconds in the time picker
+	enableSeconds: false,
+
+	// step size used when scrolling/incrementing the hour element
+	hourIncrement: 1,
+
+	// step size used when scrolling/incrementing the minute element
+	minuteIncrement: 5,
+
+	// initial value in the hour element
+	defaultHour: 12,
+
+	// initial value in the minute element
+	defaultMinute: 0,
+
+	// initial value in the seconds element
+	defaultSeconds: 0,
+
+	// disable native mobile datetime input support
+	disableMobile: false,
+
+	// default locale
+	locale: "default",
+
+	plugins: [],
+
+	ignoredFocusElements: [],
+
+	// called every time calendar is closed
+	onClose: undefined, // function (dateObj, dateStr) {}
+
+	// onChange callback when user selects a date or time
+	onChange: undefined, // function (dateObj, dateStr) {}
+
+	// called for every day element
+	onDayCreate: undefined,
+
+	// called every time the month is changed
+	onMonthChange: undefined,
+
+	// called every time calendar is opened
+	onOpen: undefined, // function (dateObj, dateStr) {}
+
+	// called after the configuration has been parsed
+	onParseConfig: undefined,
+
+	// called after calendar is ready
+	onReady: undefined, // function (dateObj, dateStr) {}
+
+	// called after input value updated
+	onValueUpdate: undefined,
+
+	// called every time the year is changed
+	onYearChange: undefined,
+
+	onKeyDown: undefined,
+
+	onDestroy: undefined
+};
+
+/* istanbul ignore next */
+flatpickr.l10ns = {
+	en: {
+		weekdays: {
+			shorthand: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+			longhand: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+		},
+		months: {
+			shorthand: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			longhand: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+		},
+		daysInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+		firstDayOfWeek: 0,
+		ordinal: function ordinal(nth) {
+			var s = nth % 100;
+			if (s > 3 && s < 21) return "th";
+			switch (s % 10) {
+				case 1:
+					return "st";
+				case 2:
+					return "nd";
+				case 3:
+					return "rd";
+				default:
+					return "th";
+			}
+		},
+		rangeSeparator: " to ",
+		weekAbbreviation: "Wk",
+		scrollTitle: "Scroll to increment",
+		toggleTitle: "Click to toggle"
+	}
+};
+
+flatpickr.l10ns.default = Object.create(flatpickr.l10ns.en);
+flatpickr.localize = function (l10n) {
+	return _extends(flatpickr.l10ns.default, l10n || {});
+};
+flatpickr.setDefaults = function (config) {
+	return _extends(flatpickr.defaultConfig, config || {});
+};
+
+/* istanbul ignore next */
+if (typeof jQuery !== "undefined") {
+	jQuery.fn.flatpickr = function (config) {
+		return _flatpickr(this, config);
+	};
+}
+
+Date.prototype.fp_incr = function (days) {
+	return new Date(this.getFullYear(), this.getMonth(), this.getDate() + parseInt(days, 10));
+};
+
+if (true) module.exports = flatpickr;
+
+/***/ }),
+/* 2 */
+/*!*********************************************************************************!*\
+  !*** ./node_modules/raw-loader!./node_modules/flatpickr/dist/flatpickr.min.css ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = ".flatpickr-calendar{background:transparent;overflow:hidden;max-height:0;opacity:0;visibility:hidden;text-align:center;padding:0;-webkit-animation:none;animation:none;direction:ltr;border:0;font-size:14px;line-height:24px;border-radius:5px;position:absolute;width:307.875px;-webkit-box-sizing:border-box;box-sizing:border-box;-ms-touch-action:manipulation;touch-action:manipulation;background:#fff;-webkit-box-shadow:1px 0 0 #e6e6e6,-1px 0 0 #e6e6e6,0 1px 0 #e6e6e6,0 -1px 0 #e6e6e6,0 3px 13px rgba(0,0,0,0.08);box-shadow:1px 0 0 #e6e6e6,-1px 0 0 #e6e6e6,0 1px 0 #e6e6e6,0 -1px 0 #e6e6e6,0 3px 13px rgba(0,0,0,0.08);}.flatpickr-calendar.open,.flatpickr-calendar.inline{opacity:1;visibility:visible;overflow:visible;max-height:640px}.flatpickr-calendar.open{display:inline-block;z-index:99999}.flatpickr-calendar.animate.open{-webkit-animation:fpFadeInDown 300ms cubic-bezier(.23,1,.32,1);animation:fpFadeInDown 300ms cubic-bezier(.23,1,.32,1)}.flatpickr-calendar.inline{display:block;position:relative;top:2px}.flatpickr-calendar.static{position:absolute;top:calc(100% + 2px);}.flatpickr-calendar.static.open{z-index:999;display:block}.flatpickr-calendar.hasWeeks{width:auto}.flatpickr-calendar .hasWeeks .dayContainer,.flatpickr-calendar .hasTime .dayContainer{border-bottom:0;border-bottom-right-radius:0;border-bottom-left-radius:0}.flatpickr-calendar .hasWeeks .dayContainer{border-left:0}.flatpickr-calendar.showTimeInput.hasTime .flatpickr-time{height:40px;border-top:1px solid #e6e6e6}.flatpickr-calendar.noCalendar.hasTime .flatpickr-time{height:auto}.flatpickr-calendar:before,.flatpickr-calendar:after{position:absolute;display:block;pointer-events:none;border:solid transparent;content:'';height:0;width:0;left:22px}.flatpickr-calendar.rightMost:before,.flatpickr-calendar.rightMost:after{left:auto;right:22px}.flatpickr-calendar:before{border-width:5px;margin:0 -5px}.flatpickr-calendar:after{border-width:4px;margin:0 -4px}.flatpickr-calendar.arrowTop:before,.flatpickr-calendar.arrowTop:after{bottom:100%}.flatpickr-calendar.arrowTop:before{border-bottom-color:#e6e6e6}.flatpickr-calendar.arrowTop:after{border-bottom-color:#fff}.flatpickr-calendar.arrowBottom:before,.flatpickr-calendar.arrowBottom:after{top:100%}.flatpickr-calendar.arrowBottom:before{border-top-color:#e6e6e6}.flatpickr-calendar.arrowBottom:after{border-top-color:#fff}.flatpickr-calendar:focus{outline:0}.flatpickr-wrapper{position:relative;display:inline-block}.flatpickr-month{background:transparent;color:rgba(0,0,0,0.9);fill:rgba(0,0,0,0.9);height:28px;line-height:1;text-align:center;position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;overflow:hidden}.flatpickr-prev-month,.flatpickr-next-month{text-decoration:none;cursor:pointer;position:absolute;top:0;line-height:16px;height:28px;padding:10px calc(3.57% - 1.5px);z-index:3;}.flatpickr-prev-month i,.flatpickr-next-month i{position:relative}.flatpickr-prev-month.flatpickr-prev-month,.flatpickr-next-month.flatpickr-prev-month{/*\n        /*rtl:begin:ignore*/left:0;/*\n        /*rtl:end:ignore*/}/*\n        /*rtl:begin:ignore*/\n/*\n        /*rtl:end:ignore*/\n.flatpickr-prev-month.flatpickr-next-month,.flatpickr-next-month.flatpickr-next-month{/*\n        /*rtl:begin:ignore*/right:0;/*\n        /*rtl:end:ignore*/}/*\n        /*rtl:begin:ignore*/\n/*\n        /*rtl:end:ignore*/\n.flatpickr-prev-month:hover,.flatpickr-next-month:hover{color:#959ea9;}.flatpickr-prev-month:hover svg,.flatpickr-next-month:hover svg{fill:#f64747}.flatpickr-prev-month svg,.flatpickr-next-month svg{width:14px;}.flatpickr-prev-month svg path,.flatpickr-next-month svg path{-webkit-transition:fill .1s;transition:fill .1s;fill:inherit}.numInputWrapper{position:relative;height:auto;}.numInputWrapper input,.numInputWrapper span{display:inline-block}.numInputWrapper input{width:100%}.numInputWrapper span{position:absolute;right:0;width:14px;padding:0 4px 0 2px;height:50%;line-height:50%;opacity:0;cursor:pointer;border:1px solid rgba(57,57,57,0.05);-webkit-box-sizing:border-box;box-sizing:border-box;}.numInputWrapper span:hover{background:rgba(0,0,0,0.1)}.numInputWrapper span:active{background:rgba(0,0,0,0.2)}.numInputWrapper span:after{display:block;content:\"\";position:absolute;top:33%}.numInputWrapper span.arrowUp{top:0;border-bottom:0;}.numInputWrapper span.arrowUp:after{border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:4px solid rgba(57,57,57,0.6)}.numInputWrapper span.arrowDown{top:50%;}.numInputWrapper span.arrowDown:after{border-left:4px solid transparent;border-right:4px solid transparent;border-top:4px solid rgba(57,57,57,0.6)}.numInputWrapper span svg{width:inherit;height:auto;}.numInputWrapper span svg path{fill:rgba(0,0,0,0.5)}.numInputWrapper:hover{background:rgba(0,0,0,0.05);}.numInputWrapper:hover span{opacity:1}.flatpickr-current-month{font-size:135%;line-height:inherit;font-weight:300;color:inherit;position:absolute;width:75%;left:12.5%;padding:6.16px 0 0 0;line-height:1;height:28px;display:inline-block;text-align:center;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);}.flatpickr-current-month.slideLeft{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0);-webkit-animation:fpFadeOut 400ms ease,fpSlideLeft 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeOut 400ms ease,fpSlideLeft 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-current-month.slideLeftNew{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0);-webkit-animation:fpFadeIn 400ms ease,fpSlideLeftNew 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeIn 400ms ease,fpSlideLeftNew 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-current-month.slideRight{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0);-webkit-animation:fpFadeOut 400ms ease,fpSlideRight 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeOut 400ms ease,fpSlideRight 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-current-month.slideRightNew{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);-webkit-animation:fpFadeIn 400ms ease,fpSlideRightNew 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeIn 400ms ease,fpSlideRightNew 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-current-month span.cur-month{font-family:inherit;font-weight:700;color:inherit;display:inline-block;margin-left:.5ch;padding:0;}.flatpickr-current-month span.cur-month:hover{background:rgba(0,0,0,0.05)}.flatpickr-current-month .numInputWrapper{width:6ch;width:7ch\\0;display:inline-block;}.flatpickr-current-month .numInputWrapper span.arrowUp:after{border-bottom-color:rgba(0,0,0,0.9)}.flatpickr-current-month .numInputWrapper span.arrowDown:after{border-top-color:rgba(0,0,0,0.9)}.flatpickr-current-month input.cur-year{background:transparent;-webkit-box-sizing:border-box;box-sizing:border-box;color:inherit;cursor:default;padding:0 0 0 .5ch;margin:0;display:inline-block;font-size:inherit;font-family:inherit;font-weight:300;line-height:inherit;height:initial;border:0;border-radius:0;vertical-align:initial;}.flatpickr-current-month input.cur-year:focus{outline:0}.flatpickr-current-month input.cur-year[disabled],.flatpickr-current-month input.cur-year[disabled]:hover{font-size:100%;color:rgba(0,0,0,0.5);background:transparent;pointer-events:none}.flatpickr-weekdays{background:transparent;text-align:center;overflow:hidden;width:100%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;height:28px}span.flatpickr-weekday{cursor:default;font-size:90%;background:transparent;color:rgba(0,0,0,0.54);line-height:1;margin:0;text-align:center;display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;font-weight:bolder}.dayContainer,.flatpickr-weeks{padding:1px 0 0 0}.flatpickr-days{position:relative;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;width:307.875px;}.flatpickr-days:focus{outline:0}.dayContainer{padding:0;outline:0;text-align:left;width:307.875px;min-width:307.875px;max-width:307.875px;-webkit-box-sizing:border-box;box-sizing:border-box;display:inline-block;display:-ms-flexbox;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;-ms-flex-wrap:wrap;-ms-flex-pack:justify;-webkit-justify-content:space-around;justify-content:space-around;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);opacity:1}.flatpickr-calendar.animate .dayContainer.slideLeft{-webkit-animation:fpFadeOut 400ms cubic-bezier(.23,1,.32,1),fpSlideLeft 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeOut 400ms cubic-bezier(.23,1,.32,1),fpSlideLeft 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-calendar.animate .dayContainer.slideLeft,.flatpickr-calendar.animate .dayContainer.slideLeftNew{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}.flatpickr-calendar.animate .dayContainer.slideLeftNew{-webkit-animation:fpFadeIn 400ms cubic-bezier(.23,1,.32,1),fpSlideLeft 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeIn 400ms cubic-bezier(.23,1,.32,1),fpSlideLeft 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-calendar.animate .dayContainer.slideRight{-webkit-animation:fpFadeOut 400ms cubic-bezier(.23,1,.32,1),fpSlideRight 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeOut 400ms cubic-bezier(.23,1,.32,1),fpSlideRight 400ms cubic-bezier(.23,1,.32,1);-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}.flatpickr-calendar.animate .dayContainer.slideRightNew{-webkit-animation:fpFadeIn 400ms cubic-bezier(.23,1,.32,1),fpSlideRightNew 400ms cubic-bezier(.23,1,.32,1);animation:fpFadeIn 400ms cubic-bezier(.23,1,.32,1),fpSlideRightNew 400ms cubic-bezier(.23,1,.32,1)}.flatpickr-day{background:none;border:1px solid transparent;border-radius:150px;-webkit-box-sizing:border-box;box-sizing:border-box;color:#393939;cursor:pointer;font-weight:400;width:14.2857143%;-webkit-flex-basis:14.2857143%;-ms-flex-preferred-size:14.2857143%;flex-basis:14.2857143%;max-width:39px;height:39px;line-height:39px;margin:0;display:inline-block;position:relative;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;text-align:center;}.flatpickr-day.inRange,.flatpickr-day.prevMonthDay.inRange,.flatpickr-day.nextMonthDay.inRange,.flatpickr-day.today.inRange,.flatpickr-day.prevMonthDay.today.inRange,.flatpickr-day.nextMonthDay.today.inRange,.flatpickr-day:hover,.flatpickr-day.prevMonthDay:hover,.flatpickr-day.nextMonthDay:hover,.flatpickr-day:focus,.flatpickr-day.prevMonthDay:focus,.flatpickr-day.nextMonthDay:focus{cursor:pointer;outline:0;background:#e6e6e6;border-color:#e6e6e6}.flatpickr-day.today{border-color:#959ea9;}.flatpickr-day.today:hover,.flatpickr-day.today:focus{border-color:#959ea9;background:#959ea9;color:#fff}.flatpickr-day.selected,.flatpickr-day.startRange,.flatpickr-day.endRange,.flatpickr-day.selected.inRange,.flatpickr-day.startRange.inRange,.flatpickr-day.endRange.inRange,.flatpickr-day.selected:focus,.flatpickr-day.startRange:focus,.flatpickr-day.endRange:focus,.flatpickr-day.selected:hover,.flatpickr-day.startRange:hover,.flatpickr-day.endRange:hover,.flatpickr-day.selected.prevMonthDay,.flatpickr-day.startRange.prevMonthDay,.flatpickr-day.endRange.prevMonthDay,.flatpickr-day.selected.nextMonthDay,.flatpickr-day.startRange.nextMonthDay,.flatpickr-day.endRange.nextMonthDay{background:#569ff7;-webkit-box-shadow:none;box-shadow:none;color:#fff;border-color:#569ff7}.flatpickr-day.selected.startRange,.flatpickr-day.startRange.startRange,.flatpickr-day.endRange.startRange{border-radius:50px 0 0 50px}.flatpickr-day.selected.endRange,.flatpickr-day.startRange.endRange,.flatpickr-day.endRange.endRange{border-radius:0 50px 50px 0}.flatpickr-day.selected.startRange + .endRange,.flatpickr-day.startRange.startRange + .endRange,.flatpickr-day.endRange.startRange + .endRange{-webkit-box-shadow:-10px 0 0 #569ff7;box-shadow:-10px 0 0 #569ff7}.flatpickr-day.selected.startRange.endRange,.flatpickr-day.startRange.startRange.endRange,.flatpickr-day.endRange.startRange.endRange{border-radius:50px}.flatpickr-day.inRange{border-radius:0;-webkit-box-shadow:-5px 0 0 #e6e6e6,5px 0 0 #e6e6e6;box-shadow:-5px 0 0 #e6e6e6,5px 0 0 #e6e6e6}.flatpickr-day.disabled,.flatpickr-day.disabled:hover{pointer-events:none}.flatpickr-day.disabled,.flatpickr-day.disabled:hover,.flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay,.flatpickr-day.notAllowed,.flatpickr-day.notAllowed.prevMonthDay,.flatpickr-day.notAllowed.nextMonthDay{color:rgba(57,57,57,0.3);background:transparent;border-color:transparent;cursor:default}.flatpickr-day.week.selected{border-radius:0;-webkit-box-shadow:-5px 0 0 #569ff7,5px 0 0 #569ff7;box-shadow:-5px 0 0 #569ff7,5px 0 0 #569ff7}.rangeMode .flatpickr-day{margin-top:1px}.flatpickr-weekwrapper{display:inline-block;float:left;}.flatpickr-weekwrapper .flatpickr-weeks{padding:0 12px;-webkit-box-shadow:1px 0 0 #e6e6e6;box-shadow:1px 0 0 #e6e6e6}.flatpickr-weekwrapper .flatpickr-weekday{float:none;width:100%;line-height:28px}.flatpickr-weekwrapper span.flatpickr-day{display:block;width:100%;max-width:none}.flatpickr-innerContainer{display:block;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden;}.flatpickr-rContainer{display:inline-block;padding:0;-webkit-box-sizing:border-box;box-sizing:border-box}.flatpickr-time{text-align:center;outline:0;display:block;height:0;line-height:40px;max-height:40px;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}.flatpickr-time:after{content:\"\";display:table;clear:both}.flatpickr-time .numInputWrapper{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;width:40%;height:40px;float:left;}.flatpickr-time .numInputWrapper span.arrowUp:after{border-bottom-color:#393939}.flatpickr-time .numInputWrapper span.arrowDown:after{border-top-color:#393939}.flatpickr-time.hasSeconds .numInputWrapper{width:26%}.flatpickr-time.time24hr .numInputWrapper{width:49%}.flatpickr-time input{background:transparent;-webkit-box-shadow:none;box-shadow:none;border:0;border-radius:0;text-align:center;margin:0;padding:0;height:inherit;line-height:inherit;cursor:pointer;color:#393939;font-size:14px;position:relative;-webkit-box-sizing:border-box;box-sizing:border-box;}.flatpickr-time input.flatpickr-hour{font-weight:bold}.flatpickr-time input.flatpickr-minute,.flatpickr-time input.flatpickr-second{font-weight:400}.flatpickr-time input:focus{outline:0;border:0}.flatpickr-time .flatpickr-time-separator,.flatpickr-time .flatpickr-am-pm{height:inherit;display:inline-block;float:left;line-height:inherit;color:#393939;font-weight:bold;width:2%;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-align-self:center;-ms-flex-item-align:center;align-self:center}.flatpickr-time .flatpickr-am-pm{outline:0;width:18%;cursor:pointer;text-align:center;font-weight:400;}.flatpickr-time .flatpickr-am-pm:hover,.flatpickr-time .flatpickr-am-pm:focus{background:#f0f0f0}.flatpickr-input[readonly]{cursor:pointer}@-webkit-keyframes fpFadeInDown{from{opacity:0;-webkit-transform:translate3d(0,-20px,0);transform:translate3d(0,-20px,0)}to{opacity:1;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@keyframes fpFadeInDown{from{opacity:0;-webkit-transform:translate3d(0,-20px,0);transform:translate3d(0,-20px,0)}to{opacity:1;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@-webkit-keyframes fpSlideLeft{from{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}to{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}}@keyframes fpSlideLeft{from{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}to{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}}@-webkit-keyframes fpSlideLeftNew{from{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}to{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@keyframes fpSlideLeftNew{from{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}to{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@-webkit-keyframes fpSlideRight{from{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}to{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}}@keyframes fpSlideRight{from{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}to{-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}}@-webkit-keyframes fpSlideRightNew{from{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}to{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@keyframes fpSlideRightNew{from{-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}to{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@-webkit-keyframes fpFadeOut{from{opacity:1}to{opacity:0}}@keyframes fpFadeOut{from{opacity:1}to{opacity:0}}@-webkit-keyframes fpFadeIn{from{opacity:0}to{opacity:1}}@keyframes fpFadeIn{from{opacity:0}to{opacity:1}}"
+
+/***/ })
+/******/ ]);
+});
+//# sourceMappingURL=stage6.umd.js.map

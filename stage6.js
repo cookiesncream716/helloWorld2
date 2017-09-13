@@ -50,7 +50,7 @@ registerPlugin(proto(Gem, function(){
 
 	this.updateText = function(count){
 		var newGreeting = ['Hello World', 'Hi There', 'Howdy', 'Hello', 'Hey']
-		this.greeting.text = newGreeting[(num -1)%newGreeting.length]
+		this.greeting.text = newGreeting[(count -1)%newGreeting.length]
 		this.greeting.visible = true
 		this.countText.text = 'You have clicked this button ' + count + ' times.'
 		this.countText.visible = true
