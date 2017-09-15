@@ -8,6 +8,7 @@ Creating a Tixit plugin is easy! This tutorial will show you how to build a basi
 * [Stage 4](#stage-4---add-text-that-tells-how-many-times-the-button-has-been-clicked-and-save-that-number-to-the-ticket) - Add text that tells how many times the button has been clicked and save that number to the ticket.
 * [Stage 5](#stage-5---add-the-ability-to-recognize-a-change-in-the-count-from-an-external-source-and-update-the-text-appropriately) - Add the ability to recognize a change in the count from an external source
 * [Stage 6](#stage-6---add-a-module-and-bundle-it-all-together) - Add a module and bundle it all together
+* [Stage 7](#stage-7---uploading-the-plugin-to-tixit) - Uploading the plugin to Tixit
 
 ### Stage 1 - Setup environment to test your plugin and display "Hello World"
 
@@ -328,12 +329,12 @@ emitter.on('done', function() {
    console.log("Done!")
 })
 emitter.on('error', function(e) {
-	console.log('error')
-   console.log(e)
+  console.log('error')
+  console.log(e)
 })
 emitter.on('warning', function(w) {
-	console.log('warning')
-   console.log(w)
+  console.log('warning')
+  console.log(w)
 })
 ```
 
