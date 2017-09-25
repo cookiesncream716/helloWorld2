@@ -163,7 +163,7 @@ this.updateText = function(){
 }
 ```
 
-3. To save `count` to the ticket, you could just assume there will be a `count` field in the Ticket schema for the given ticket, but what if another plugin wants to use a `count` property? The proper way to do this is to have a configuration option for which ticket field to use to store the count. So let's use a plugin configuration property to get the field name. We'll use `countField`. In the click handler, save the updated count to the ticket:
+3. To save `count` to the ticket, you could just assume there will be a `count` field in the Ticket schema for the given ticket, but what if another plugin wants to use a `count` property? The proper way to do this is to have a configuration option for which ticket field uses to store the count. So let's use a plugin configuration property to get the field name. We'll use `countField`. In the click handler, save the updated count to the ticket:
 
 ```
 ticket.set(optionsObservee.subject.countField, that.count)
