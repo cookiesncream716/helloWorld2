@@ -37,7 +37,7 @@ registerPlugin(proto(Gem, function(){
 }))
 ```
 
-3. Your plugin doesn't have any content yet, so let's add some. Inside the build method, create a [`Text`](https://github.com/Tixit/Gem.js#text) gem containing the greeting `'Hello World'`. Let's make it an instance variable because we will want access to it in a later step. Give the label `'greeting'` so that can be used when we style the plugin in a later step.
+3. Your plugin doesn't have any content yet, so let's add some. Inside the build method, create a [`Text`](https://github.com/Tixit/Gem.js#text) gem containing the greeting `'Hello World'`. Let's make it an instance variable because we will want access to it in a later step. Give the label `'greeting'` so that can be used when we style the plugin in the next step.
 
 ```
 this.greeting = Text(‘greeting’, ‘Hello World’)
