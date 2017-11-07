@@ -324,7 +324,7 @@ TextField: {
 var build = require('build-modules')
 
 // change 'stage6.js' here to whatever your javascript plugin source file is named
-var emitter = build(__dirname + '/stage6.js', {output: {path: __dirname}, minify:false})
+var emitter = build(__dirname + '/stage6.js', {output: {path: __dirname, minify:false}})
 emitter.on('done', function() {
    console.log("Done!")
 })
